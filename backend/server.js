@@ -9,7 +9,6 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
-const mainRoute = require("./routes/index");
 const loginRoute = require("./routes/login");
 const userRoute = require("./routes/users");
 const roomRoote = require("./routes/rooms")
@@ -32,12 +31,13 @@ const {
 } = require('passport');
 
 require('dotenv/config');
-
+//make our public folder static
+app.use(express.static(path.join(__dirname, 'public')));
 
 //initialize socket io
 const io = require('socket.io')(http, {
     cors: {
-        origins: ['http://localhost:4200', 'https://chat-away-online.herokuapp.com']
+        origins: ['https://chat-app-ang.herokuapp.com']
     }
 });
 io.on('connection', (socket) => {
@@ -46,7 +46,6 @@ io.on('connection', (socket) => {
     //a room for each user
     socket.on('joinRoom', (id) => {
         socket.username = id;
-        addUser(id);
         socket.join(id);
         socket.join(process.env.PUBLIC_ROOM);
         getRooms().forEach(i => {
@@ -55,6 +54,7 @@ io.on('connection', (socket) => {
                 id: id
             });
         });
+        addUser(id);
     });
 
     //a message received save and emit to receiver
@@ -84,7 +84,7 @@ io.on('connection', (socket) => {
 //cors to allow request from the front end
 app.use(cors({
     credentials: true,
-    origin: ['http://localhost:4200', 'https://chat-away-online.herokuapp.com']
+    origin: ['https://chat-app-ang.herokuapp.com']
 }));
 app.enable('trust proxy');
 
@@ -115,13 +115,8 @@ app.use(session({
     httpOnly: false,
     cookie: {
         secure: false,
-        domain: 'https://chat-away-online.herokuapp.com'
     }
 }));
-
-
-//make our public folder static
-app.use(express.static(path.join(__dirname, 'public')));
 
 //initialize passport and middleware
 initializePassport(passport);
@@ -129,11 +124,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //Defining the routes 
-app.use("/", mainRoute);
 app.use("/", loginRoute);
 app.use("/", userRoute);
 app.use("/", roomRoote);
-
+//catch any undefined routes
+app.use("/*", (req, res) => {
+    res.sendFile(__dirname + '/public/index.html');
+});
 //start the application
 const PORT = process.env.PORT || 5000;
 http.listen(PORT, () => {

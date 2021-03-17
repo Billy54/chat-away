@@ -15,7 +15,7 @@ export class SocketioService {
 
   setupSocketConnection() {
     //init , connect and create aprivate room for each user
-    this.socket = io('http://localhost:5000');
+    this.socket = io('https://chat-app-ang.herokuapp.com');
     this.socket.emit('joinRoom', this.auth.getUserInfo().id);
 
     //some one joined , possibly a new account
@@ -44,6 +44,8 @@ export class SocketioService {
 
   //disconnect on logout
   disconnectSocket() {
-    this.socket.disconnect();
+    if (this.socket) {
+      this.socket.disconnect();
+    }
   }
 }

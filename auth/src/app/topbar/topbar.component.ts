@@ -1,35 +1,51 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Router,
+} from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { SocketioService } from '../services/socketio.service';
 import { Notification } from '../Models/notification';
 import { DataShareService } from '../services/data-share.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.css'],
 })
-export class TopbarComponent implements OnInit {
+export class TopbarComponent implements OnInit, OnDestroy {
   private authService: AuthService;
   private router: Router;
   private io: SocketioService;
   private dataShareService: DataShareService;
+  private activatedRoute: ActivatedRoute;
   public notificationList: Notification[] = [];
   public profile: boolean = true;
   public notifications: boolean = true;
   public overlay: boolean = true;
+  private urlObserver: any;
+  route: any;
 
   constructor(
     a: AuthService,
     r: Router,
     io: SocketioService,
-    dataShare: DataShareService
+    dataShare: DataShareService,
+    ar: ActivatedRoute
   ) {
     this.authService = a;
     this.router = r;
     this.io = io;
     this.dataShareService = dataShare;
+    this.activatedRoute = ar;
+  }
+
+  ngOnDestroy(): void {
+    this.urlObserver.unsubscribe();
   }
 
   overlayCheck() {
@@ -78,6 +94,12 @@ export class TopbarComponent implements OnInit {
     this.dataShareService.remote.subscribe((data: any) => {
       if (data.sender == 'default') return;
       this.appendNotification(data);
+    });
+    this.urlObserver = this.router.events.subscribe((event: any) => {
+      if (event.url == '/logout') {
+        console.log(event);
+        this.logout();
+      }
     });
   }
 }

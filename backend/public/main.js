@@ -202,7 +202,7 @@ function TopbarComponent_div_19_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("", notification_r1.name, " send a message!");
 } }
 class TopbarComponent {
-    constructor(a, r, io, dataShare) {
+    constructor(a, r, io, dataShare, ar) {
         this.notificationList = [];
         this.profile = true;
         this.notifications = true;
@@ -211,6 +211,10 @@ class TopbarComponent {
         this.router = r;
         this.io = io;
         this.dataShareService = dataShare;
+        this.activatedRoute = ar;
+    }
+    ngOnDestroy() {
+        this.urlObserver.unsubscribe();
     }
     overlayCheck() {
         this.profile = true;
@@ -254,9 +258,15 @@ class TopbarComponent {
                 return;
             this.appendNotification(data);
         });
+        this.urlObserver = this.router.events.subscribe((event) => {
+            if (event.url == '/logout') {
+                console.log(event);
+                this.logout();
+            }
+        });
     }
 }
-TopbarComponent.ɵfac = function TopbarComponent_Factory(t) { return new (t || TopbarComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_auth_service__WEBPACK_IMPORTED_MODULE_2__["AuthService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_socketio_service__WEBPACK_IMPORTED_MODULE_4__["SocketioService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_data_share_service__WEBPACK_IMPORTED_MODULE_5__["DataShareService"])); };
+TopbarComponent.ɵfac = function TopbarComponent_Factory(t) { return new (t || TopbarComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_auth_service__WEBPACK_IMPORTED_MODULE_2__["AuthService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_socketio_service__WEBPACK_IMPORTED_MODULE_4__["SocketioService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_data_share_service__WEBPACK_IMPORTED_MODULE_5__["DataShareService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"])); };
 TopbarComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: TopbarComponent, selectors: [["app-topbar"]], decls: 36, vars: 12, consts: [[1, "overlay", 3, "click"], [1, "top-navbar"], [1, "options"], [1, "messenger-wrapper"], [1, "fab", "fa-facebook-messenger"], [1, "home-wrapper", "active"], [1, "fas", "fa-home", "active"], [1, "friends-wrapper"], [1, "fas", "fa-user-friends"], [1, "dropdown"], [1, "bell-wrapper", "ts-notifications", 3, "click"], [1, "fas", "fa-bell", "ts-profile"], [1, "profile-dropdown"], [2, "font-size", "25px", "margin-bottom", "10px", "margin-top", "5px"], [1, "divider", "div-profile"], [1, "inner-wrapper"], ["class", "profile-item item-margin", 4, "ngFor", "ngForOf"], [1, "profile-wrapper", "ts-profile", 3, "click"], [1, "fas", "fa-sort-down", "ts-profile"], [1, "profile-item"], ["src", "assets/38422.jpg", 1, "user-avatar"], [1, "details"], [2, "font-size", "25px", "margin-bottom", "-8px"], [1, "divider"], [1, "log-out", 3, "click"], [1, "fas", "fa-sign-out-alt"], [2, "font-size", "25px"], [1, "profile-item", "item-margin"], ["src", "assets/38422.jpg", 1, "avatar", 2, "margin-top", "0px"], [1, "message"], [2, "margin-top", "-10px"]], template: function TopbarComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function TopbarComponent_Template_div_click_0_listener() { return ctx.overlayCheck(); });
@@ -342,7 +352,7 @@ TopbarComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCo
                 templateUrl: './topbar.component.html',
                 styleUrls: ['./topbar.component.css'],
             }]
-    }], function () { return [{ type: _services_auth_service__WEBPACK_IMPORTED_MODULE_2__["AuthService"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] }, { type: _services_socketio_service__WEBPACK_IMPORTED_MODULE_4__["SocketioService"] }, { type: _services_data_share_service__WEBPACK_IMPORTED_MODULE_5__["DataShareService"] }]; }, null); })();
+    }], function () { return [{ type: _services_auth_service__WEBPACK_IMPORTED_MODULE_2__["AuthService"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] }, { type: _services_socketio_service__WEBPACK_IMPORTED_MODULE_4__["SocketioService"] }, { type: _services_data_share_service__WEBPACK_IMPORTED_MODULE_5__["DataShareService"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"] }]; }, null); })();
 
 
 /***/ }),
@@ -368,7 +378,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class UsersService extends _data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"] {
     constructor(http, er) {
-        super(http, er, 'http://localhost:5000/');
+        super(http, er, 'https://chat-app-ang.herokuapp.com/');
     }
 }
 UsersService.ɵfac = function UsersService_Factory(t) { return new (t || UsersService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_error_handler_service__WEBPACK_IMPORTED_MODULE_3__["ErrorHandlerService"])); };
@@ -815,7 +825,7 @@ class SocketioService {
     }
     setupSocketConnection() {
         //init , connect and create aprivate room for each user
-        this.socket = Object(socket_io_client__WEBPACK_IMPORTED_MODULE_1__["io"])('http://localhost:5000');
+        this.socket = Object(socket_io_client__WEBPACK_IMPORTED_MODULE_1__["io"])('https://chat-app-ang.herokuapp.com');
         this.socket.emit('joinRoom', this.auth.getUserInfo().id);
         //some one joined , possibly a new account
         this.socket.on('joined', (data) => {
@@ -839,7 +849,9 @@ class SocketioService {
     }
     //disconnect on logout
     disconnectSocket() {
-        this.socket.disconnect();
+        if (this.socket) {
+            this.socket.disconnect();
+        }
     }
 }
 SocketioService.ɵfac = function SocketioService_Factory(t) { return new (t || SocketioService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_auth_service__WEBPACK_IMPORTED_MODULE_2__["AuthService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_data_share_service__WEBPACK_IMPORTED_MODULE_3__["DataShareService"])); };
@@ -964,7 +976,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class CommentsService extends _data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"] {
     constructor(http, er) {
-        super(http, er, 'http://localhost:5000/');
+        super(http, er, 'https://chat-app-ang.herokuapp.com/');
     }
 }
 CommentsService.ɵfac = function CommentsService_Factory(t) { return new (t || CommentsService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_error_handler_service__WEBPACK_IMPORTED_MODULE_3__["ErrorHandlerService"])); };
@@ -1510,8 +1522,6 @@ class ChatRoomsComponent {
     ngAfterViewInit() { }
     ngOnInit() {
         this.userService.getAll('users').subscribe((response = []) => {
-            console.log('in init');
-            console.log(response);
             for (const user of response.users) {
                 let newUser = new _user__WEBPACK_IMPORTED_MODULE_1__["User"]();
                 newUser.details = user;
@@ -1700,7 +1710,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class AuthService {
     constructor(http, er) {
-        this.URL = 'http://localhost:5000/';
+        this.URL = 'https://chat-app-ang.herokuapp.com/';
         this.http = http;
         this.errorHandler = er;
         this.jwtHelper = new _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_5__["JwtHelperService"]();

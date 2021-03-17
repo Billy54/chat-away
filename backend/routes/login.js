@@ -4,6 +4,7 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const Room = require('../models/Room');
+const path = require('path');
 const {
     forwardAuthenticated,
     ensureAuthenticated
@@ -15,6 +16,11 @@ const {
     Cookie
 } = require("express-session");
 require('dotenv/config');
+const reqPath = path.join(__dirname, '../');
+
+router.get('/login', forwardAuthenticated, (req, res) => {
+    res.sendFile(reqPath + '/public/index.html');
+});
 
 //login post request
 router.post('/login', (req, res, next) => {
@@ -47,10 +53,7 @@ router.post('/login', (req, res, next) => {
 //logout
 router.get('/logout', ensureAuthenticated, (req, res) => {
     req.logout();
-    res.status(200).json({
-        "statusCode": 200,
-        "messsage": "Log out was succesfull"
-    });
+    res.sendFile(reqPath + '/public/index.html');
 });
 
 //check if the user email is already registered
@@ -60,7 +63,6 @@ router.post('/validateEmail', forwardAuthenticated, async(req, res) => {
             email: req.body.email
         });
         if (userInDb) {
-            console.log(req.body);
             res.status(200).json({
                 "statusCode": 200,
                 "message": "Email exists",
@@ -120,5 +122,6 @@ router.post('/register', forwardAuthenticated, (req, res) => {
         });
     });
 });
+
 
 module.exports = router;

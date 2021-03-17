@@ -2,9 +2,9 @@
     "name": "chat-away",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
     "scripts": {
-        "start": "cd ./backend/ && npm run-script start "
+        "start": "cd ./backend/ && npm run-script start ",
+        "test": "cd ./backend/ && npm run dev"
     },
     "author": "",
     "license": "ISC"

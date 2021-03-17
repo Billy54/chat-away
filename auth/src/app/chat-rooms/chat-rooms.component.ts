@@ -27,8 +27,6 @@ export class ChatRoomsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.userService.getAll('users').subscribe((response: any = []) => {
-      console.log('in init');
-      console.log(response);
       for (const user of response.users) {
         let newUser = new User();
         newUser.details = user;
