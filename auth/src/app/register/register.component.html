@@ -1,0 +1,23 @@
+<div class="register-modal " [class.hidden]="isActive ">
+    <div class="register-card ">
+        <h1 class="sign-up ">Sign Up</h1>
+        <i class="fas fa-times close-modal " (click)="toggleModal() "></i>
+        <div class="divider register-divider "></div>
+        <form [formGroup]="registerForm" (ngSubmit)="register()" class="my-form ">
+            <div class="register-field " [class.error-outline]="regName!.invalid && regName!.touched">
+                <input formControlName="name" name="name " class="custom-input " type="text " placeholder="Username ">
+            </div>
+            <div class="register-field " [class.error-outline]="regEmail!.invalid && regEmail!.touched">
+                <input formControlName="email" name="email " class="custom-input " type="text " placeholder="Email ">
+            </div>
+            <div class="register-field " [class.error-outline]="regPassword!.invalid && regPassword!.touched">
+                <input formControlName="password" name="password " (input)="onChange($event)" class="custom-input " type="text " placeholder="Password ">
+            </div>
+            <div class="register-field " [class.error-outline]="regConfirm!.invalid && regConfirm!.touched">
+                <input formControlName="password2" name="password2" class="custom-input " type="text " placeholder="Re enter your Password ">
+            </div>
+            <button class="my-button sign-up-btn " id="js-register " type="submit ">Sign Up</button>
+        </form>
+    </div>
+</div>
+<div class="overlay" [class.hidden]="isActive "></div>

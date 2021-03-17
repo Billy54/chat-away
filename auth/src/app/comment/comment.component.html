@@ -1,0 +1,28 @@
+<div *ngIf="shouldBeRendered">
+    <!----------not mine------------>
+    <div class="comment-wrapper not-my-comment " *ngIf="foreign">
+        <div class="comment ">
+            <div class="comment-user " *ngIf="isFirst">
+                <small>{{data.senderName}}</small>
+            </div>
+            <div class="inner-wrapper ">
+                <img src="assets/38422.jpg " *ngIf="isFirst" class="avatar ">
+                <div class="blank-avatar" *ngIf="!isFirst"></div>
+                <div class="comment-body comment-text ">
+                    {{data.text}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!------------mine------------->
+    <div class="comment-wrapper my-comment " *ngIf="!foreign">
+        <div class="comment ">
+            <div class="inner-wrapper ">
+                <div class="comment-body comment-text ">
+                    {{data.text}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

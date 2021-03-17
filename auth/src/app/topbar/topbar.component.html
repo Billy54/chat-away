@@ -1,0 +1,55 @@
+<div class="overlay" (click)="overlayCheck()" [class.hidden]="overlay"></div>
+<div class="top-navbar">
+    <div class="options">
+        <div class="messenger-wrapper">
+            <i class="fab fa-facebook-messenger"></i>
+        </div>
+    </div>
+    <div class="options">
+        <div class="home-wrapper active">
+            <i class="fas fa-home active"></i>
+        </div>
+        <div class="friends-wrapper">
+            <i class="fas fa-user-friends"></i>
+        </div>
+    </div>
+    <div class="options">
+        <div class="dropdown">
+            <div class="bell-wrapper ts-notifications" (click)='notificationsCheck()' [class.active-option]="!notifications">
+                <i class="fas fa-bell ts-profile"></i>
+            </div>
+            <div class="profile-dropdown  " [class.hidden]="notifications">
+                <h1 style="font-size: 25px; margin-bottom:10px; margin-top:5px; ">Notifications</h1>
+                <div class="divider div-profile"></div>
+                <div class="inner-wrapper">
+                    <div class="profile-item item-margin" *ngFor="let notification of notificationList">
+                        <img src="assets/38422.jpg" class=" avatar " style="margin-top: 0px;">
+                        <div class="details ">
+                            <div class="message">{{notification.name}} send a message!</div>
+                            <div style="margin-top: -10px;"><small>Click to see.</small></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown">
+            <div class="profile-wrapper ts-profile" (click)="profileCheck()" [class.active-option]="!profile">
+                <i class="fas fa-sort-down ts-profile"></i>
+            </div>
+            <div class="profile-dropdown " [class.hidden]="profile">
+                <div class="profile-item">
+                    <img src="assets/38422.jpg" class=" user-avatar ">
+                    <div class="details ">
+                        <h1 style="font-size: 25px; margin-bottom:-8px; ">{{name}}</h1>
+                        <small>Change Avatar</small>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <div class="log-out" (click)="logout() ">
+                    <i class="fas fa-sign-out-alt "></i>
+                    <h1 style="font-size: 25px; ">Log Out</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

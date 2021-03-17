@@ -1,0 +1,28 @@
+<div class="login-overlay"></div>
+<div class="container-fluid dark-color position">
+    <div class="login-wrapper">
+        <div class="avatar-wrapper">
+            <div class="login-avatar-holder">
+                <img class="img" src="assets/38422.jpg">
+                <div class="name-tab">
+                    <div>SuperUser</div>
+                </div>
+            </div>
+        </div>
+        <div class="login-card">
+            <form [formGroup]="loginForm" (ngSubmit)="login()">
+                <div class="input-wrapper-email" [class.input-outline]="name!.touched && !name!.invalid" [class.error-outline]="name!.invalid && name!.touched">
+                    <input formControlName="email" name="email" class="custom-input" type="text" placeholder="Email">
+                </div>
+                <div class="input-wrapper-password" [class.input-outline]="password!.touched && !password!.invalid" [class.error-outline]="password!.invalid && password!.touched">
+                    <input formControlName="password" name="password" class="custom-input" type="text" placeholder=" Password ">
+                </div>
+                <button name="login " class="my-button " id="js-login " type="submit ">Log In</button>
+                <div class="divider "></div>
+            </form>
+            <button class="my-register-button " (click)="toggleModal() " id="js-modal ">Create New
+                Account</button>
+        </div>
+    </div>
+</div>
+<app-register></app-register>

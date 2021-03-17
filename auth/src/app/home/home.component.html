@@ -1,0 +1,16 @@
+<chat-rooms></chat-rooms>
+<div class="content-wrapper ">
+    <div class="chat-info ">
+        <div class="avatar-holder ">
+            <img src="assets/38422.jpg " class="user-avatar small">
+        </div>
+        <div class="user-details ">
+            <h1>{{infoName}}</h1>
+            <small>{{info}}</small>
+        </div>
+    </div>
+    <div id="ts-chat" class="chat-area" #chat>
+        <router-outlet name='chatArea'></router-outlet>
+    </div>
+    <input-field></input-field>
+</div>

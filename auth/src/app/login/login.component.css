@@ -1,0 +1,230 @@
+.login-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25rem;
+    height: 23rem;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+}
+
+.login-wrapper {
+    height: 100%;
+    padding: 10px;
+    display: flex;
+    margin-top: 5rem;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.input-wrapper-password,
+.input-wrapper-email {
+    width: 22rem;
+    height: 3.6rem;
+    border: 1px solid #dddfe2;
+    border-radius: 6px;
+    margin: 20px;
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-outline {
+    border-color: #1877f2;
+    box-shadow: 0 0 0 2px #e7f3ff;
+    caret-color: #1877f2;
+}
+
+.error-outline {
+    border-color: #fb0000 !important;
+    box-shadow: 0 0 0 2px #e7f3ff !important;
+}
+
+.custom-input {
+    position: absolute;
+    width: 90%;
+    border: none;
+    font-size: 18px;
+}
+
+.custom-input:focus {
+    outline: none;
+    background-color: rgb(231, 231, 231);
+}
+
+.my-button {
+    width: 22rem;
+    height: 3.3rem;
+    margin-left: 1.3rem;
+    border-radius: 6px;
+    border: none;
+    caret-color: #1877f2;
+    background-color: #1877f2;
+    color: white;
+    font-weight: 500;
+    font-size: 25px;
+    transition-property: background-color;
+    transition-duration: 300ms;
+}
+
+.my-button:focus {
+    outline: none;
+}
+
+.my-button:hover {
+    cursor: pointer;
+    background-color: #313dc3;
+}
+
+.my-register-button {
+    width: 14rem;
+    height: 3.6rem;
+    border-radius: 6px;
+    margin-top: 1.5rem;
+    border: none;
+    caret-color: #1877f2;
+    background-color: #149600;
+    color: white;
+    font-weight: 500;
+    font-size: 20px;
+    transition-property: background-color;
+    transition-duration: 300ms;
+}
+
+.my-register-button:focus {
+    outline: none;
+}
+
+.my-register-button:hover {
+    cursor: pointer;
+    background-color: #1c800f;
+}
+
+.divider {
+    border-top: 1px solid #cbced1;
+    margin-top: 2rem;
+    width: 90%;
+    margin-left: 1.3rem;
+}
+
+.login-avatar-holder {
+    border: 1px solid #cbced1;
+    height: 210px;
+    width: 180px;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    position: relative;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-avatar-holder:hover {
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+}
+
+.avatar-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+}
+
+.name-tab {
+    height: 40px;
+    width: 100%;
+    background-color: white;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    text-align: center;
+    font-size: 20px !important;
+    color: grey;
+}
+
+.img {
+    height: 100%;
+    width: 100%;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.register-field {
+    width: 23rem;
+    height: 3rem;
+    border: 1px solid #dddfe2;
+    background: #f5f6f7;
+    border-radius: 6px;
+    margin: 10px;
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.register-field>input {
+    background: #f5f6f7 !important;
+}
+
+.sign-up {
+    text-align: center;
+    margin-top: 5px;
+}
+
+.register-divider {
+    margin-top: 19px;
+    margin-bottom: 1rem;
+}
+
+.sign-up-btn {
+    width: 15rem;
+    height: 3rem;
+    margin-left: 0;
+    margin-top: 1rem;
+    background-color: rgb(255, 94, 0);
+}
+
+.sign-up-btn:hover {
+    background-color: rgb(255, 51, 0);
+}
+
+.my-form {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+    z-index: 9;
+}
+
+.login-overlay {
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    background-color: #eaeaea;
+    z-index: -1;
+}

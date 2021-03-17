@@ -1,0 +1,7 @@
+<form class="input-field ">
+    <div class="search-chat send-message ">
+        <i class="fas fa-search "></i>
+        <input name="comment" [(ngModel)]="comment" type="text" (keyup.enter)="newComment()" class="my-input-send ts-send " placeholder="write something... ">
+    </div>
+    <i class="fas fa-paper-plane " (click)="newComment()"></i>
+</form>
