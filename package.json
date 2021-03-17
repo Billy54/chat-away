@@ -1,11 +1,11 @@
 {
     "name": "chat-away",
     "version": "1.0.0",
-    "description": "chat-application",
-    "main": "/backend/server.js",
+    "description": "",
+    "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "cd ./backend/ && npm run-script start "
     },
-    "author": "bill",
+    "author": "",
     "license": "ISC"
 }
