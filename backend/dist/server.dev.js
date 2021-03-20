@@ -42,11 +42,8 @@ var _require = require('./utils/handleRooms'),
 var _require2 = require('./utils/helpers'),
     saveComment = _require2.saveComment;
 
-var _require3 = require('./socketIO/socket'),
-    handleIO = _require3.handleIO;
-
-var _require4 = require('passport'),
-    authorize = _require4.authorize;
+var _require3 = require('passport'),
+    authorize = _require3.authorize;
 
 require('dotenv/config'); //make our public folder static
 

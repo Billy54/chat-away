@@ -27,9 +27,6 @@ const {
     saveComment
 } = require('./utils/helpers');
 const {
-    handleIO
-} = require('./socketIO/socket');
-const {
     authorize
 } = require('passport');
 
