@@ -45,5 +45,7 @@ export class InputFieldComponent implements OnInit {
       receiver: this.receiver,
       text: this.comment.trim(),
     });
+
+    this.comment = '';
   }
 }

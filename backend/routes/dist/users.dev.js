@@ -21,8 +21,7 @@ router.get("/users", ensureAuthenticated, function _callee(req, res) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          console.log(req.isAuthenticated());
-          _context.next = 3;
+          _context.next = 2;
           return regeneratorRuntime.awrap(User.find({
             email: {
               $ne: req.user.email
@@ -34,7 +33,8 @@ router.get("/users", ensureAuthenticated, function _callee(req, res) {
                 name: user.name,
                 email: user.email,
                 id: user._id,
-                alive: online(user._id)
+                alive: online(user._id),
+                avatar: user.avatar
               });
             });
             res.status(200).json({
@@ -46,7 +46,7 @@ router.get("/users", ensureAuthenticated, function _callee(req, res) {
             });
           }));
 
-        case 3:
+        case 2:
         case "end":
           return _context.stop();
       }
@@ -66,7 +66,8 @@ router.get("/users/:userId", ensureAuthenticated, function _callee2(req, res) {
               name: user.name,
               email: user.email,
               id: user._id,
-              alive: online(user._id)
+              alive: online(user._id),
+              avatar: user.avatar
             };
             res.status(200).json({
               user: userDto

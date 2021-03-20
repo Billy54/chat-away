@@ -20,9 +20,9 @@ export class DataShareService {
     room: 0,
   });
   message = this.changeName.asObservable();
-  public notifyChange(name: string, id: any, status: boolean) {
-    if (name == 'default') return;
-    this.changeName.next({ name: name, id: id, status: status });
+  public notifyChange(data: any) {
+    if (data.name == 'default') return;
+    this.changeName.next(data);
   }
 
   //pass comment data to chatArea for new comments!!!
@@ -67,10 +67,10 @@ export class DataShareService {
     this.userIds.next(ids);
   }
 
-  //search
-  private passNodification = new BehaviorSubject<Object>({});
-  notification = this.commentData.asObservable();
-  public sendNotification(d: any) {
-    this.passNodification.next(d);
+  //send new url to chat room
+  private updateUrl = new BehaviorSubject<String>('');
+  changeUrl = this.commentData.asObservable();
+  public sendUrl(url: any) {
+    this.updateUrl.next(url);
   }
 }

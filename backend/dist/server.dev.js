@@ -24,9 +24,13 @@ var userRoute = require("./routes/users");
 
 var roomRoote = require("./routes/rooms");
 
+var avatarRoute = require("./routes/avatar");
+
 var expressLayouts = require('express-ejs-layouts');
 
 var initializePassport = require('./utils/passport-intialize');
+
+var fileUpload = require('express-fileupload');
 
 var router = require('./routes/index');
 
@@ -47,11 +51,11 @@ var _require4 = require('passport'),
 require('dotenv/config'); //make our public folder static
 
 
-app.use(express["static"](path.join(__dirname, 'public'))); //initialize socket io
+app.use(express["static"](path.join(__dirname, 'public'))); //////////////////initialize socket io//////////////////////
 
 var io = require('socket.io')(http, {
   cors: {
-    origins: ['https://chat-app-ang.herokuapp.com']
+    origins: ['http://localhost:5000']
   }
 });
 
@@ -91,26 +95,22 @@ io.on('connection', function (socket) {
       });
     });
   });
-}); //cors to allow request from the front end
+}); /////////////////////////////////////////////////////////////////
+//cors to allow request from the front end
 
 app.use(cors({
   credentials: true,
-  origin: ['https://chat-app-ang.herokuapp.com']
+  origin: ['http://localhost:5000']
 }));
-app.enable('trust proxy');
+app.enable('trust proxy'); /// headers will only be of type app/json
+
 app.use(express.urlencoded({
   extended: true
 }));
-app.use(express.json()); // EJS
+app.use(express.json()); // EJS , not needed for this project
 
 app.use(expressLayouts);
-app.set('view engine', 'ejs');
-var options = {
-  table: 'myapp-sessions',
-  // Optional ProvisionedThroughput params, defaults to 5
-  readCapacityUnits: 25,
-  writeCapacityUnits: 25
-}; //enable flash
+app.set('view engine', 'ejs'); //enable flash
 
 app.use(flash());
 app.use(session({
@@ -121,7 +121,9 @@ app.use(session({
   cookie: {
     secure: false
   }
-})); //initialize passport and middleware
+})); //file upload
+
+app.use(fileUpload()); //initialize passport and middleware
 
 initializePassport(passport);
 app.use(passport.initialize());
@@ -129,7 +131,8 @@ app.use(passport.session()); //Defining the routes
 
 app.use("/", loginRoute);
 app.use("/", userRoute);
-app.use("/", roomRoote); //catch any undefined routes
+app.use("/", roomRoote);
+app.use("/", avatarRoute); //catch any undefined routes
 
 app.use("/*", function (req, res) {
   res.sendFile(__dirname + '/public/index.html');

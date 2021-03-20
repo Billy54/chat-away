@@ -13,7 +13,6 @@ require('dotenv/config');
 //get all users
 router.get("/users", ensureAuthenticated, async(req, res) => {
 
-    console.log(req.isAuthenticated());
     await User.find({
         email: {
             $ne: req.user.email
@@ -25,7 +24,8 @@ router.get("/users", ensureAuthenticated, async(req, res) => {
                 name: user.name,
                 email: user.email,
                 id: user._id,
-                alive: online(user._id)
+                alive: online(user._id),
+                avatar: user.avatar
             });
         });
         res.status(200).json({
@@ -47,7 +47,8 @@ router.get("/users/:userId", ensureAuthenticated, async(req, res) => {
             name: user.name,
             email: user.email,
             id: user._id,
-            alive: online(user._id)
+            alive: online(user._id),
+            avatar: user.avatar
         };
         res.status(200).json({
             user: userDto

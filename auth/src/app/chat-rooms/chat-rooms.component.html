@@ -13,7 +13,7 @@
     <ul class="user-list ">
         <li class="ts-user " *ngFor="let user of getUsers;let i=index " (click)="changeRoom(i) ">
             <div class="inner-content" *ngIf="user.isVisible" [class.active]="user.active">
-                <img src="assets/38422.jpg " class="user-avatar ">
+                <img [src]="user.details.avatar" class="user-avatar ">
                 <div class="last-msg ">
                     <h1 style="margin-bottom:0px; font-size: 15px; ">{{user.details.name}}</h1>
                     <small class="visible ">

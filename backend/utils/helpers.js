@@ -5,12 +5,14 @@ const jwt = require("jsonwebtoken");
 const Room = require('../models/Room');
 
 module.exports = {
-    //encode sensitive data before sending to the client
+    //encode sensitive data before sending to the client for storage
     encodeData: function(data) {
         return jwt.sign({
             name: data.name,
             email: data.email,
-            id: data._id
+            id: data._id,
+            avatar: data.avatar
+
         }, process.env.SESSION_SECRET, {
             expiresIn: '3600s'
         });
@@ -27,14 +29,25 @@ module.exports = {
         await Room.updateOne({
             $or: [{
                     roomId: id1
-                }, //should be id1 
+                },
                 {
                     roomId: id2
-                } //should be id2
+                }
             ]
         }, {
             $push: {
                 comments: comment
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
+    },
+    updateAvatar: async function(url, email) {
+        await User.updateOne({
+            email: email
+        }, {
+            $set: {
+                avatar: url
             }
         }).catch((err) => {
             console.log(err);

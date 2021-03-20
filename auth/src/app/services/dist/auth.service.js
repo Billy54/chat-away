@@ -15,7 +15,7 @@ var jwt_decode_1 = require("jwt-decode");
 var angular_jwt_1 = require("@auth0/angular-jwt");
 var AuthService = /** @class */ (function () {
     function AuthService(http, er) {
-        this.URL = 'https://chat-app-ang.herokuapp.com/';
+        this.URL = 'http://localhost:5000/';
         this.http = http;
         this.errorHandler = er;
         this.jwtHelper = new angular_jwt_1.JwtHelperService();
@@ -40,7 +40,7 @@ var AuthService = /** @class */ (function () {
     AuthService.prototype.getUserInfo = function () {
         var token = localStorage.getItem('token');
         var dec = jwt_decode_1["default"](token);
-        return { name: dec.name, email: dec.email, id: dec.id };
+        return { name: dec.name, email: dec.email, id: dec.id, avatar: dec.avatar };
     };
     //store user info into the local storage
     AuthService.prototype.setUserInfo = function (token) {

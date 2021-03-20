@@ -23,6 +23,11 @@ const userSchema = new mongoose.Schema({
         default: Date.now,
         required: true
     },
+    avatar: {
+        type: String,
+        required: false,
+        default: 'non'
+    },
     rooms: {
         type: Array,
         required: true,

@@ -52,4 +52,18 @@ export class DataService {
       .get(this.url + uri, this.options)
       .pipe(catchError(this.errorHandler.handleError));
   }
+
+  //post avatar
+  postAvatar(uri: string, file: any): Observable<any> {
+    return this.http
+      .post(this.url + uri, file, this.options)
+      .pipe(catchError(this.errorHandler.handleError));
+  }
+
+  //get avatar
+  getAvatar(uri: string): Observable<any> {
+    return this.http
+      .get(this.url + uri, this.options)
+      .pipe(catchError(this.errorHandler.handleError));
+  }
 }

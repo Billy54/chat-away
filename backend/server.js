@@ -11,10 +11,13 @@ const path = require('path');
 const cors = require('cors');
 const loginRoute = require("./routes/login");
 const userRoute = require("./routes/users");
-const roomRoote = require("./routes/rooms")
+const roomRoote = require("./routes/rooms");
+const avatarRoute = require("./routes/avatar");
 const expressLayouts = require('express-ejs-layouts');
 const initializePassport = require('./utils/passport-intialize');
+const fileUpload = require('express-fileupload');
 const router = require('./routes/index');
+
 const {
     addUser,
     deleteUser,
@@ -34,10 +37,11 @@ require('dotenv/config');
 //make our public folder static
 app.use(express.static(path.join(__dirname, 'public')));
 
-//initialize socket io
+
+//////////////////initialize socket io//////////////////////
 const io = require('socket.io')(http, {
     cors: {
-        origins: ['https://chat-app-ang.herokuapp.com']
+        origins: ['http://localhost:5000']
     }
 });
 io.on('connection', (socket) => {
@@ -80,31 +84,24 @@ io.on('connection', (socket) => {
         });
     });
 });
+/////////////////////////////////////////////////////////////////
 
 //cors to allow request from the front end
 app.use(cors({
     credentials: true,
-    origin: ['https://chat-app-ang.herokuapp.com']
+    origin: ['http://localhost:5000']
 }));
 app.enable('trust proxy');
 
+/// headers will only be of type app/json
 app.use(express.urlencoded({
     extended: true
 }));
 app.use(express.json());
 
-// EJS
+// EJS , not needed for this project
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
-
-var options = {
-
-    table: 'myapp-sessions',
-
-    // Optional ProvisionedThroughput params, defaults to 5
-    readCapacityUnits: 25,
-    writeCapacityUnits: 25
-};
 
 //enable flash
 app.use(flash());
@@ -118,6 +115,9 @@ app.use(session({
     }
 }));
 
+//file upload
+app.use(fileUpload());
+
 //initialize passport and middleware
 initializePassport(passport);
 app.use(passport.initialize());
@@ -127,6 +127,7 @@ app.use(passport.session());
 app.use("/", loginRoute);
 app.use("/", userRoute);
 app.use("/", roomRoote);
+app.use("/", avatarRoute);
 //catch any undefined routes
 app.use("/*", (req, res) => {
     res.sendFile(__dirname + '/public/index.html');

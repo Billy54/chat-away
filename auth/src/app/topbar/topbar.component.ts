@@ -1,51 +1,60 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  ActivatedRoute,
-  NavigationEnd,
-  NavigationError,
-  NavigationStart,
-  Router,
-} from '@angular/router';
+  AfterViewInit,
+  Component,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { SocketioService } from '../services/socketio.service';
 import { Notification } from '../Models/notification';
 import { DataShareService } from '../services/data-share.service';
-import { filter } from 'rxjs/operators';
+import { DataService } from '../services/data.service';
+import { FileService } from '../services/file.service';
+import { UsersService } from '../services/users.service';
 
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.css'],
 })
-export class TopbarComponent implements OnInit, OnDestroy {
+export class TopbarComponent implements OnInit, AfterViewInit {
   private authService: AuthService;
   private router: Router;
   private io: SocketioService;
   private dataShareService: DataShareService;
-  private activatedRoute: ActivatedRoute;
+  private el: any;
   public notificationList: Notification[] = [];
   public profile: boolean = true;
   public notifications: boolean = true;
   public overlay: boolean = true;
-  private urlObserver: any;
-  route: any;
+  public file: any;
+  public exp: string = 'translateX(0px)';
+  public expHeight: string = '197px';
+  public url: string = '';
+  public name: string = '';
+
+  @ViewChild('imagePreview') preview: any;
+  @ViewChild('input') imgInput: any;
 
   constructor(
     a: AuthService,
     r: Router,
     io: SocketioService,
     dataShare: DataShareService,
-    ar: ActivatedRoute
+    private fileService: FileService,
+    private userService: UsersService
   ) {
     this.authService = a;
     this.router = r;
     this.io = io;
     this.dataShareService = dataShare;
-    this.activatedRoute = ar;
   }
-
-  ngOnDestroy(): void {
-    this.urlObserver.unsubscribe();
+  ngAfterViewInit(): void {
+    this.el = this.preview.nativeElement;
+    this.file = this.imgInput.nativeElement;
   }
 
   overlayCheck() {
@@ -70,10 +79,6 @@ export class TopbarComponent implements OnInit, OnDestroy {
     }
   }
 
-  get name() {
-    return this.authService.getUserInfo().name;
-  }
-
   logout() {
     this.io.disconnectSocket();
     this.authService.logout('logout').subscribe((response: any = []) => {
@@ -90,16 +95,51 @@ export class TopbarComponent implements OnInit, OnDestroy {
     this.notificationList.push(notification);
   }
 
+  changeAvatar() {
+    this.exp = 'translateX(-297px)';
+    this.expHeight = '400px';
+  }
+
+  slide() {
+    this.exp = 'translateX(0px)';
+    this.expHeight = '197px';
+    setTimeout(() => {
+      this.el.style.backgroundImage = 'url(' + this.url + ')';
+    }, 200);
+  }
+
+  previewAvatar() {
+    var reader = new FileReader();
+    let element = this.el;
+    reader.onload = function (e: any) {
+      element.style.backgroundImage = 'url(' + e.target.result + ')';
+    };
+    reader.readAsDataURL(this.file.files[0]);
+  }
+
+  upload() {
+    if (this.file && this.file.files[0]) {
+      const fd = new FormData();
+      fd.append('image', this.file.files[0]);
+      this.fileService
+        .postAvatar('avatar', fd)
+        .subscribe((response: any = []) => {
+          this.url = response.path;
+          this.slide();
+        });
+    }
+  }
+
   ngOnInit(): void {
     this.dataShareService.remote.subscribe((data: any) => {
       if (data.sender == 'default') return;
       this.appendNotification(data);
     });
-    this.urlObserver = this.router.events.subscribe((event: any) => {
-      if (event.url == '/logout') {
-        console.log(event);
-        this.logout();
-      }
-    });
+    this.userService
+      .getUser('users/' + this.authService.getUserInfo().id)
+      .subscribe((response: any = []) => {
+        this.name = response.user.name;
+        this.url = response.user.avatar;
+      });
   }
 }

@@ -12,6 +12,7 @@ export class CommentComponent implements OnInit {
   @Input() data: any;
   @Input() foreign: boolean = false;
   @Input() isFirst: boolean = true;
+  @Input() url: string = '';
   shouldBeRendered: boolean = true;
 
   ngOnInit(): void {

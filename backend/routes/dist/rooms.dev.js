@@ -79,6 +79,5 @@ router.post("/room", ensureAuthenticated, function _callee2(req, res) {
       }
     }
   });
-}); //will be getting the last message in the room
-
+});
 module.exports = router;

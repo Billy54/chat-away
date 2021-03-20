@@ -25,9 +25,7 @@ var ChatRoomsComponent = /** @class */ (function () {
             if (response === void 0) { response = []; }
             for (var _i = 0, _a = response.users; _i < _a.length; _i++) {
                 var user = _a[_i];
-                var newUser = new user_1.User();
-                newUser.details = user;
-                newUser.status = user.alive;
+                var newUser = new user_1.User(user);
                 _this.users.push(newUser);
             }
             _this.changeRoom(0);
@@ -59,15 +57,17 @@ var ChatRoomsComponent = /** @class */ (function () {
         }
         this.userService.getUser('users/' + id).subscribe(function (response) {
             if (response === void 0) { response = []; }
-            var newUser = new user_1.User();
-            newUser.details = response.user;
-            newUser.status = response.user.alive;
-            _this.users.push(newUser);
+            _this.users.push(new user_1.User(response.user));
         });
     };
     ChatRoomsComponent.prototype.changeRoom = function (index) {
         if (index < this.users.length) {
-            this.dataShare.notifyChange(this.users[index].details.name, this.users[index].details.id, this.users[index].status);
+            this.dataShare.notifyChange({
+                name: this.users[index].details.name,
+                id: this.users[index].details.id,
+                status: this.users[index].status,
+                url: this.users[index].details.avatar
+            });
             this.r.navigate([
                 { outlets: { chatArea: ['chat', this.users[index].details.id] } },
             ]);

@@ -16,9 +16,11 @@ import { ConversationDirective } from './conversation.directive';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit, AfterViewInit {
-  infoName: string = '';
-  info: string = '';
-  el: any;
+  public infoName: string = '';
+  public info: string = '';
+  public el: any;
+  public url: any;
+
   @ViewChild('chat') chatArea: any;
 
   constructor(
@@ -39,6 +41,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.dataShare.message.subscribe((message: any = []) => {
       if (message.name != 'default') {
         this.infoName = message.name;
+        this.url = message.url;
         this.changeStatus(message.status);
         this.smoothScrolling();
       }

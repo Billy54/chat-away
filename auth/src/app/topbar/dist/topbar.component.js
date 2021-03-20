@@ -10,19 +10,25 @@ exports.TopbarComponent = void 0;
 var core_1 = require("@angular/core");
 var notification_1 = require("../Models/notification");
 var TopbarComponent = /** @class */ (function () {
-    function TopbarComponent(a, r, io, dataShare, ar) {
+    function TopbarComponent(a, r, io, dataShare, fileService, userService) {
+        this.fileService = fileService;
+        this.userService = userService;
         this.notificationList = [];
         this.profile = true;
         this.notifications = true;
         this.overlay = true;
+        this.exp = 'translateX(0px)';
+        this.expHeight = '197px';
+        this.url = '';
+        this.name = '';
         this.authService = a;
         this.router = r;
         this.io = io;
         this.dataShareService = dataShare;
-        this.activatedRoute = ar;
     }
-    TopbarComponent.prototype.ngOnDestroy = function () {
-        this.urlObserver.unsubscribe();
+    TopbarComponent.prototype.ngAfterViewInit = function () {
+        this.el = this.preview.nativeElement;
+        this.file = this.imgInput.nativeElement;
     };
     TopbarComponent.prototype.overlayCheck = function () {
         this.profile = true;
@@ -43,13 +49,6 @@ var TopbarComponent = /** @class */ (function () {
             this.notifications = true;
         }
     };
-    Object.defineProperty(TopbarComponent.prototype, "name", {
-        get: function () {
-            return this.authService.getUserInfo().name;
-        },
-        enumerable: false,
-        configurable: true
-    });
     TopbarComponent.prototype.logout = function () {
         this.io.disconnectSocket();
         this.authService.logout('logout').subscribe(function (response) {
@@ -65,6 +64,40 @@ var TopbarComponent = /** @class */ (function () {
         //notification.id = data.id;
         this.notificationList.push(notification);
     };
+    TopbarComponent.prototype.changeAvatar = function () {
+        this.exp = 'translateX(-297px)';
+        this.expHeight = '400px';
+    };
+    TopbarComponent.prototype.slide = function () {
+        var _this = this;
+        this.exp = 'translateX(0px)';
+        this.expHeight = '197px';
+        setTimeout(function () {
+            _this.el.style.backgroundImage = 'url(' + _this.url + ')';
+        }, 200);
+    };
+    TopbarComponent.prototype.previewAvatar = function () {
+        var reader = new FileReader();
+        var element = this.el;
+        reader.onload = function (e) {
+            element.style.backgroundImage = 'url(' + e.target.result + ')';
+        };
+        reader.readAsDataURL(this.file.files[0]);
+    };
+    TopbarComponent.prototype.upload = function () {
+        var _this = this;
+        if (this.file && this.file.files[0]) {
+            var fd = new FormData();
+            fd.append('image', this.file.files[0]);
+            this.fileService
+                .postAvatar('avatar', fd)
+                .subscribe(function (response) {
+                if (response === void 0) { response = []; }
+                _this.url = response.path;
+                _this.slide();
+            });
+        }
+    };
     TopbarComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.dataShareService.remote.subscribe(function (data) {
@@ -72,13 +105,20 @@ var TopbarComponent = /** @class */ (function () {
                 return;
             _this.appendNotification(data);
         });
-        this.urlObserver = this.router.events.subscribe(function (event) {
-            if (event.url == '/logout') {
-                console.log(event);
-                _this.logout();
-            }
+        this.userService
+            .getUser('users/' + this.authService.getUserInfo().id)
+            .subscribe(function (response) {
+            if (response === void 0) { response = []; }
+            _this.name = response.user.name;
+            _this.url = response.user.avatar;
         });
     };
+    __decorate([
+        core_1.ViewChild('imagePreview')
+    ], TopbarComponent.prototype, "preview");
+    __decorate([
+        core_1.ViewChild('input')
+    ], TopbarComponent.prototype, "imgInput");
     TopbarComponent = __decorate([
         core_1.Component({
             selector: 'app-topbar',

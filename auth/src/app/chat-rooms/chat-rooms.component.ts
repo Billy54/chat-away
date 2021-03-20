@@ -1,9 +1,5 @@
-import { ViewChild, ViewChildren } from '@angular/core';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Room } from '../Models/room';
-import { AuthService } from '../services/auth.service';
-import { CommentsService } from '../services/comments.service';
 import { DataShareService } from '../services/data-share.service';
 import { UsersService } from '../services/users.service';
 import { User } from './user';
@@ -28,9 +24,7 @@ export class ChatRoomsComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.userService.getAll('users').subscribe((response: any = []) => {
       for (const user of response.users) {
-        let newUser = new User();
-        newUser.details = user;
-        newUser.status = user.alive;
+        let newUser = new User(user);
         this.users.push(newUser);
       }
       this.changeRoom(0);
@@ -55,20 +49,18 @@ export class ChatRoomsComponent implements OnInit, AfterViewInit {
       if (user.details.id == id) return;
     }
     this.userService.getUser('users/' + id).subscribe((response: any = []) => {
-      let newUser = new User();
-      newUser.details = response.user;
-      newUser.status = response.user.alive;
-      this.users.push(newUser);
+      this.users.push(new User(response.user));
     });
   }
 
   changeRoom(index: any) {
     if (index < this.users.length) {
-      this.dataShare.notifyChange(
-        this.users[index].details.name,
-        this.users[index].details.id,
-        this.users[index].status
-      );
+      this.dataShare.notifyChange({
+        name: this.users[index].details.name,
+        id: this.users[index].details.id,
+        status: this.users[index].status,
+        url: this.users[index].details.avatar,
+      });
       this.r.navigate([
         { outlets: { chatArea: ['chat', this.users[index].details.id] } },
       ]);

@@ -43,6 +43,7 @@ router.post('/login', (req, res, next) => {
             })
         })(req, res, next)
 }, (req, res) => {
+    console.log(req.user);
     res.status(200).json({
         "statusCode": 200,
         "message": "Success",
@@ -57,12 +58,11 @@ router.get('/logout', ensureAuthenticated, (req, res) => {
 });
 
 //check if the user email is already registered
-router.post('/validateEmail', forwardAuthenticated, async(req, res) => {
-    try {
-        const userInDb = await User.findOne({
-            email: req.body.email
-        });
-        if (userInDb) {
+router.post('/validateEmail', forwardAuthenticated, (req, res) => {
+    User.findOne({
+        email: req.body.email
+    }).then((user) => {
+        if (user) {
             res.status(200).json({
                 "statusCode": 200,
                 "message": "Email exists",
@@ -75,13 +75,13 @@ router.post('/validateEmail', forwardAuthenticated, async(req, res) => {
                 "message": "Email doesnt exist"
             });
         }
-    } catch {
-        res.status(400).json({
+    }).catch((er) => {
+        es.status(400).json({
             "statusCode": 400,
             "found": false,
             "message": "Something Is broken , most likely connection to the database could not be established"
         });
-    }
+    });
 });
 
 //register post request
@@ -96,7 +96,8 @@ router.post('/register', forwardAuthenticated, (req, res) => {
     const newUser = new User({
         name: name,
         email: email,
-        password: password
+        password: password,
+        avatar: 'assets/blank.png'
     });
 
     bcrypt.genSalt(10, (err, salt) => {

@@ -10,6 +10,8 @@ import { Room } from '../Models/room';
 import { AuthService } from '../services/auth.service';
 import { CommentsService } from '../services/comments.service';
 import { DataShareService } from '../services/data-share.service';
+import { FileService } from '../services/file.service';
+import { UsersService } from '../services/users.service';
 import { ChatDirective } from './chat.directive';
 
 @Component({
@@ -25,14 +27,16 @@ export class ChatAreaComponent implements OnInit {
   private vc!: ViewContainerRef;
   private activeRoom: any;
   private track = 0;
-  private public = '604e3a7286eac403f0b7c50e';
+  private public = '60539a6801ac562984ae4f93';
   private uid = this.auth.getUserInfo().id;
+  private avatar: string = '';
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
     private fetchData: DataShareService,
     private commentsService: CommentsService,
-    private auth: AuthService
+    private auth: AuthService,
+    private fileService: FileService
   ) {}
 
   ngOnInit() {
@@ -42,7 +46,7 @@ export class ChatAreaComponent implements OnInit {
       this.vc = this.appChat.viewContainerRef;
       this.vc.clear();
       this.activeRoom = data.id;
-      this.getRoom();
+      this.fetchUrl();
     });
 
     // local append
@@ -69,7 +73,6 @@ export class ChatAreaComponent implements OnInit {
 
   renderer(comments: any) {
     this.track = 0;
-    console.log(this.rooms);
     comments.forEach((comment: any) => {
       this.commentSectionInit(comment);
     });
@@ -99,6 +102,7 @@ export class ChatAreaComponent implements OnInit {
       this.track = 0;
     }
     (<CommentComponent>componentRef.instance).data = data;
+    (<CommentComponent>componentRef.instance).url = this.avatar;
   }
 
   getRoom() {
@@ -112,7 +116,6 @@ export class ChatAreaComponent implements OnInit {
   }
 
   fetchFromServer() {
-    //not found , need to fetch it or create it
     this.commentsService
       .getComments('room', {
         receiver: this.activeRoom,
@@ -122,6 +125,15 @@ export class ChatAreaComponent implements OnInit {
         let room = new Room(response.comments, this.activeRoom);
         this.rooms.push(room);
         this.renderer(response.comments);
+      });
+  }
+
+  fetchUrl() {
+    this.fileService
+      .getAvatar('avatar/' + this.activeRoom)
+      .subscribe((response: any = []) => {
+        this.avatar = response.url;
+        this.getRoom();
       });
   }
 }
