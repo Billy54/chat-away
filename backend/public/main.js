@@ -2055,8 +2055,7 @@ class EmailValidators {
     static shouldBeUnique(control) {
         return new Promise((resolve, reject) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             let email = control.value;
-            console.log('reached');
-            yield fetch('http://localhost:5000/validateEmail', {
+            yield fetch('https://chat-app-ang.herokuapp.com', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
