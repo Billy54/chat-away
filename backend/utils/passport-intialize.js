@@ -3,9 +3,6 @@ const User = require('../models/User');
 const {
     authenticateUser
 } = require('./authentication');
-const {
-    findUserById
-} = require('./helpers');
 
 const initialize = function(passport) {
     //define our strategy , using local strategy then manualy log in the user
@@ -15,14 +12,14 @@ const initialize = function(passport) {
     }, authenticateUser));
 
     //serialize user into an id for the session
-    passport.serializeUser(function(user, done) {
+    passport.serializeUser((user, done) => {
         console.log('serialize done');
         done(null, user.id);
     });
 
     //get the user back using that deserialized id so passport can know who to log out
-    passport.deserializeUser(function(id, done) {
-        User.findById(id, function(err, user) {
+    passport.deserializeUser((id, done) => {
+        User.findById(id, (err, user) => {
             console.log('deserialize user');
             done(err, user);
         });

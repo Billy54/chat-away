@@ -29,20 +29,16 @@ var InputFieldComponent = /** @class */ (function () {
         if (this.comment.trim().length < 2) {
             return;
         }
-        //send to chat area
-        this.forwardMessage.sendlocal({
+        var newComment = {
             sender: this.auth.getUserInfo().id,
             senderName: this.auth.getUserInfo().name,
             receiver: this.receiver,
-            text: this.comment.trim()
-        });
-        //emit to server
-        this.io.messageSubmit({
-            sender: this.auth.getUserInfo().id,
-            senderName: this.auth.getUserInfo().name,
-            receiver: this.receiver,
-            text: this.comment.trim()
-        });
+            text: this.comment.trim(),
+            url: this.auth.getUserInfo().avatar,
+            date: new Date()
+        };
+        this.forwardMessage.sendlocal(newComment);
+        this.io.messageSubmit(newComment);
         this.comment = '';
     };
     InputFieldComponent = __decorate([

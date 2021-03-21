@@ -1,19 +1,12 @@
-import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  QueryList,
-  ViewChild,
-  ViewChildren,
-} from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { SocketioService } from '../services/socketio.service';
 import { Notification } from '../Models/notification';
 import { DataShareService } from '../services/data-share.service';
-import { DataService } from '../services/data.service';
 import { FileService } from '../services/file.service';
 import { UsersService } from '../services/users.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-topbar',
@@ -21,10 +14,6 @@ import { UsersService } from '../services/users.service';
   styleUrls: ['./topbar.component.css'],
 })
 export class TopbarComponent implements OnInit, AfterViewInit {
-  private authService: AuthService;
-  private router: Router;
-  private io: SocketioService;
-  private dataShareService: DataShareService;
   private el: any;
   public notificationList: Notification[] = [];
   public profile: boolean = true;
@@ -35,23 +24,20 @@ export class TopbarComponent implements OnInit, AfterViewInit {
   public expHeight: string = '197px';
   public url: string = '';
   public name: string = '';
+  public newmsg: boolean = false;
+  public fadeIn: boolean = false;
 
   @ViewChild('imagePreview') preview: any;
   @ViewChild('input') imgInput: any;
 
   constructor(
-    a: AuthService,
-    r: Router,
-    io: SocketioService,
-    dataShare: DataShareService,
+    private authService: AuthService,
+    private router: Router,
+    private io: SocketioService,
+    private dataShareService: DataShareService,
     private fileService: FileService,
     private userService: UsersService
-  ) {
-    this.authService = a;
-    this.router = r;
-    this.io = io;
-    this.dataShareService = dataShare;
-  }
+  ) {}
   ngAfterViewInit(): void {
     this.el = this.preview.nativeElement;
     this.file = this.imgInput.nativeElement;
@@ -65,6 +51,9 @@ export class TopbarComponent implements OnInit, AfterViewInit {
 
   notificationsCheck() {
     this.notifications = !this.notifications;
+    if (!this.notifications) {
+      this.newmsg = false;
+    }
     this.overlay = false;
     if (!this.profile) {
       this.profile = true;
@@ -89,10 +78,18 @@ export class TopbarComponent implements OnInit, AfterViewInit {
 
   appendNotification(data: any) {
     let notification = new Notification();
-    notification.date = Date.now().toString();
+    let now = new Date();
+    notification.date = formatDate(
+      now,
+      'dd/MM/yyyy hh:mm:ss a',
+      'en-US',
+      '+0530'
+    );
     notification.name = data.senderName;
-    //notification.id = data.id;
-    this.notificationList.push(notification);
+    notification.sender = data.sender;
+    notification.receiver = data.receiver;
+    notification.url = data.url;
+    this.notificationList.unshift(notification);
   }
 
   changeAvatar() {
@@ -103,18 +100,23 @@ export class TopbarComponent implements OnInit, AfterViewInit {
   slide() {
     this.exp = 'translateX(0px)';
     this.expHeight = '197px';
+    this.fadeIn = false;
     setTimeout(() => {
       this.el.style.backgroundImage = 'url(' + this.url + ')';
     }, 200);
   }
 
   previewAvatar() {
-    var reader = new FileReader();
+    let reader = new FileReader();
     let element = this.el;
     reader.onload = function (e: any) {
       element.style.backgroundImage = 'url(' + e.target.result + ')';
     };
     reader.readAsDataURL(this.file.files[0]);
+    this.fadeIn = true;
+    setTimeout(() => {
+      this.fadeIn = false;
+    }, 500);
   }
 
   upload() {
@@ -130,10 +132,20 @@ export class TopbarComponent implements OnInit, AfterViewInit {
     }
   }
 
+  browse(index: any) {
+    this.dataShareService.swapCurrent(this.notificationList[index].getRoom());
+    this.notificationsCheck();
+  }
+
   ngOnInit(): void {
     this.dataShareService.remote.subscribe((data: any) => {
       if (data.sender == 'default') return;
       this.appendNotification(data);
+      if (!this.notifications) {
+        this.newmsg = false;
+      } else {
+        this.newmsg = true;
+      }
     });
     this.userService
       .getUser('users/' + this.authService.getUserInfo().id)

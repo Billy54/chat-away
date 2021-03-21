@@ -9,7 +9,8 @@
             <small>{{info}}</small>
         </div>
     </div>
-    <div id="ts-chat" class="chat-area" #chat>
+    <div id="ts-chat" class="chat-area" [class.fadeout]="fade" #chat>
+        <div *ngIf="loader" class="loader"></div>
         <router-outlet name='chatArea'></router-outlet>
     </div>
     <input-field></input-field>

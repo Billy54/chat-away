@@ -9,18 +9,34 @@ exports.__esModule = true;
 exports.CommentComponent = void 0;
 var core_1 = require("@angular/core");
 var CommentComponent = /** @class */ (function () {
-    function CommentComponent(comentFactory) {
+    function CommentComponent(auth) {
+        this.auth = auth;
+        this.url = '';
         this.foreign = false;
         this.isFirst = true;
-        this.url = '';
         this.shouldBeRendered = true;
+        this.publicId = '60539a6801ac562984ae4f93';
+        this.uid = this.auth.getUserInfo().id;
     }
     CommentComponent.prototype.ngOnInit = function () {
-        if (this.data.text == '' ||
-            this.data.senderName == '' ||
-            this.data.senderName == 'default' ||
-            this.data.sender == 'default') {
+        if (this.data.sender == 'default') {
             this.shouldBeRendered = false;
+        } //public case
+        else if (this.data.receiver == this.publicId) {
+            this.url = this.data.url;
+            if (this.data.sender != this.uid) {
+                this.foreign = true;
+                this.isConsecutive();
+            }
+        } //private case
+        else if (this.data.sender != this.uid) {
+            this.foreign = true;
+            this.isConsecutive();
+        }
+    };
+    CommentComponent.prototype.isConsecutive = function () {
+        if (this.data.sender == this.previousId) {
+            this.isFirst = false;
         }
     };
     __decorate([
@@ -28,13 +44,10 @@ var CommentComponent = /** @class */ (function () {
     ], CommentComponent.prototype, "data");
     __decorate([
         core_1.Input()
-    ], CommentComponent.prototype, "foreign");
-    __decorate([
-        core_1.Input()
-    ], CommentComponent.prototype, "isFirst");
-    __decorate([
-        core_1.Input()
     ], CommentComponent.prototype, "url");
+    __decorate([
+        core_1.Input()
+    ], CommentComponent.prototype, "previousId");
     CommentComponent = __decorate([
         core_1.Component({
             selector: 'app-comment',

@@ -1,8 +1,10 @@
 var rooms = []
 
 const addUser = function(id) {
+    if (rooms.includes(id)) {
+        return;
+    }
     rooms.push(id);
-    console.log(rooms);
 }
 
 const deleteUser = function(id) {

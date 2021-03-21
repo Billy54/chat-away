@@ -25,7 +25,6 @@ module.exports = {
             id1 = process.env.PUBLIC_ROOM;
             id2 = process.env.PUBLIC_ROOM;
         }
-
         await Room.updateOne({
             $or: [{
                     roomId: id1
@@ -41,16 +40,31 @@ module.exports = {
         }).catch((err) => {
             console.log(err);
         });
-    },
+    }, //update user avatar as well as all the comments in public room
     updateAvatar: async function(url, email) {
-        await User.updateOne({
+        await User.findOneAndUpdate({
             email: email
         }, {
             $set: {
                 avatar: url
             }
-        }).catch((err) => {
-            console.log(err);
+        }).then(async(user) => {
+            const query = {
+                roomId: process.env.PUBLIC_ROOM
+            };
+            const updateDocument = {
+                $set: {
+                    "comments.$[comment].url": url
+                }
+            };
+            const options = {
+                arrayFilters: [{
+                    "comment.sender": String(user._id)
+                }]
+            };
+            await Room.updateMany(query, updateDocument, options).catch((er) => {
+                console.log(er);
+            });
         });
     }
 }

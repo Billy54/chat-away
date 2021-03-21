@@ -49,7 +49,6 @@ router.post('/login', function (req, res, next) {
     });
   })(req, res, next);
 }, function (req, res) {
-  console.log(req.user);
   res.status(200).json({
     "statusCode": 200,
     "message": "Success",
@@ -80,10 +79,10 @@ router.post('/validateEmail', forwardAuthenticated, function (req, res) {
       });
     }
   })["catch"](function (er) {
-    es.status(400).json({
+    es.status(500).json({
       "statusCode": 400,
       "found": false,
-      "message": "Something Is broken , most likely connection to the database could not be established"
+      "message": "Something is broken :("
     });
   });
 }); //register post request
@@ -113,8 +112,10 @@ router.post('/register', forwardAuthenticated, function (req, res) {
           "message": "You are registerd",
           "user": encodeData(req.user)
         });
-      })["catch"](function (err) {
-        console.log(err);
+      })["catch"](function (er) {
+        res.status(500).json({
+          "message": er
+        });
       });
     });
   });

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CommentFactoryService } from '../services/comment-factory.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-comment',
@@ -7,22 +7,36 @@ import { CommentFactoryService } from '../services/comment-factory.service';
   styleUrls: ['./comment.component.css'],
 })
 export class CommentComponent implements OnInit {
-  constructor(comentFactory: CommentFactoryService) {}
-
   @Input() data: any;
-  @Input() foreign: boolean = false;
-  @Input() isFirst: boolean = true;
   @Input() url: string = '';
-  shouldBeRendered: boolean = true;
+  @Input() previousId: any;
+  public foreign: boolean = false;
+  public isFirst: boolean = true;
+  public shouldBeRendered: boolean = true;
+  private readonly publicId = '60539a6801ac562984ae4f93';
+  private uid = this.auth.getUserInfo().id;
 
+  constructor(private auth: AuthService) {}
   ngOnInit(): void {
-    if (
-      this.data.text == '' ||
-      this.data.senderName == '' ||
-      this.data.senderName == 'default' ||
-      this.data.sender == 'default'
-    ) {
+    if (this.data.sender == 'default') {
       this.shouldBeRendered = false;
+    } //public case
+    else if (this.data.receiver == this.publicId) {
+      this.url = this.data.url;
+      if (this.data.sender != this.uid) {
+        this.foreign = true;
+        this.isConsecutive();
+      }
+    } //private case
+    else if (this.data.sender != this.uid) {
+      this.foreign = true;
+      this.isConsecutive();
+    }
+  }
+
+  isConsecutive() {
+    if (this.data.sender == this.previousId) {
+      this.isFirst = false;
     }
   }
 }

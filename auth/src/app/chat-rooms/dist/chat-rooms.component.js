@@ -40,6 +40,20 @@ var ChatRoomsComponent = /** @class */ (function () {
         this.dataShare.status.subscribe(function (id) {
             _this.updateStatus(id);
         });
+        this.dataShare.changeUrl.subscribe(function (url) {
+            if (_this.activeRoom < _this.users.length) {
+                _this.users[_this.activeRoom].url = url;
+            }
+        });
+        this.dataShare.swapRoom.subscribe(function (id) {
+            var i = 0;
+            _this.users.forEach(function (user) {
+                if (user.details.id == id) {
+                    _this.changeRoom(i);
+                }
+                i++;
+            });
+        });
     };
     Object.defineProperty(ChatRoomsComponent.prototype, "getUsers", {
         get: function () {
@@ -65,8 +79,7 @@ var ChatRoomsComponent = /** @class */ (function () {
             this.dataShare.notifyChange({
                 name: this.users[index].details.name,
                 id: this.users[index].details.id,
-                status: this.users[index].status,
-                url: this.users[index].details.avatar
+                status: this.users[index].status
             });
             this.r.navigate([
                 { outlets: { chatArea: ['chat', this.users[index].details.id] } },

@@ -25,27 +25,23 @@ export class InputFieldComponent implements OnInit {
       }
     });
   }
+
   newComment() {
     if (this.comment.trim().length < 2) {
       return;
     }
 
-    //send to chat area
-    this.forwardMessage.sendlocal({
+    let newComment = {
       sender: this.auth.getUserInfo().id,
       senderName: this.auth.getUserInfo().name,
       receiver: this.receiver,
       text: this.comment.trim(),
-    });
+      url: this.auth.getUserInfo().avatar,
+      date: new Date(),
+    };
 
-    //emit to server
-    this.io.messageSubmit({
-      sender: this.auth.getUserInfo().id,
-      senderName: this.auth.getUserInfo().name,
-      receiver: this.receiver,
-      text: this.comment.trim(),
-    });
-
+    this.forwardMessage.sendlocal(newComment);
+    this.io.messageSubmit(newComment);
     this.comment = '';
   }
 }

@@ -43,7 +43,6 @@ router.post('/login', (req, res, next) => {
             })
         })(req, res, next)
 }, (req, res) => {
-    console.log(req.user);
     res.status(200).json({
         "statusCode": 200,
         "message": "Success",
@@ -76,10 +75,10 @@ router.post('/validateEmail', forwardAuthenticated, (req, res) => {
             });
         }
     }).catch((er) => {
-        es.status(400).json({
+        es.status(500).json({
             "statusCode": 400,
             "found": false,
-            "message": "Something Is broken , most likely connection to the database could not be established"
+            "message": "Something is broken :("
         });
     });
 });
@@ -117,8 +116,10 @@ router.post('/register', forwardAuthenticated, (req, res) => {
                         "user": encodeData(req.user)
                     });
                 })
-                .catch((err) => {
-                    console.log(err)
+                .catch((er) => {
+                    res.status(500).json({
+                        "message": er,
+                    });
                 });
         });
     });

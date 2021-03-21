@@ -5,10 +5,11 @@ var User = /** @class */ (function () {
     function User(userData) {
         this.lastComment = 'Click to start chatting.';
         this.status = true;
-        this.lastSeen = '';
         this.isVisible = true;
         this.active = false;
+        this.url = '';
         this.details = userData;
+        this.url = userData.avatar;
         if (userData.id == '60539a6801ac562984ae4f93') {
             this.status == true;
         }

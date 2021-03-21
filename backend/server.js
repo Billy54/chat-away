@@ -38,7 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //////////////////initialize socket io//////////////////////
 const io = require('socket.io')(http, {
     cors: {
-        origins: ['http://localhost:5000']
+        origins: ['http://localhost:4200']
     }
 });
 io.on('connection', (socket) => {
@@ -65,7 +65,9 @@ io.on('connection', (socket) => {
                 message: msg
             });
         }).catch(err => {
-            console.log(err);
+            socket.to(msg.receiver).emit('message', {
+                message: err
+            });
         });
     });
 
@@ -86,7 +88,7 @@ io.on('connection', (socket) => {
 //cors to allow request from the front end
 app.use(cors({
     credentials: true,
-    origin: ['http://localhost:5000']
+    origin: ['http://localhost:4200']
 }));
 app.enable('trust proxy');
 

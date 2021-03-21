@@ -52,7 +52,7 @@ app.use(express["static"](path.join(__dirname, 'public'))); //////////////////in
 
 var io = require('socket.io')(http, {
   cors: {
-    origins: ['http://localhost:5000']
+    origins: ['http://localhost:4200']
   }
 });
 
@@ -78,7 +78,9 @@ io.on('connection', function (socket) {
         message: msg
       });
     })["catch"](function (err) {
-      console.log(err);
+      socket.to(msg.receiver).emit('message', {
+        message: err
+      });
     });
   }); //notify the rest
 
@@ -97,7 +99,7 @@ io.on('connection', function (socket) {
 
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:5000']
+  origin: ['http://localhost:4200']
 }));
 app.enable('trust proxy'); /// headers will only be of type app/json
 

@@ -15,6 +15,9 @@ var HomeComponent = /** @class */ (function () {
         this.r = r;
         this.infoName = '';
         this.info = '';
+        this.fade = false;
+        this.loader = false;
+        this.publicId = '60539a6801ac562984ae4f93';
     }
     HomeComponent.prototype.ngAfterViewInit = function () {
         var _this = this;
@@ -30,13 +33,17 @@ var HomeComponent = /** @class */ (function () {
             if (message === void 0) { message = []; }
             if (message.name != 'default') {
                 _this.infoName = message.name;
-                _this.url = message.url;
-                _this.changeStatus(message.status);
+                if (message.id != _this.cId) {
+                    _this.loader = true;
+                }
                 _this.smoothScrolling();
+                _this.cId = message.id;
+                _this.fadeOut();
+                _this.changeStatus(message.status);
             }
         });
         this.dataShare.status.subscribe(function (id) {
-            if (id == '')
+            if (id == '' || _this.cId == _this.publicId)
                 return;
             if (_this.info == 'Active now.') {
                 _this.info = 'Offline.';
@@ -45,13 +52,13 @@ var HomeComponent = /** @class */ (function () {
                 _this.info = 'Active now.';
             }
         });
-    };
-    //scroll to bottom
-    HomeComponent.prototype.smoothScrolling = function () {
-        var _this = this;
-        setTimeout(function () {
-            _this.el.scrollTop = _this.el.scrollHeight - _this.el.clientHeight;
-        }, 300);
+        this.dataShare.changeUrl.subscribe(function (url) {
+            _this.url = url;
+        });
+        this.dataShare.loader.subscribe(function () {
+            _this.loader = false;
+            _this.smoothScrolling();
+        });
     };
     HomeComponent.prototype.changeStatus = function (status) {
         if (status) {
@@ -60,6 +67,20 @@ var HomeComponent = /** @class */ (function () {
         else {
             this.info = 'Offline.';
         }
+    };
+    //scroll to bottom
+    HomeComponent.prototype.smoothScrolling = function () {
+        var _this = this;
+        setTimeout(function () {
+            _this.el.scrollTop = _this.el.scrollHeight - _this.el.clientHeight;
+        }, 200);
+    };
+    HomeComponent.prototype.fadeOut = function () {
+        var _this = this;
+        this.fade = true;
+        setTimeout(function () {
+            _this.fade = false;
+        }, 800);
     };
     __decorate([
         core_1.ViewChild('chat')

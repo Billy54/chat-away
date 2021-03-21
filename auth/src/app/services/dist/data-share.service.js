@@ -41,13 +41,19 @@ var DataShareService = /** @class */ (function () {
         this.userIdsMessage = this.userStatus.asObservable();
         //send new url to chat room
         this.updateUrl = new rxjs_1.BehaviorSubject('');
-        this.changeUrl = this.commentData.asObservable();
+        this.changeUrl = this.updateUrl.asObservable();
+        //swap current room
+        this.swap = new rxjs_1.BehaviorSubject('');
+        this.swapRoom = this.swap.asObservable();
+        //room loader
+        this.load = new rxjs_1.BehaviorSubject(false);
+        this.loader = this.load.asObservable();
     }
     DataShareService.prototype.registerModal = function (hidden) {
         this.modalSwitch.next(hidden);
     };
     DataShareService.prototype.notifyChange = function (data) {
-        if (data.name == 'default')
+        if (data.sender == 'default')
             return;
         this.changeName.next(data);
     };
@@ -73,7 +79,17 @@ var DataShareService = /** @class */ (function () {
         this.userIds.next(ids);
     };
     DataShareService.prototype.sendUrl = function (url) {
+        if (!url)
+            return;
         this.updateUrl.next(url);
+    };
+    DataShareService.prototype.swapCurrent = function (id) {
+        if (!id)
+            return;
+        this.swap.next(id);
+    };
+    DataShareService.prototype.stopLoading = function () {
+        this.load.next(true);
     };
     DataShareService = __decorate([
         core_1.Injectable({

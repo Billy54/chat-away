@@ -33,6 +33,7 @@ router.post("/avatar", ensureAuthenticated, (req, res) => {
 
 //get the url
 router.get("/avatar/:uid", ensureAuthenticated, (req, res) => {
+
     User.findOne({
         _id: req.params.uid
     }).then((user) => {

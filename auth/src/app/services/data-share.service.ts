@@ -21,7 +21,7 @@ export class DataShareService {
   });
   message = this.changeName.asObservable();
   public notifyChange(data: any) {
-    if (data.name == 'default') return;
+    if (data.sender == 'default') return;
     this.changeName.next(data);
   }
 
@@ -68,9 +68,25 @@ export class DataShareService {
   }
 
   //send new url to chat room
-  private updateUrl = new BehaviorSubject<String>('');
-  changeUrl = this.commentData.asObservable();
-  public sendUrl(url: any) {
+  private updateUrl = new BehaviorSubject<string>('');
+  changeUrl = this.updateUrl.asObservable();
+  public sendUrl(url: string) {
+    if (!url) return;
     this.updateUrl.next(url);
+  }
+
+  //swap current room
+  private swap = new BehaviorSubject<string>('');
+  swapRoom = this.swap.asObservable();
+  public swapCurrent(id: string) {
+    if (!id) return;
+    this.swap.next(id);
+  }
+
+  //room loader
+  private load = new BehaviorSubject<boolean>(false);
+  loader = this.load.asObservable();
+  public stopLoading() {
+    this.load.next(true);
   }
 }

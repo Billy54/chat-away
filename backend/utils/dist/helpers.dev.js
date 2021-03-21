@@ -58,25 +58,54 @@ module.exports = {
       }
     });
   },
+  //update user avatar as well as all the comments in public room
   updateAvatar: function updateAvatar(url, email) {
-    return regeneratorRuntime.async(function updateAvatar$(_context2) {
+    return regeneratorRuntime.async(function updateAvatar$(_context3) {
       while (1) {
-        switch (_context2.prev = _context2.next) {
+        switch (_context3.prev = _context3.next) {
           case 0:
-            _context2.next = 2;
-            return regeneratorRuntime.awrap(User.updateOne({
+            _context3.next = 2;
+            return regeneratorRuntime.awrap(User.findOneAndUpdate({
               email: email
             }, {
               $set: {
                 avatar: url
               }
-            })["catch"](function (err) {
-              console.log(err);
+            }).then(function _callee(user) {
+              var query, updateDocument, options;
+              return regeneratorRuntime.async(function _callee$(_context2) {
+                while (1) {
+                  switch (_context2.prev = _context2.next) {
+                    case 0:
+                      query = {
+                        roomId: process.env.PUBLIC_ROOM
+                      };
+                      updateDocument = {
+                        $set: {
+                          "comments.$[comment].url": url
+                        }
+                      };
+                      options = {
+                        arrayFilters: [{
+                          "comment.sender": String(user._id)
+                        }]
+                      };
+                      _context2.next = 5;
+                      return regeneratorRuntime.awrap(Room.updateMany(query, updateDocument, options)["catch"](function (er) {
+                        console.log(er);
+                      }));
+
+                    case 5:
+                    case "end":
+                      return _context2.stop();
+                  }
+                }
+              });
             }));
 
           case 2:
           case "end":
-            return _context2.stop();
+            return _context3.stop();
         }
       }
     });

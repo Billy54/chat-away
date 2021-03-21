@@ -20,6 +20,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
   public info: string = '';
   public el: any;
   public url: any;
+  public fade: boolean = false;
+  public loader: boolean = false;
+  private readonly publicId = '60539a6801ac562984ae4f93';
+  private cId: any;
 
   @ViewChild('chat') chatArea: any;
 
@@ -41,26 +45,30 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.dataShare.message.subscribe((message: any = []) => {
       if (message.name != 'default') {
         this.infoName = message.name;
-        this.url = message.url;
-        this.changeStatus(message.status);
+        if (message.id != this.cId) {
+          this.loader = true;
+        }
         this.smoothScrolling();
+        this.cId = message.id;
+        this.fadeOut();
+        this.changeStatus(message.status);
       }
     });
     this.dataShare.status.subscribe((id) => {
-      if (id == '') return;
+      if (id == '' || this.cId == this.publicId) return;
       if (this.info == 'Active now.') {
         this.info = 'Offline.';
       } else {
         this.info = 'Active now.';
       }
     });
-  }
-
-  //scroll to bottom
-  smoothScrolling() {
-    setTimeout(() => {
-      this.el.scrollTop = this.el.scrollHeight - this.el.clientHeight;
-    }, 300);
+    this.dataShare.changeUrl.subscribe((url: string) => {
+      this.url = url;
+    });
+    this.dataShare.loader.subscribe(() => {
+      this.loader = false;
+      this.smoothScrolling();
+    });
   }
 
   changeStatus(status: boolean) {
@@ -69,5 +77,19 @@ export class HomeComponent implements OnInit, AfterViewInit {
     } else {
       this.info = 'Offline.';
     }
+  }
+
+  //scroll to bottom
+  smoothScrolling() {
+    setTimeout(() => {
+      this.el.scrollTop = this.el.scrollHeight - this.el.clientHeight;
+    }, 200);
+  }
+
+  fadeOut() {
+    this.fade = true;
+    setTimeout(() => {
+      this.fade = false;
+    }, 800);
   }
 }

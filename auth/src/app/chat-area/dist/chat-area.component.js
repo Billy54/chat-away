@@ -19,13 +19,13 @@ var ChatAreaComponent = /** @class */ (function () {
         this.auth = auth;
         this.fileService = fileService;
         this.rooms = Array();
-        this.track = 0;
         this.public = '60539a6801ac562984ae4f93';
-        this.uid = this.auth.getUserInfo().id;
+        this.previousId = '';
         this.avatar = '';
     }
     ChatAreaComponent.prototype.ngOnInit = function () {
         var _this = this;
+        //on room change
         this.fetchData.message.subscribe(function (data) {
             if (data.name == 'default')
                 return;
@@ -35,35 +35,42 @@ var ChatAreaComponent = /** @class */ (function () {
             _this.vc.clear();
             _this.activeRoom = data.id;
             _this.fetchUrl();
+            _this.previousId = '';
         });
         // local append
         this.fetchData.local.subscribe(function (data) {
             _this.commentSectionInit(data);
-            _this.rooms.forEach(function (room) {
-                if (room.getSender() == _this.activeRoom)
-                    room.addComment(data);
-            });
+            _this.saveLocal(_this.activeRoom, data);
         });
         //remote append
         this.fetchData.remote.subscribe(function (data) {
-            if (_this.activeRoom == data.sender) {
-                _this.commentSectionInit(data);
-            }
             if (data.receiver == _this.public) {
-                _this.commentSectionInit(data);
+                _this.saveLocal(_this.public, data);
+                if (_this.public == _this.activeRoom) {
+                    _this.commentSectionInit(data);
+                }
             }
-            _this.rooms.forEach(function (room) {
-                if (room.getSender() == data.sender)
-                    room.addComment(data);
-            });
+            else {
+                _this.saveLocal(data.sender, data);
+                if (_this.activeRoom == data.sender) {
+                    _this.commentSectionInit(data);
+                }
+            }
+        });
+    };
+    ChatAreaComponent.prototype.saveLocal = function (id, data) {
+        this.rooms.forEach(function (room) {
+            if (room.getSender() == id) {
+                room.addComment(data);
+            }
         });
     };
     ChatAreaComponent.prototype.renderer = function (comments) {
         var _this = this;
-        this.track = 0;
         comments.forEach(function (comment) {
             _this.commentSectionInit(comment);
         });
+        this.fetchData.stopLoading();
     };
     //create a comment instance for each comment
     ChatAreaComponent.prototype.commentSectionInit = function (data) {
@@ -72,23 +79,10 @@ var ChatAreaComponent = /** @class */ (function () {
         this.vc = this.appChat.viewContainerRef;
         var componentFactory = this.componentFactoryResolver.resolveComponentFactory(comment_component_1.CommentComponent);
         var componentRef = this.vc.createComponent(componentFactory);
-        //private room
-        if (data.receiver == this.uid) {
-            this.track++;
-            if (this.track > 1) {
-                componentRef.instance.isFirst = false;
-            }
-            componentRef.instance.foreign = true;
-            //public room
-        }
-        else if (data.receiver == this.public && data.sender != this.uid) {
-            componentRef.instance.foreign = true;
-        }
-        else {
-            this.track = 0;
-        }
         componentRef.instance.data = data;
         componentRef.instance.url = this.avatar;
+        componentRef.instance.previousId = this.previousId;
+        this.previousId = data.sender;
     };
     ChatAreaComponent.prototype.getRoom = function () {
         for (var _i = 0, _a = this.rooms; _i < _a.length; _i++) {
@@ -121,6 +115,7 @@ var ChatAreaComponent = /** @class */ (function () {
             .subscribe(function (response) {
             if (response === void 0) { response = []; }
             _this.avatar = response.url;
+            _this.fetchData.sendUrl(_this.avatar);
             _this.getRoom();
         });
     };

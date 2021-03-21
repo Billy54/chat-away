@@ -38,6 +38,20 @@ export class ChatRoomsComponent implements OnInit, AfterViewInit {
     this.dataShare.status.subscribe((id) => {
       this.updateStatus(id);
     });
+    this.dataShare.changeUrl.subscribe((url: string) => {
+      if (this.activeRoom < this.users.length) {
+        this.users[this.activeRoom].url = url;
+      }
+    });
+    this.dataShare.swapRoom.subscribe((id) => {
+      let i = 0;
+      this.users.forEach((user) => {
+        if (user.details.id == id) {
+          this.changeRoom(i);
+        }
+        i++;
+      });
+    });
   }
 
   get getUsers() {
@@ -59,7 +73,6 @@ export class ChatRoomsComponent implements OnInit, AfterViewInit {
         name: this.users[index].details.name,
         id: this.users[index].details.id,
         status: this.users[index].status,
-        url: this.users[index].details.avatar,
       });
       this.r.navigate([
         { outlets: { chatArea: ['chat', this.users[index].details.id] } },

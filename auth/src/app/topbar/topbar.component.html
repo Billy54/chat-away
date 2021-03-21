@@ -1,4 +1,4 @@
-<div class="overlay" (click)="overlayCheck()" [class.hidden]="overlay"></div>
+<div class="overlay" (click)="overlayCheck()" *ngIf="!overlay"></div>
 <div class="top-navbar">
     <div class="options">
         <div class="messenger-wrapper">
@@ -17,16 +17,17 @@
         <div class="dropdown">
             <div class="bell-wrapper ts-notifications" (click)='notificationsCheck()' [class.active-option]="!notifications">
                 <i class="fas fa-bell ts-profile"></i>
+                <i class="fas fa-circle notification" *ngIf="newmsg"></i>
             </div>
-            <div class="profile-dropdown  " [class.hidden]="notifications">
+            <div class="notification-dropdown" *ngIf="!notifications">
                 <h1 style="font-size: 25px; margin-bottom:10px; margin-top:5px; ">Notifications</h1>
                 <div class="divider div-profile"></div>
                 <div class="inner-wrapper">
-                    <div class="profile-item item-margin" *ngFor="let notification of notificationList">
-                        <img src="http://localhost:5000/routes/uploads/228463.jpg" class=" avatar " style="margin-top: 0px;">
+                    <div class="profile-item item-margin" *ngFor="let notification of notificationList; let i=index" (click)="browse(i)">
+                        <img [src]="notification.url" class=" avatar " style="margin-top: 0px;">
                         <div class="details ">
                             <div class="message">{{notification.name}} send a message!</div>
-                            <div style="margin-top: -10px;"><small>Click to see.</small></div>
+                            <div class="small-date">{{ notification.date}}</div>
                         </div>
                     </div>
                 </div>
@@ -61,7 +62,7 @@
                                 <label for="imageUpload"></label>
                             </form>
                             <div class="avatar-preview">
-                                <div #imagePreview [style.backgroundImage]="'url('+url+')'">
+                                <div [class.fadeout]="fadeIn" #imagePreview [style.backgroundImage]="'url('+url+')'">
                                 </div>
                             </div>
                         </div>

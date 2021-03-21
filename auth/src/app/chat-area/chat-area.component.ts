@@ -11,7 +11,6 @@ import { AuthService } from '../services/auth.service';
 import { CommentsService } from '../services/comments.service';
 import { DataShareService } from '../services/data-share.service';
 import { FileService } from '../services/file.service';
-import { UsersService } from '../services/users.service';
 import { ChatDirective } from './chat.directive';
 
 @Component({
@@ -26,9 +25,8 @@ export class ChatAreaComponent implements OnInit {
   private rooms: any = Array<Room>();
   private vc!: ViewContainerRef;
   private activeRoom: any;
-  private track = 0;
-  private public = '60539a6801ac562984ae4f93';
-  private uid = this.auth.getUserInfo().id;
+  private readonly public = '60539a6801ac562984ae4f93';
+  private previousId: string = '';
   private avatar: string = '';
 
   constructor(
@@ -40,6 +38,7 @@ export class ChatAreaComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    //on room change
     this.fetchData.message.subscribe((data: any) => {
       if (data.name == 'default') return;
       if (data.id == this.activeRoom) return;
@@ -47,35 +46,44 @@ export class ChatAreaComponent implements OnInit {
       this.vc.clear();
       this.activeRoom = data.id;
       this.fetchUrl();
+      this.previousId = '';
     });
 
     // local append
     this.fetchData.local.subscribe((data: any) => {
       this.commentSectionInit(data);
-      this.rooms.forEach((room: any) => {
-        if (room.getSender() == this.activeRoom) room.addComment(data);
-      });
+      this.saveLocal(this.activeRoom, data);
     });
 
     //remote append
     this.fetchData.remote.subscribe((data: any) => {
-      if (this.activeRoom == data.sender) {
-        this.commentSectionInit(data);
-      }
       if (data.receiver == this.public) {
-        this.commentSectionInit(data);
+        this.saveLocal(this.public, data);
+        if (this.public == this.activeRoom) {
+          this.commentSectionInit(data);
+        }
+      } else {
+        this.saveLocal(data.sender, data);
+        if (this.activeRoom == data.sender) {
+          this.commentSectionInit(data);
+        }
       }
-      this.rooms.forEach((room: any) => {
-        if (room.getSender() == data.sender) room.addComment(data);
-      });
+    });
+  }
+
+  saveLocal(id: string, data: any) {
+    this.rooms.forEach((room: any) => {
+      if (room.getSender() == id) {
+        room.addComment(data);
+      }
     });
   }
 
   renderer(comments: any) {
-    this.track = 0;
     comments.forEach((comment: any) => {
       this.commentSectionInit(comment);
     });
+    this.fetchData.stopLoading();
   }
 
   //create a comment instance for each comment
@@ -88,21 +96,10 @@ export class ChatAreaComponent implements OnInit {
     const componentRef = this.vc.createComponent<CommentComponent>(
       componentFactory
     );
-    //private room
-    if (data.receiver == this.uid) {
-      this.track++;
-      if (this.track > 1) {
-        (<CommentComponent>componentRef.instance).isFirst = false;
-      }
-      (<CommentComponent>componentRef.instance).foreign = true;
-      //public room
-    } else if (data.receiver == this.public && data.sender != this.uid) {
-      (<CommentComponent>componentRef.instance).foreign = true;
-    } else {
-      this.track = 0;
-    }
     (<CommentComponent>componentRef.instance).data = data;
     (<CommentComponent>componentRef.instance).url = this.avatar;
+    (<CommentComponent>componentRef.instance).previousId = this.previousId;
+    this.previousId = data.sender;
   }
 
   getRoom() {
@@ -133,6 +130,7 @@ export class ChatAreaComponent implements OnInit {
       .getAvatar('avatar/' + this.activeRoom)
       .subscribe((response: any = []) => {
         this.avatar = response.url;
+        this.fetchData.sendUrl(this.avatar);
         this.getRoom();
       });
   }

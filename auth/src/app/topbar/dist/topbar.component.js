@@ -9,8 +9,13 @@ exports.__esModule = true;
 exports.TopbarComponent = void 0;
 var core_1 = require("@angular/core");
 var notification_1 = require("../Models/notification");
+var common_1 = require("@angular/common");
 var TopbarComponent = /** @class */ (function () {
-    function TopbarComponent(a, r, io, dataShare, fileService, userService) {
+    function TopbarComponent(authService, router, io, dataShareService, fileService, userService) {
+        this.authService = authService;
+        this.router = router;
+        this.io = io;
+        this.dataShareService = dataShareService;
         this.fileService = fileService;
         this.userService = userService;
         this.notificationList = [];
@@ -21,10 +26,8 @@ var TopbarComponent = /** @class */ (function () {
         this.expHeight = '197px';
         this.url = '';
         this.name = '';
-        this.authService = a;
-        this.router = r;
-        this.io = io;
-        this.dataShareService = dataShare;
+        this.newmsg = false;
+        this.fadeIn = false;
     }
     TopbarComponent.prototype.ngAfterViewInit = function () {
         this.el = this.preview.nativeElement;
@@ -37,6 +40,9 @@ var TopbarComponent = /** @class */ (function () {
     };
     TopbarComponent.prototype.notificationsCheck = function () {
         this.notifications = !this.notifications;
+        if (!this.notifications) {
+            this.newmsg = false;
+        }
         this.overlay = false;
         if (!this.profile) {
             this.profile = true;
@@ -59,10 +65,13 @@ var TopbarComponent = /** @class */ (function () {
     };
     TopbarComponent.prototype.appendNotification = function (data) {
         var notification = new notification_1.Notification();
-        notification.date = Date.now().toString();
+        var now = new Date();
+        notification.date = common_1.formatDate(now, 'dd/MM/yyyy hh:mm:ss a', 'en-US', '+0530');
         notification.name = data.senderName;
-        //notification.id = data.id;
-        this.notificationList.push(notification);
+        notification.sender = data.sender;
+        notification.receiver = data.receiver;
+        notification.url = data.url;
+        this.notificationList.unshift(notification);
     };
     TopbarComponent.prototype.changeAvatar = function () {
         this.exp = 'translateX(-297px)';
@@ -72,17 +81,23 @@ var TopbarComponent = /** @class */ (function () {
         var _this = this;
         this.exp = 'translateX(0px)';
         this.expHeight = '197px';
+        this.fadeIn = false;
         setTimeout(function () {
             _this.el.style.backgroundImage = 'url(' + _this.url + ')';
         }, 200);
     };
     TopbarComponent.prototype.previewAvatar = function () {
+        var _this = this;
         var reader = new FileReader();
         var element = this.el;
         reader.onload = function (e) {
             element.style.backgroundImage = 'url(' + e.target.result + ')';
         };
         reader.readAsDataURL(this.file.files[0]);
+        this.fadeIn = true;
+        setTimeout(function () {
+            _this.fadeIn = false;
+        }, 500);
     };
     TopbarComponent.prototype.upload = function () {
         var _this = this;
@@ -98,12 +113,22 @@ var TopbarComponent = /** @class */ (function () {
             });
         }
     };
+    TopbarComponent.prototype.browse = function (index) {
+        this.dataShareService.swapCurrent(this.notificationList[index].getRoom());
+        this.notificationsCheck();
+    };
     TopbarComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.dataShareService.remote.subscribe(function (data) {
             if (data.sender == 'default')
                 return;
             _this.appendNotification(data);
+            if (!_this.notifications) {
+                _this.newmsg = false;
+            }
+            else {
+                _this.newmsg = true;
+            }
         });
         this.userService
             .getUser('users/' + this.authService.getUserInfo().id)

@@ -553,7 +553,6 @@ class HomeComponent {
         this.dataShare.message.subscribe((message = []) => {
             if (message.name != 'default') {
                 this.infoName = message.name;
-                this.url = message.url;
                 this.changeStatus(message.status);
                 this.smoothScrolling();
             }
@@ -567,6 +566,9 @@ class HomeComponent {
             else {
                 this.info = 'Active now.';
             }
+        });
+        this.dataShare.changeUrl.subscribe((url) => {
+            this.url = url;
         });
     }
     //scroll to bottom
@@ -819,7 +821,7 @@ class DataShareService {
         this.userIdsMessage = this.userStatus.asObservable();
         //send new url to chat room
         this.updateUrl = new rxjs__WEBPACK_IMPORTED_MODULE_1__["BehaviorSubject"]('');
-        this.changeUrl = this.commentData.asObservable();
+        this.changeUrl = this.updateUrl.asObservable();
     }
     registerModal(hidden) {
         this.modalSwitch.next(hidden);
@@ -851,6 +853,8 @@ class DataShareService {
         this.userIds.next(ids);
     }
     sendUrl(url) {
+        if (!url)
+            return;
         this.updateUrl.next(url);
     }
 }
@@ -1396,6 +1400,7 @@ class ChatAreaComponent {
             .subscribe((response = []) => {
             this.avatar = response.url;
             this.getRoom();
+            this.fetchData.sendUrl(this.avatar);
         });
     }
 }
@@ -1621,7 +1626,7 @@ function ChatRoomsComponent_li_10_div_1_Template(rf, ctx) { if (rf & 1) {
     const user_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]().$implicit;
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassProp"]("active", user_r1.active);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("src", user_r1.details.avatar, _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeUrl"]);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("src", user_r1.url, _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeUrl"]);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](user_r1.details.name);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
@@ -1668,6 +1673,11 @@ class ChatRoomsComponent {
         this.dataShare.status.subscribe((id) => {
             this.updateStatus(id);
         });
+        this.dataShare.changeUrl.subscribe((url) => {
+            if (this.activeRoom < this.users.length) {
+                this.users[this.activeRoom].url = url;
+            }
+        });
     }
     get getUsers() {
         return this.users;
@@ -1687,7 +1697,6 @@ class ChatRoomsComponent {
                 name: this.users[index].details.name,
                 id: this.users[index].details.id,
                 status: this.users[index].status,
-                url: this.users[index].details.avatar,
             });
             this.r.navigate([
                 { outlets: { chatArea: ['chat', this.users[index].details.id] } },
@@ -2130,10 +2139,11 @@ class User {
     constructor(userData) {
         this.lastComment = 'Click to start chatting.';
         this.status = true;
-        this.lastSeen = '';
         this.isVisible = true;
         this.active = false;
+        this.url = '';
         this.details = userData;
+        this.url = userData.avatar;
         if (userData.id == '60539a6801ac562984ae4f93') {
             this.status == true;
         }

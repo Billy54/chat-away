@@ -7,8 +7,7 @@ const roomSchema = new mongoose.Schema({
     },
     comments: {
         type: Array,
-        required: true,
-        default: ['']
+        required: false,
     }
 });
 
