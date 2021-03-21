@@ -19,19 +19,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.CommentsService = void 0;
+exports.FileService = void 0;
 var core_1 = require("@angular/core");
 var data_service_1 = require("./data.service");
-var CommentsService = /** @class */ (function (_super) {
-    __extends(CommentsService, _super);
-    function CommentsService(http, er) {
+var FileService = /** @class */ (function (_super) {
+    __extends(FileService, _super);
+    function FileService(http, er) {
         return _super.call(this, http, er, 'https://chat-app-ang.herokuapp.com/') || this;
     }
-    CommentsService = __decorate([
+    FileService = __decorate([
         core_1.Injectable({
             providedIn: 'root'
         })
-    ], CommentsService);
-    return CommentsService;
+    ], FileService);
+    return FileService;
 }(data_service_1.DataService));
-exports.CommentsService = CommentsService;
+exports.FileService = FileService;

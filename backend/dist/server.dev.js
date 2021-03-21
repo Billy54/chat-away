@@ -52,7 +52,7 @@ app.use(express["static"](path.join(__dirname, 'public'))); //////////////////in
 
 var io = require('socket.io')(http, {
   cors: {
-    origins: ['http://localhost:4200']
+    origins: ['http://localhost:4200', 'https://chat-app-ang.herokuapp.com']
   }
 });
 
@@ -99,7 +99,7 @@ io.on('connection', function (socket) {
 
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:4200']
+  origin: ['http://localhost:4200', 'https://chat-app-ang.herokuapp.com']
 }));
 app.enable('trust proxy'); /// headers will only be of type app/json
 
