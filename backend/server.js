@@ -38,7 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //////////////////initialize socket io//////////////////////
 const io = require('socket.io')(http, {
     cors: {
-        origins: 'https://chat-app-ang.herokuapp.com'
+        origins: ['http://localhost:4200', 'https://chat-app-ang.herokuapp.com']
     }
 });
 io.on('connection', (socket) => {
@@ -88,7 +88,7 @@ io.on('connection', (socket) => {
 //cors to allow request from the front end
 app.use(cors({
     credentials: true,
-    origin: 'https://chat-app-ang.herokuapp.com'
+    origin: ['http://localhost:4200', 'https://chat-app-ang.herokuapp.com']
 }));
 app.enable('trust proxy');
 
