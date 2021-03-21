@@ -7,7 +7,7 @@ export class EmailValidators {
   ): Promise<ValidationErrors | null> {
     return new Promise(async (resolve, reject) => {
       let email = control.value as string;
-      await fetch('https://chat-app-ang.herokuapp.com', {
+      await fetch('https://chat-app-ang.herokuapp.com/validateEmail', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -18,7 +18,6 @@ export class EmailValidators {
           return response.json();
         })
         .then((res: any = []) => {
-          console.log(res);
           if (res.found) {
             resolve({ shouldBeUnique: false });
           } else {

@@ -48,7 +48,7 @@ var EmailValidators = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         email = control.value;
-                        return [4 /*yield*/, fetch('https://chat-app-ang.herokuapp.com', {
+                        return [4 /*yield*/, fetch('https://chat-app-ang.herokuapp.com/validateEmail', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json'
@@ -61,7 +61,6 @@ var EmailValidators = /** @class */ (function () {
                             })
                                 .then(function (res) {
                                 if (res === void 0) { res = []; }
-                                console.log(res);
                                 if (res.found) {
                                     resolve({ shouldBeUnique: false });
                                 }
