@@ -75,7 +75,7 @@ router.post('/validateEmail', forwardAuthenticated, (req, res) => {
             });
         }
     }).catch((er) => {
-        es.status(500).json({
+        res.status(500).json({
             "statusCode": 400,
             "found": false,
             "message": "Something is broken :("
