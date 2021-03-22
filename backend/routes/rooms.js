@@ -15,6 +15,8 @@ router.post("/room", ensureAuthenticated, async(req, res) => {
     let id2 = req.body.receiver + req.body.sender;
 
     let pId = process.env.PUBLIC_ROOM;
+    console.log(pId);
+    console.log('id');
     if (req.body.receiver == pId) {
         id1 = pId;
         id2 = pId;

@@ -21,6 +21,8 @@ router.post("/room", ensureAuthenticated, function _callee2(req, res) {
           id1 = req.body.sender + req.body.receiver;
           id2 = req.body.receiver + req.body.sender;
           pId = process.env.PUBLIC_ROOM;
+          console.log(pId);
+          console.log('id');
 
           if (req.body.receiver == pId) {
             id1 = pId;
@@ -30,7 +32,7 @@ router.post("/room", ensureAuthenticated, function _callee2(req, res) {
           newRoom = new Room({
             roomId: id1
           });
-          _context2.next = 7;
+          _context2.next = 9;
           return regeneratorRuntime.awrap(Room.findOne({
             $or: [{
               roomId: id1
@@ -73,7 +75,7 @@ router.post("/room", ensureAuthenticated, function _callee2(req, res) {
             console.log(err);
           }));
 
-        case 7:
+        case 9:
         case "end":
           return _context2.stop();
       }
