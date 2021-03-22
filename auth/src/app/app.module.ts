@@ -28,6 +28,7 @@ import { InputFieldComponent } from './input-field/input-field.component';
 import { CommentsService } from './services/comments.service';
 import { StatusComponent } from './status/status.component';
 import { FormsModule } from '@angular/forms';
+import { InfoComponent } from './info/info.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { FormsModule } from '@angular/forms';
     ChatRoomsComponent,
     InputFieldComponent,
     StatusComponent,
+    InfoComponent,
   ],
   imports: [
     ReactiveFormsModule,

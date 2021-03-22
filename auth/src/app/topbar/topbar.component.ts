@@ -128,6 +128,7 @@ export class TopbarComponent implements OnInit, AfterViewInit {
         .subscribe((response: any = []) => {
           this.url = response.path;
           this.slide();
+          this.dataShareService.sendUrl(this.url);
         });
     }
   }
@@ -152,6 +153,7 @@ export class TopbarComponent implements OnInit, AfterViewInit {
       .subscribe((response: any = []) => {
         this.name = response.user.name;
         this.url = response.user.avatar;
+        this.dataShareService.sendUrl(this.url);
       });
   }
 }

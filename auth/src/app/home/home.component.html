@@ -1,14 +1,6 @@
 <chat-rooms></chat-rooms>
 <div class="content-wrapper ">
-    <div class="chat-info ">
-        <div class="avatar-holder ">
-            <img [src]="url" class="user-avatar small">
-        </div>
-        <div class="user-details ">
-            <h1>{{infoName}}</h1>
-            <small>{{info}}</small>
-        </div>
-    </div>
+    <active-info></active-info>
     <div id="ts-chat" class="chat-area" [class.fadeout]="fade" #chat>
         <div *ngIf="loader" class="loader"></div>
         <router-outlet name='chatArea'></router-outlet>

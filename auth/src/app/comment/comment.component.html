@@ -6,7 +6,7 @@
                 <small>{{data.senderName}}</small>
             </div>
             <div class="inner-wrapper ">
-                <img [src]="url" *ngIf="isFirst" class="avatar ">
+                <img [src]="data.url" *ngIf="isFirst" class="avatar ">
                 <div class="blank-avatar" *ngIf="!isFirst"></div>
                 <div class="comment-body comment-text ">
                     {{data.text}}

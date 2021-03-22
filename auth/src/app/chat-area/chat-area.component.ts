@@ -27,7 +27,6 @@ export class ChatAreaComponent implements OnInit {
   private activeRoom: any;
   private readonly public = '60539a6801ac562984ae4f93';
   private previousId: string = '';
-  private avatar: string = '';
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -45,7 +44,7 @@ export class ChatAreaComponent implements OnInit {
       this.vc = this.appChat.viewContainerRef;
       this.vc.clear();
       this.activeRoom = data.id;
-      this.fetchUrl();
+      this.getRoom();
       this.previousId = '';
     });
 
@@ -97,7 +96,6 @@ export class ChatAreaComponent implements OnInit {
       componentFactory
     );
     (<CommentComponent>componentRef.instance).data = data;
-    (<CommentComponent>componentRef.instance).url = this.avatar;
     (<CommentComponent>componentRef.instance).previousId = this.previousId;
     this.previousId = data.sender;
   }
@@ -122,16 +120,6 @@ export class ChatAreaComponent implements OnInit {
         let room = new Room(response.comments, this.activeRoom);
         this.rooms.push(room);
         this.renderer(response.comments);
-      });
-  }
-
-  fetchUrl() {
-    this.fileService
-      .getAvatar('avatar/' + this.activeRoom)
-      .subscribe((response: any = []) => {
-        this.avatar = response.url;
-        this.fetchData.sendUrl(this.avatar);
-        this.getRoom();
       });
   }
 }

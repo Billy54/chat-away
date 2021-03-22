@@ -7,9 +7,7 @@ var User = /** @class */ (function () {
         this.status = true;
         this.isVisible = true;
         this.active = false;
-        this.url = '';
         this.details = userData;
-        this.url = userData.avatar;
         if (userData.id == '60539a6801ac562984ae4f93') {
             this.status == true;
         }

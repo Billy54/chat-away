@@ -8,7 +8,6 @@ import { AuthService } from '../services/auth.service';
 })
 export class CommentComponent implements OnInit {
   @Input() data: any;
-  @Input() url: string = '';
   @Input() previousId: any;
   public foreign: boolean = false;
   public isFirst: boolean = true;
@@ -22,7 +21,6 @@ export class CommentComponent implements OnInit {
       this.shouldBeRendered = false;
     } //public case
     else if (this.data.receiver == this.publicId) {
-      this.url = this.data.url;
       if (this.data.sender != this.uid) {
         this.foreign = true;
         this.isConsecutive();

@@ -24,7 +24,7 @@
 .comment-body {
     background-color: rgb(222 222 222) !important;
     border-radius: 14px;
-    margin-top: .3rem;
+    margin-top: .18rem !important;
     margin-left: .5rem;
     display: inline-block;
     min-width: 30px;

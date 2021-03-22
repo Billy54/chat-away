@@ -10,6 +10,11 @@ var jwt = require("jsonwebtoken");
 
 var Room = require('../models/Room');
 
+var ObjectId = require('mongodb').ObjectID;
+
+var _require = require('path'),
+    resolve = _require.resolve;
+
 module.exports = {
   //encode sensitive data before sending to the client for storage
   encodeData: function encodeData(data) {
@@ -77,9 +82,7 @@ module.exports = {
                 while (1) {
                   switch (_context2.prev = _context2.next) {
                     case 0:
-                      query = {
-                        roomId: process.env.PUBLIC_ROOM
-                      };
+                      query = {};
                       updateDocument = {
                         $set: {
                           "comments.$[comment].url": url
@@ -106,6 +109,59 @@ module.exports = {
           case 2:
           case "end":
             return _context3.stop();
+        }
+      }
+    });
+  },
+  customRoom: function customRoom(name, members) {
+    var newRoom;
+    return regeneratorRuntime.async(function customRoom$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            newRoom = new Room({
+              name: name
+            });
+            newRoom.roomId = newRoom._id;
+            _context5.next = 4;
+            return regeneratorRuntime.awrap(newRoom.save().then(function _callee2(room) {
+              return regeneratorRuntime.async(function _callee2$(_context4) {
+                while (1) {
+                  switch (_context4.prev = _context4.next) {
+                    case 0:
+                      _context4.next = 2;
+                      return regeneratorRuntime.awrap(User.updateMany({
+                        email: {
+                          $in: members
+                        },
+                        $push: {
+                          rooms: room.roomId
+                        }
+                      }).then(function () {
+                        return newRoom;
+                      })["catch"](function (er) {
+                        console.log(er);
+                      }));
+
+                    case 2:
+                      return _context4.abrupt("return", _context4.sent);
+
+                    case 3:
+                    case "end":
+                      return _context4.stop();
+                  }
+                }
+              });
+            })["catch"](function (er) {
+              console.log(er);
+            }));
+
+          case 4:
+            return _context5.abrupt("return", _context5.sent);
+
+          case 5:
+          case "end":
+            return _context5.stop();
         }
       }
     });

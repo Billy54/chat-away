@@ -4,6 +4,8 @@ var express = require("express");
 
 var router = express.Router();
 
+var User = require('../models/User');
+
 var Room = require('../models/Room');
 
 var _require = require("../utils/authentication"),
@@ -21,8 +23,6 @@ router.post("/room", ensureAuthenticated, function _callee2(req, res) {
           id1 = req.body.sender + req.body.receiver;
           id2 = req.body.receiver + req.body.sender;
           pId = process.env.PUBLIC_ROOM;
-          console.log(pId);
-          console.log('id');
 
           if (req.body.receiver == pId) {
             id1 = pId;
@@ -32,12 +32,12 @@ router.post("/room", ensureAuthenticated, function _callee2(req, res) {
           newRoom = new Room({
             roomId: id1
           });
-          _context2.next = 9;
+          _context2.next = 7;
           return regeneratorRuntime.awrap(Room.findOne({
             $or: [{
-              roomId: id1
+              roomId: String(id1)
             }, {
-              roomId: id2
+              roomId: String(id2)
             }]
           }).then(function _callee(room) {
             return regeneratorRuntime.async(function _callee$(_context) {
@@ -75,7 +75,7 @@ router.post("/room", ensureAuthenticated, function _callee2(req, res) {
             console.log(err);
           }));
 
-        case 9:
+        case 7:
         case "end":
           return _context2.stop();
       }

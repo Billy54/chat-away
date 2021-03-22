@@ -13,11 +13,8 @@ var HomeComponent = /** @class */ (function () {
         this.socketService = socketService;
         this.dataShare = dataShare;
         this.r = r;
-        this.infoName = '';
-        this.info = '';
         this.fade = false;
         this.loader = false;
-        this.publicId = '60539a6801ac562984ae4f93';
     }
     HomeComponent.prototype.ngAfterViewInit = function () {
         var _this = this;
@@ -32,41 +29,18 @@ var HomeComponent = /** @class */ (function () {
         this.dataShare.message.subscribe(function (message) {
             if (message === void 0) { message = []; }
             if (message.name != 'default') {
-                _this.infoName = message.name;
                 if (message.id != _this.cId) {
                     _this.loader = true;
                 }
                 _this.smoothScrolling();
                 _this.cId = message.id;
                 _this.fadeOut();
-                _this.changeStatus(message.status);
             }
-        });
-        this.dataShare.status.subscribe(function (id) {
-            if (id == '' || _this.cId == _this.publicId)
-                return;
-            if (_this.info == 'Active now.') {
-                _this.info = 'Offline.';
-            }
-            else {
-                _this.info = 'Active now.';
-            }
-        });
-        this.dataShare.changeUrl.subscribe(function (url) {
-            _this.url = url;
         });
         this.dataShare.loader.subscribe(function () {
             _this.loader = false;
             _this.smoothScrolling();
         });
-    };
-    HomeComponent.prototype.changeStatus = function (status) {
-        if (status) {
-            this.info = 'Active now.';
-        }
-        else {
-            this.info = 'Offline.';
-        }
     };
     //scroll to bottom
     HomeComponent.prototype.smoothScrolling = function () {

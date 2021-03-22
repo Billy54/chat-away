@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { AfterViewInit, ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
@@ -12,6 +13,7 @@ import { SocketioService } from '../services/socketio.service';
 export class InputFieldComponent implements OnInit {
   private receiver: string = '';
   public comment: string = '';
+  public url: string = '';
   constructor(
     private forwardMessage: DataShareService,
     private auth: AuthService,
@@ -23,6 +25,9 @@ export class InputFieldComponent implements OnInit {
       if (message.name != 'default') {
         this.receiver = message.id;
       }
+      this.forwardMessage.changeUrl.subscribe((url: string) => {
+        this.url = url;
+      });
     });
   }
 
@@ -36,7 +41,7 @@ export class InputFieldComponent implements OnInit {
       senderName: this.auth.getUserInfo().name,
       receiver: this.receiver,
       text: this.comment.trim(),
-      url: this.auth.getUserInfo().avatar,
+      url: this.url,
       date: new Date(),
     };
 

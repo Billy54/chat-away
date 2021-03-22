@@ -11,7 +11,6 @@ var core_1 = require("@angular/core");
 var CommentComponent = /** @class */ (function () {
     function CommentComponent(auth) {
         this.auth = auth;
-        this.url = '';
         this.foreign = false;
         this.isFirst = true;
         this.shouldBeRendered = true;
@@ -23,7 +22,6 @@ var CommentComponent = /** @class */ (function () {
             this.shouldBeRendered = false;
         } //public case
         else if (this.data.receiver == this.publicId) {
-            this.url = this.data.url;
             if (this.data.sender != this.uid) {
                 this.foreign = true;
                 this.isConsecutive();
@@ -42,9 +40,6 @@ var CommentComponent = /** @class */ (function () {
     __decorate([
         core_1.Input()
     ], CommentComponent.prototype, "data");
-    __decorate([
-        core_1.Input()
-    ], CommentComponent.prototype, "url");
     __decorate([
         core_1.Input()
     ], CommentComponent.prototype, "previousId");

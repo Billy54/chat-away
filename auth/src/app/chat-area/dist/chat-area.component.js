@@ -21,7 +21,6 @@ var ChatAreaComponent = /** @class */ (function () {
         this.rooms = Array();
         this.public = '60539a6801ac562984ae4f93';
         this.previousId = '';
-        this.avatar = '';
     }
     ChatAreaComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -34,7 +33,7 @@ var ChatAreaComponent = /** @class */ (function () {
             _this.vc = _this.appChat.viewContainerRef;
             _this.vc.clear();
             _this.activeRoom = data.id;
-            _this.fetchUrl();
+            _this.getRoom();
             _this.previousId = '';
         });
         // local append
@@ -80,7 +79,6 @@ var ChatAreaComponent = /** @class */ (function () {
         var componentFactory = this.componentFactoryResolver.resolveComponentFactory(comment_component_1.CommentComponent);
         var componentRef = this.vc.createComponent(componentFactory);
         componentRef.instance.data = data;
-        componentRef.instance.url = this.avatar;
         componentRef.instance.previousId = this.previousId;
         this.previousId = data.sender;
     };
@@ -106,17 +104,6 @@ var ChatAreaComponent = /** @class */ (function () {
             var room = new room_1.Room(response.comments, _this.activeRoom);
             _this.rooms.push(room);
             _this.renderer(response.comments);
-        });
-    };
-    ChatAreaComponent.prototype.fetchUrl = function () {
-        var _this = this;
-        this.fileService
-            .getAvatar('avatar/' + this.activeRoom)
-            .subscribe(function (response) {
-            if (response === void 0) { response = []; }
-            _this.avatar = response.url;
-            _this.fetchData.sendUrl(_this.avatar);
-            _this.getRoom();
         });
     };
     __decorate([

@@ -40,7 +40,8 @@ var _require = require('./utils/handleRooms'),
     getRooms = _require.getRooms;
 
 var _require2 = require('./utils/helpers'),
-    saveComment = _require2.saveComment;
+    saveComment = _require2.saveComment,
+    customRoom = _require2.customRoom;
 
 var _require3 = require('passport'),
     authorize = _require3.authorize;
@@ -81,6 +82,11 @@ io.on('connection', function (socket) {
       socket.to(msg.receiver).emit('message', {
         message: err
       });
+    });
+  });
+  socket.on('customRoom', function (data) {
+    customRoom(data.name, data.members).then(function (room) {
+      console.log(room);
     });
   }); //notify the rest
 

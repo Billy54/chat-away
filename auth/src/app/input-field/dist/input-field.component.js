@@ -15,6 +15,7 @@ var InputFieldComponent = /** @class */ (function () {
         this.io = io;
         this.receiver = '';
         this.comment = '';
+        this.url = '';
     }
     InputFieldComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -23,6 +24,9 @@ var InputFieldComponent = /** @class */ (function () {
             if (message.name != 'default') {
                 _this.receiver = message.id;
             }
+            _this.forwardMessage.changeUrl.subscribe(function (url) {
+                _this.url = url;
+            });
         });
     };
     InputFieldComponent.prototype.newComment = function () {
@@ -34,7 +38,7 @@ var InputFieldComponent = /** @class */ (function () {
             senderName: this.auth.getUserInfo().name,
             receiver: this.receiver,
             text: this.comment.trim(),
-            url: this.auth.getUserInfo().avatar,
+            url: this.url,
             date: new Date()
         };
         this.forwardMessage.sendlocal(newComment);

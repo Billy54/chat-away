@@ -2,12 +2,6 @@
     border-bottom: 1px solid rgb(234, 234, 234);
 }
 
-.user-avatar {
-    border-radius: 50%;
-    height: 60px;
-    width: 60px;
-}
-
 .inner-content {
     display: flex;
     flex-direction: row;
@@ -52,17 +46,6 @@
     position: relative;
 }
 
-.chat-info {
-    min-height: 70px;
-    max-height: 70px;
-    border-bottom: 1px solid rgb(210, 210, 210);
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 12px;
-}
-
 .chat-area {
     height: calc(100% - 70px);
     overflow-y: scroll;
@@ -94,23 +77,6 @@
     .visible {
         display: none;
     }
-}
-
-.small {
-    width: 43px;
-    height: 43px;
-}
-
-.user-details {
-    display: flex;
-    flex-direction: column;
-    margin-left: 13px;
-    align-items: flex-start;
-}
-
-.user-details>h1 {
-    font-size: 25px;
-    margin-bottom: -3px;
 }
 
 .fadeout {

@@ -110,6 +110,7 @@ var TopbarComponent = /** @class */ (function () {
                 if (response === void 0) { response = []; }
                 _this.url = response.path;
                 _this.slide();
+                _this.dataShareService.sendUrl(_this.url);
             });
         }
     };
@@ -136,6 +137,7 @@ var TopbarComponent = /** @class */ (function () {
             if (response === void 0) { response = []; }
             _this.name = response.user.name;
             _this.url = response.user.avatar;
+            _this.dataShareService.sendUrl(_this.url);
         });
     };
     __decorate([

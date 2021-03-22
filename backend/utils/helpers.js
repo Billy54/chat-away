@@ -3,6 +3,10 @@ const User = require('../models/User');
 require('dotenv/config');
 const jwt = require("jsonwebtoken");
 const Room = require('../models/Room');
+const ObjectId = require('mongodb').ObjectID;
+const {
+    resolve
+} = require('path');
 
 module.exports = {
     //encode sensitive data before sending to the client for storage
@@ -49,9 +53,7 @@ module.exports = {
                 avatar: url
             }
         }).then(async(user) => {
-            const query = {
-                roomId: process.env.PUBLIC_ROOM
-            };
+            const query = {};
             const updateDocument = {
                 $set: {
                     "comments.$[comment].url": url
@@ -65,6 +67,28 @@ module.exports = {
             await Room.updateMany(query, updateDocument, options).catch((er) => {
                 console.log(er);
             });
+        });
+    },
+    customRoom: async function(name, members) {
+        const newRoom = new Room({
+            name: name
+        });
+        newRoom.roomId = newRoom._id;
+        return await newRoom.save().then(async(room) => {
+            return await User.updateMany({
+                email: {
+                    $in: members
+                },
+                $push: {
+                    rooms: room.roomId
+                }
+            }).then(() => {
+                return newRoom;
+            }).catch((er) => {
+                console.log(er);
+            });
+        }).catch(er => {
+            console.log(er);
         });
     }
 }

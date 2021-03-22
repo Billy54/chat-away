@@ -24,7 +24,8 @@ const {
     getRooms
 } = require('./utils/handleRooms')
 const {
-    saveComment
+    saveComment,
+    customRoom
 } = require('./utils/helpers');
 const {
     authorize
@@ -70,6 +71,12 @@ io.on('connection', (socket) => {
             });
         });
     });
+
+    socket.on('customRoom', (data) => {
+        customRoom(data.name, data.members).then((room) => {
+            console.log(room);
+        })
+    })
 
     //notify the rest
     socket.on('disconnect', () => {
