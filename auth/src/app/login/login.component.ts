@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
         },
         //handle the error locally so we can display detailed messages to the user
         (error: any) => {
-          if (error instanceof HttpErrorResponse && error) {
+          if (error instanceof HttpErrorResponse && error && error.error) {
             if (error.error.message[0] == 'Incorrect password') {
               console.log(error.error.message[0]);
               this.loginForm.controls['password'].setErrors({ invalid: true });

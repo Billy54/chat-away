@@ -15,7 +15,7 @@ var jwt_decode_1 = require("jwt-decode");
 var angular_jwt_1 = require("@auth0/angular-jwt");
 var AuthService = /** @class */ (function () {
     function AuthService(http, er) {
-        this.URL = 'http://localhost:5000/';
+        this.URL = 'https://chat-app-ang.herokuapp.com/';
         this.http = http;
         this.errorHandler = er;
         this.jwtHelper = new angular_jwt_1.JwtHelperService();

@@ -29,6 +29,8 @@ import { CommentsService } from './services/comments.service';
 import { StatusComponent } from './status/status.component';
 import { FormsModule } from '@angular/forms';
 import { InfoComponent } from './info/info.component';
+import { FileService } from './services/file.service';
+import { UsersComponent } from './users/users.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,7 @@ import { InfoComponent } from './info/info.component';
     InputFieldComponent,
     StatusComponent,
     InfoComponent,
+    UsersComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -66,6 +69,7 @@ import { InfoComponent } from './info/info.component';
     DataService,
     UsersService,
     CommentsService,
+    FileService,
   ],
   bootstrap: [AppComponent],
   exports: [RouterModule],

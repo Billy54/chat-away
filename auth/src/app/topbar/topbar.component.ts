@@ -26,6 +26,7 @@ export class TopbarComponent implements OnInit, AfterViewInit {
   public name: string = '';
   public newmsg: boolean = false;
   public fadeIn: boolean = false;
+  public active: boolean = true;
 
   @ViewChild('imagePreview') preview: any;
   @ViewChild('input') imgInput: any;
@@ -136,6 +137,15 @@ export class TopbarComponent implements OnInit, AfterViewInit {
   browse(index: any) {
     this.dataShareService.swapCurrent(this.notificationList[index].getRoom());
     this.notificationsCheck();
+  }
+
+  navigate() {
+    if (this.active) {
+      this.router.navigateByUrl('/users');
+    } else {
+      this.router.navigateByUrl('/');
+    }
+    this.active = !this.active;
   }
 
   ngOnInit(): void {

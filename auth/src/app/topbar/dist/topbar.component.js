@@ -28,6 +28,7 @@ var TopbarComponent = /** @class */ (function () {
         this.name = '';
         this.newmsg = false;
         this.fadeIn = false;
+        this.active = true;
     }
     TopbarComponent.prototype.ngAfterViewInit = function () {
         this.el = this.preview.nativeElement;
@@ -117,6 +118,15 @@ var TopbarComponent = /** @class */ (function () {
     TopbarComponent.prototype.browse = function (index) {
         this.dataShareService.swapCurrent(this.notificationList[index].getRoom());
         this.notificationsCheck();
+    };
+    TopbarComponent.prototype.navigate = function () {
+        if (this.active) {
+            this.router.navigateByUrl('/users');
+        }
+        else {
+            this.router.navigateByUrl('/');
+        }
+        this.active = !this.active;
     };
     TopbarComponent.prototype.ngOnInit = function () {
         var _this = this;

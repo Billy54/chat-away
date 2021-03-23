@@ -228,3 +228,19 @@
     background-color: #eaeaea;
     z-index: -1;
 }
+
+.secondary-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.welcome-message {
+    margin-bottom: 1rem;
+}
+
+@media only screen and (max-width: 864px) {
+    .secondary-wrapper {
+        align-items: center;
+    }
+}

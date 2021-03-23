@@ -7,7 +7,7 @@ export class EmailValidators {
   ): Promise<ValidationErrors | null> {
     return new Promise(async (resolve, reject) => {
       let email = control.value as string;
-      await fetch('http://localhost:5000/validateEmail', {
+      await fetch('https://chat-app-ang.herokuapp.com/validateEmail', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

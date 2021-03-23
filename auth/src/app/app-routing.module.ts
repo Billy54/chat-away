@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthGuardService } from './services/auth-guard.service';
+import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
       },
     ],
   },
+  { path: 'users', component: UsersComponent, canActivate: [AuthGuardService] },
   { path: 'login', component: LoginComponent },
   { path: '**', component: NotFoundComponent },
 ];
