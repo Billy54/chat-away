@@ -60,18 +60,19 @@ var io = require('socket.io')(http, {
 io.on('connection', function (socket) {
   console.log('a user connected'); //a room for each user
 
-  socket.on('joinRoom', function (id) {
+  socket.on('userJoin', function (id) {
     socket.username = id;
     socket.join(id);
     socket.join(process.env.PUBLIC_ROOM);
+    console.log('joined');
     getRooms().forEach(function (i) {
       io.to(i).emit('joined', {
-        msg: 'some 1 joined',
-        id: id
+        id: id,
+        alive: true
       });
     });
     addUser(id);
-  }); //a message received save and emit to receiver
+  }); //a message received save and emit to receiver(s) - emmiter
 
   socket.on('message', function (msg) {
     saveComment(msg).then(function () {
@@ -79,14 +80,28 @@ io.on('connection', function (socket) {
         message: msg
       });
     })["catch"](function (err) {
-      socket.to(msg.receiver).emit('message', {
-        message: err
-      });
+      console.log(err);
     });
-  });
-  socket.on('customRoom', function (data) {
+  }); //join custom room 
+
+  socket.on('accept', function (roomId) {
+    socket.join(roomId);
+  }); //custom room
+
+  socket.on('newRoom', function (data) {
     customRoom(data.name, data.members).then(function (room) {
+      var newRoom = {
+        name: room.name,
+        id: room.roomId,
+        custom: room.custom,
+        avatar: room.url
+      };
+      data.members.forEach(function (member) {
+        io.to(member).emit('invite', newRoom);
+      });
       console.log(room);
+    })["catch"](function (err) {
+      console.log(err);
     });
   }); //notify the rest
 
@@ -95,8 +110,8 @@ io.on('connection', function (socket) {
     deleteUser(socket.username);
     getRooms().forEach(function (i) {
       io.to(i).emit('left', {
-        msg: 'some 1 left',
-        id: socket.username
+        id: socket.username,
+        alive: false
       });
     });
   });

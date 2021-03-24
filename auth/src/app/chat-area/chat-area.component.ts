@@ -56,9 +56,9 @@ export class ChatAreaComponent implements OnInit {
 
     //remote append
     this.fetchData.remote.subscribe((data: any) => {
-      if (data.receiver == this.public) {
-        this.saveLocal(this.public, data);
-        if (this.public == this.activeRoom) {
+      if (this.public == data.receiver) {
+        this.saveLocal(data.receiver, data);
+        if (data.receiver == this.activeRoom) {
           this.commentSectionInit(data);
         }
       } else {
@@ -111,10 +111,11 @@ export class ChatAreaComponent implements OnInit {
   }
 
   fetchFromServer() {
+    let sender = this.auth.getUserInfo().id;
     this.commentsService
       .getComments('room', {
         receiver: this.activeRoom,
-        sender: this.auth.getUserInfo().id,
+        sender: sender,
       })
       .subscribe((response: any = []) => {
         let room = new Room(response.comments, this.activeRoom);

@@ -89,4 +89,11 @@ export class DataShareService {
   public stopLoading() {
     this.load.next(true);
   }
+
+  //room loader
+  private room = new BehaviorSubject<any>({});
+  newRoom = this.room.asObservable();
+  public sendRoom(room: any) {
+    this.room.next(room);
+  }
 }

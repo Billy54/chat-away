@@ -12,7 +12,6 @@ require('dotenv/config');
 
 //get all users
 router.get("/users", ensureAuthenticated, async(req, res) => {
-
     await User.find({
         email: {
             $ne: req.user.email

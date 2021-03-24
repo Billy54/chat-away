@@ -1,15 +1,18 @@
 <div class="chat-info ">
     <img [src]="url" class="user-avatar">
-    <div class="user-details ">
-        <h1>{{infoName}}</h1>
+    <form class="user-details ">
+        <input *ngIf="open" [(ngModel)]="name" name="name" class="custom" type="text">
+        <h1 *ngIf="!open">{{infoName}}</h1>
         <small>{{info}}</small>
-    </div>
-    <div class="notification-dropdown" *ngIf="false">
-        <div class="profile-item ">
-            <img src="assets/public.jpg" class=" avatar " style="margin-top: 0px;">
+    </form>
+    <div *ngIf="open" class="notification-dropdown">
+        <div class="profile-item " *ngFor="let user of usersList;let i=index " [class.tik]="user.active" (click)="select(i)">
+            <img [src]="user.details.avatar" class=" avatar " style="margin-top: 0px;">
             <div class="details ">
-                <div class="message">Bill</div>
+                <div class="message">{{user.details.name}}</div>
             </div>
         </div>
     </div>
+    <i class="fas fa-edit plus" (click)="openList()"></i>
+    <i class="fas fa-bell plus" style="right: 10px;" (click)="submit()"></i>
 </div>

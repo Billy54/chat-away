@@ -13,19 +13,24 @@ export class ChatRoomsComponent implements OnInit, AfterViewInit {
   private users: User[] = [];
   public userName: string = '';
   private activeRoom: number = 0;
+
   constructor(
     private r: Router,
     private userService: UsersService,
     private dataShare: DataShareService
   ) {}
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    this.dataShare.newRoom.subscribe((room) => {
+      if (!room.name) return;
+      this.users.push(new User(room));
+    });
+  }
 
   ngOnInit(): void {
     this.userService.getAll('users').subscribe((response: any = []) => {
       for (const user of response.users) {
-        let newUser = new User(user);
-        this.users.push(newUser);
+        this.users.push(new User(user));
       }
       this.changeRoom(0);
     });
@@ -35,8 +40,8 @@ export class ChatRoomsComponent implements OnInit, AfterViewInit {
         this.addUser(id);
       }, 2500);
     });
-    this.dataShare.status.subscribe((id) => {
-      this.updateStatus(id);
+    this.dataShare.status.subscribe((data) => {
+      this.updateStatus(data);
     });
     this.dataShare.swapRoom.subscribe((id) => {
       let i = 0;
@@ -79,11 +84,11 @@ export class ChatRoomsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  updateStatus(id: string) {
-    if (id == '') return;
-    this.users.forEach((user: User) => {
-      if (user.details.id == id) {
-        user.status = !user.status;
+  updateStatus(data: any) {
+    if (!data) return;
+    this.users.forEach((user: any) => {
+      if (user.details.id == data.id) {
+        user.status = data.alive;
       }
     });
   }

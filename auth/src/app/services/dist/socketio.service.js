@@ -13,17 +13,18 @@ var SocketioService = /** @class */ (function () {
     function SocketioService(auth, forwardMessage) {
         this.auth = auth;
         this.forwardMessage = forwardMessage;
+        this.id = this.auth.getUserInfo().id;
     }
     SocketioService.prototype.setupSocketConnection = function () {
         var _this = this;
         //init , connect and create aprivate room for each user
-        this.socket = socket_io_client_1.io('https://chat-app-ang.herokuapp.com');
-        this.socket.emit('joinRoom', this.auth.getUserInfo().id);
+        this.socket = socket_io_client_1.io('http://localhost:5000');
+        this.socket.emit('userJoin', this.id);
         //some one joined , possibly a new account
         this.socket.on('joined', function (data) {
-            if (data.id != _this.auth.getUserInfo().id) {
+            if (data.id != _this.id) {
                 _this.forwardMessage.refreshUsers(data.id);
-                _this.forwardMessage.updateStatus(data.id);
+                _this.forwardMessage.updateStatus(data);
             }
         });
         //listen for messages
@@ -32,8 +33,17 @@ var SocketioService = /** @class */ (function () {
         });
         //keep an eye out for anyone who might disconnect
         this.socket.on('left', function (data) {
-            _this.forwardMessage.updateStatus(data.id);
+            _this.forwardMessage.updateStatus(data);
         });
+        //some one added
+        this.socket.on('invite', function (room) {
+            _this.forwardMessage.sendRoom(room);
+            _this.socket.emit('accept', room.id);
+        });
+    };
+    //new custom room
+    SocketioService.prototype.newRoom = function (members, name) {
+        this.socket.emit('newRoom', { name: name, members: members });
     };
     //send messages
     SocketioService.prototype.messageSubmit = function (message) {

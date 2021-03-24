@@ -18,15 +18,21 @@ var ChatRoomsComponent = /** @class */ (function () {
         this.userName = '';
         this.activeRoom = 0;
     }
-    ChatRoomsComponent.prototype.ngAfterViewInit = function () { };
+    ChatRoomsComponent.prototype.ngAfterViewInit = function () {
+        var _this = this;
+        this.dataShare.newRoom.subscribe(function (room) {
+            if (!room.name)
+                return;
+            _this.users.push(new user_1.User(room));
+        });
+    };
     ChatRoomsComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.userService.getAll('users').subscribe(function (response) {
             if (response === void 0) { response = []; }
             for (var _i = 0, _a = response.users; _i < _a.length; _i++) {
                 var user = _a[_i];
-                var newUser = new user_1.User(user);
-                _this.users.push(newUser);
+                _this.users.push(new user_1.User(user));
             }
             _this.changeRoom(0);
         });
@@ -37,8 +43,8 @@ var ChatRoomsComponent = /** @class */ (function () {
                 _this.addUser(id);
             }, 2500);
         });
-        this.dataShare.status.subscribe(function (id) {
-            _this.updateStatus(id);
+        this.dataShare.status.subscribe(function (data) {
+            _this.updateStatus(data);
         });
         this.dataShare.swapRoom.subscribe(function (id) {
             var i = 0;
@@ -85,12 +91,12 @@ var ChatRoomsComponent = /** @class */ (function () {
             this.activeRoom = index;
         }
     };
-    ChatRoomsComponent.prototype.updateStatus = function (id) {
-        if (id == '')
+    ChatRoomsComponent.prototype.updateStatus = function (data) {
+        if (!data)
             return;
         this.users.forEach(function (user) {
-            if (user.details.id == id) {
-                user.status = !user.status;
+            if (user.details.id == data.id) {
+                user.status = data.alive;
             }
         });
     };

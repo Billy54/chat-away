@@ -11,7 +11,7 @@ var User = /** @class */ (function () {
         if (userData.id == '60539a6801ac562984ae4f93') {
             this.status == true;
         }
-        else {
+        else if (userData.alive == true || userData.alive == false) {
             this.status = userData.alive;
         }
     }

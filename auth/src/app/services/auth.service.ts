@@ -12,7 +12,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthService {
   private http: HttpClient;
   private errorHandler: ErrorHandlerService;
-  private readonly URL = 'https://chat-app-ang.herokuapp.com/';
+  private readonly URL = 'http://localhost:5000/';
   private options: any;
   private jwtHelper: any;
 

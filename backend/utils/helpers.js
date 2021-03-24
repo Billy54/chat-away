@@ -44,7 +44,7 @@ module.exports = {
         }).catch((err) => {
             console.log(err);
         });
-    }, //update user avatar as well as all the comments in public room
+    }, //update user avatar as well as all the comments in the rooms
     updateAvatar: async function(url, email) {
         await User.findOneAndUpdate({
             email: email
@@ -71,14 +71,16 @@ module.exports = {
     },
     customRoom: async function(name, members) {
         const newRoom = new Room({
-            name: name
+            name: name,
+            custom: true,
         });
         newRoom.roomId = newRoom._id;
         return await newRoom.save().then(async(room) => {
             return await User.updateMany({
-                email: {
+                _id: {
                     $in: members
                 },
+            }, {
                 $push: {
                     rooms: room.roomId
                 }

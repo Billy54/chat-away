@@ -48,6 +48,9 @@ var DataShareService = /** @class */ (function () {
         //room loader
         this.load = new rxjs_1.BehaviorSubject(false);
         this.loader = this.load.asObservable();
+        //room loader
+        this.room = new rxjs_1.BehaviorSubject({});
+        this.newRoom = this.room.asObservable();
     }
     DataShareService.prototype.registerModal = function (hidden) {
         this.modalSwitch.next(hidden);
@@ -90,6 +93,9 @@ var DataShareService = /** @class */ (function () {
     };
     DataShareService.prototype.stopLoading = function () {
         this.load.next(true);
+    };
+    DataShareService.prototype.sendRoom = function (room) {
+        this.room.next(room);
     };
     DataShareService = __decorate([
         core_1.Injectable({

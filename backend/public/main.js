@@ -540,7 +540,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class UsersService extends _data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"] {
     constructor(http, er) {
-        super(http, er, 'https://chat-app-ang.herokuapp.com/');
+        super(http, er, 'http://localhost:5000/');
     }
 }
 UsersService.ɵfac = function UsersService_Factory(t) { return new (t || UsersService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_error_handler_service__WEBPACK_IMPORTED_MODULE_3__["ErrorHandlerService"])); };
@@ -1017,13 +1017,13 @@ class SocketioService {
     }
     setupSocketConnection() {
         //init , connect and create aprivate room for each user
-        this.socket = Object(socket_io_client__WEBPACK_IMPORTED_MODULE_1__["io"])('https://chat-app-ang.herokuapp.com');
+        this.socket = Object(socket_io_client__WEBPACK_IMPORTED_MODULE_1__["io"])('http://localhost:5000');
         this.socket.emit('joinRoom', this.auth.getUserInfo().id);
         //some one joined , possibly a new account
         this.socket.on('joined', (data) => {
             if (data.id != this.auth.getUserInfo().id) {
                 this.forwardMessage.refreshUsers(data.id);
-                this.forwardMessage.updateStatus(data.id);
+                this.forwardMessage.updateStatus(data);
             }
         });
         //listen for messages
@@ -1032,7 +1032,7 @@ class SocketioService {
         });
         //keep an eye out for anyone who might disconnect
         this.socket.on('left', (data) => {
-            this.forwardMessage.updateStatus(data.id);
+            this.forwardMessage.updateStatus(data);
         });
     }
     //send messages
@@ -1168,7 +1168,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class CommentsService extends _data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"] {
     constructor(http, er) {
-        super(http, er, 'https://chat-app-ang.herokuapp.com/');
+        super(http, er, 'http://localhost:5000/');
     }
 }
 CommentsService.ɵfac = function CommentsService_Factory(t) { return new (t || CommentsService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_error_handler_service__WEBPACK_IMPORTED_MODULE_3__["ErrorHandlerService"])); };
@@ -1535,8 +1535,8 @@ class InfoComponent {
         this.info = '';
     }
     ngOnInit() {
-        this.dataShare.status.subscribe((id) => {
-            if (id == '' || this.cId == this.publicId)
+        this.dataShare.status.subscribe((data) => {
+            if (data.id == '' || this.cId == this.publicId)
                 return;
             if (this.info == 'Active now.') {
                 this.info = 'Offline.';
@@ -1852,8 +1852,8 @@ class ChatRoomsComponent {
                 this.addUser(id);
             }, 2500);
         });
-        this.dataShare.status.subscribe((id) => {
-            this.updateStatus(id);
+        this.dataShare.status.subscribe((data) => {
+            this.updateStatus(data);
         });
         this.dataShare.swapRoom.subscribe((id) => {
             let i = 0;
@@ -1893,12 +1893,12 @@ class ChatRoomsComponent {
             this.activeRoom = index;
         }
     }
-    updateStatus(id) {
-        if (id == '')
+    updateStatus(data) {
+        if (!data)
             return;
         this.users.forEach((user) => {
-            if (user.details.id == id) {
-                user.status = !user.status;
+            if (user.details.id == data.id) {
+                user.status = data.alive;
             }
         });
     }
@@ -1977,7 +1977,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class FileService extends _data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"] {
     constructor(http, er) {
-        super(http, er, 'https://chat-app-ang.herokuapp.com/');
+        super(http, er, 'http://localhost:5000/');
     }
 }
 FileService.ɵfac = function FileService_Factory(t) { return new (t || FileService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_error_handler_service__WEBPACK_IMPORTED_MODULE_3__["ErrorHandlerService"])); };
@@ -2044,7 +2044,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class AuthService {
     constructor(http, er) {
-        this.URL = 'https://chat-app-ang.herokuapp.com/';
+        this.URL = 'http://localhost:5000/';
         this.http = http;
         this.errorHandler = er;
         this.jwtHelper = new _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_5__["JwtHelperService"]();
@@ -2128,7 +2128,7 @@ class EmailValidators {
     static shouldBeUnique(control) {
         return new Promise((resolve, reject) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             let email = control.value;
-            yield fetch('https://chat-app-ang.herokuapp.com/validateEmail', {
+            yield fetch('http://localhost:4200/validateEmail', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -43,9 +43,9 @@ var ChatAreaComponent = /** @class */ (function () {
         });
         //remote append
         this.fetchData.remote.subscribe(function (data) {
-            if (data.receiver == _this.public) {
-                _this.saveLocal(_this.public, data);
-                if (_this.public == _this.activeRoom) {
+            if (_this.public == data.receiver) {
+                _this.saveLocal(data.receiver, data);
+                if (data.receiver == _this.activeRoom) {
                     _this.commentSectionInit(data);
                 }
             }
@@ -94,10 +94,11 @@ var ChatAreaComponent = /** @class */ (function () {
     };
     ChatAreaComponent.prototype.fetchFromServer = function () {
         var _this = this;
+        var sender = this.auth.getUserInfo().id;
         this.commentsService
             .getComments('room', {
             receiver: this.activeRoom,
-            sender: this.auth.getUserInfo().id
+            sender: sender
         })
             .subscribe(function (response) {
             if (response === void 0) { response = []; }

@@ -46,37 +46,53 @@ io.on('connection', (socket) => {
     console.log('a user connected');
 
     //a room for each user
-    socket.on('joinRoom', (id) => {
+    socket.on('userJoin', (id) => {
         socket.username = id;
         socket.join(id);
         socket.join(process.env.PUBLIC_ROOM);
+        console.log('joined');
         getRooms().forEach(i => {
             io.to(i).emit('joined', {
-                msg: 'some 1 joined',
-                id: id
+                id: id,
+                alive: true
             });
         });
         addUser(id);
     });
 
-    //a message received save and emit to receiver
+    //a message received save and emit to receiver(s) - emmiter
     socket.on('message', (msg) => {
         saveComment(msg).then(() => {
             socket.to(msg.receiver).emit('message', {
                 message: msg
             });
         }).catch(err => {
-            socket.to(msg.receiver).emit('message', {
-                message: err
-            });
+            console.log(err);
         });
     });
 
-    socket.on('customRoom', (data) => {
+    //join custom room 
+    socket.on('accept', (roomId) => {
+        socket.join(roomId);
+    });
+
+    //custom room
+    socket.on('newRoom', (data) => {
         customRoom(data.name, data.members).then((room) => {
+            let newRoom = {
+                name: room.name,
+                id: room.roomId,
+                custom: room.custom,
+                avatar: room.url
+            };
+            data.members.forEach(member => {
+                io.to(member).emit('invite', newRoom);
+            });
             console.log(room);
-        })
-    })
+        }).catch(err => {
+            console.log(err);
+        });
+    });
 
     //notify the rest
     socket.on('disconnect', () => {
@@ -84,8 +100,8 @@ io.on('connection', (socket) => {
         deleteUser(socket.username);
         getRooms().forEach(i => {
             io.to(i).emit('left', {
-                msg: 'some 1 left',
-                id: socket.username
+                id: socket.username,
+                alive: false
             });
         });
     });

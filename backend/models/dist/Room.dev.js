@@ -14,11 +14,16 @@ var roomSchema = new mongoose.Schema({
   url: {
     type: String,
     required: false,
-    "default": 'assets/blank.png'
+    "default": 'assets/public.jpg'
   },
   comments: {
     type: Array,
     required: false
+  },
+  custom: {
+    type: Boolean,
+    required: false,
+    "default": false
   }
 });
 module.exports = mongoose.model('Room', roomSchema);

@@ -8,6 +8,7 @@ import { DataShareService } from './data-share.service';
 })
 export class SocketioService {
   private socket: any;
+  private readonly id = this.auth.getUserInfo().id;
   constructor(
     private auth: AuthService,
     private forwardMessage: DataShareService
@@ -15,14 +16,14 @@ export class SocketioService {
 
   setupSocketConnection() {
     //init , connect and create aprivate room for each user
-    this.socket = io('https://chat-app-ang.herokuapp.com');
-    this.socket.emit('joinRoom', this.auth.getUserInfo().id);
+    this.socket = io('http://localhost:5000');
+    this.socket.emit('userJoin', this.id);
 
     //some one joined , possibly a new account
     this.socket.on('joined', (data: any) => {
-      if (data.id != this.auth.getUserInfo().id) {
+      if (data.id != this.id) {
         this.forwardMessage.refreshUsers(data.id);
-        this.forwardMessage.updateStatus(data.id);
+        this.forwardMessage.updateStatus(data);
       }
     });
 
@@ -33,8 +34,19 @@ export class SocketioService {
 
     //keep an eye out for anyone who might disconnect
     this.socket.on('left', (data: any) => {
-      this.forwardMessage.updateStatus(data.id);
+      this.forwardMessage.updateStatus(data);
     });
+
+    //some one added
+    this.socket.on('invite', (room: any) => {
+      this.forwardMessage.sendRoom(room);
+      this.socket.emit('accept', room.id);
+    });
+  }
+
+  //new custom room
+  newRoom(members: any, name: string) {
+    this.socket.emit('newRoom', { name: name, members: members });
   }
 
   //send messages

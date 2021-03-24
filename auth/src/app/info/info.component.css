@@ -55,6 +55,8 @@
     border-radius: 7px;
     display: flex;
     align-items: center;
+    margin-left: 3px;
+    margin-right: 3px;
 }
 
 .avatar {
@@ -70,6 +72,24 @@
 }
 
 .profile-item:hover {
-    background-color: rgba(212, 212, 212, 0.51);
+    cursor: pointer;
+    background-color: rgb(233, 233, 233);
+}
+
+.tik {
+    background-color: rgb(193, 193, 193);
+}
+
+.custom {
+    outline: none;
+    border: none;
+    caret-color: blue;
+}
+
+.plus {
+    position: absolute;
+    right: 3rem;
+    font-size: 27px;
+    color: blue;
     cursor: pointer;
 }

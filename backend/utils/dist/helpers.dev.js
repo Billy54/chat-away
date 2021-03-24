@@ -63,7 +63,7 @@ module.exports = {
       }
     });
   },
-  //update user avatar as well as all the comments in public room
+  //update user avatar as well as all the comments in the rooms
   updateAvatar: function updateAvatar(url, email) {
     return regeneratorRuntime.async(function updateAvatar$(_context3) {
       while (1) {
@@ -120,7 +120,8 @@ module.exports = {
         switch (_context5.prev = _context5.next) {
           case 0:
             newRoom = new Room({
-              name: name
+              name: name,
+              custom: true
             });
             newRoom.roomId = newRoom._id;
             _context5.next = 4;
@@ -131,9 +132,10 @@ module.exports = {
                     case 0:
                       _context4.next = 2;
                       return regeneratorRuntime.awrap(User.updateMany({
-                        email: {
+                        _id: {
                           $in: members
-                        },
+                        }
+                      }, {
                         $push: {
                           rooms: room.roomId
                         }
