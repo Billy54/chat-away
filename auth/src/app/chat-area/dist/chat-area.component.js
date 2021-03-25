@@ -12,16 +12,16 @@ var comment_component_1 = require("../comment/comment.component");
 var room_1 = require("../Models/room");
 var chat_directive_1 = require("./chat.directive");
 var ChatAreaComponent = /** @class */ (function () {
-    function ChatAreaComponent(componentFactoryResolver, fetchData, commentsService, auth, fileService) {
+    function ChatAreaComponent(componentFactoryResolver, fetchData, commentsService, auth) {
         this.componentFactoryResolver = componentFactoryResolver;
         this.fetchData = fetchData;
         this.commentsService = commentsService;
         this.auth = auth;
-        this.fileService = fileService;
         this.rooms = Array();
         this.public = '60539a6801ac562984ae4f93';
         this.previousId = '';
     }
+    ChatAreaComponent.prototype.ngOnDestroy = function () { };
     ChatAreaComponent.prototype.ngOnInit = function () {
         var _this = this;
         //on room change
@@ -31,7 +31,6 @@ var ChatAreaComponent = /** @class */ (function () {
             if (data.id == _this.activeRoom)
                 return;
             _this.vc = _this.appChat.viewContainerRef;
-            _this.vc.clear();
             _this.activeRoom = data.id;
             _this.getRoom();
             _this.previousId = '';
@@ -66,6 +65,7 @@ var ChatAreaComponent = /** @class */ (function () {
     };
     ChatAreaComponent.prototype.renderer = function (comments) {
         var _this = this;
+        this.vc.clear();
         comments.forEach(function (comment) {
             _this.commentSectionInit(comment);
         });

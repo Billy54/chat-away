@@ -34,14 +34,15 @@ export class TopbarComponent implements OnInit, AfterViewInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private io: SocketioService,
     private dataShareService: DataShareService,
     private fileService: FileService,
-    private userService: UsersService
+    private userService: UsersService,
+    private io: SocketioService
   ) {}
   ngAfterViewInit(): void {
     this.el = this.preview.nativeElement;
     this.file = this.imgInput.nativeElement;
+    this.io.setupSocketConnection();
   }
 
   overlayCheck() {

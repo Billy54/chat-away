@@ -11,13 +11,13 @@ var core_1 = require("@angular/core");
 var notification_1 = require("../Models/notification");
 var common_1 = require("@angular/common");
 var TopbarComponent = /** @class */ (function () {
-    function TopbarComponent(authService, router, io, dataShareService, fileService, userService) {
+    function TopbarComponent(authService, router, dataShareService, fileService, userService, io) {
         this.authService = authService;
         this.router = router;
-        this.io = io;
         this.dataShareService = dataShareService;
         this.fileService = fileService;
         this.userService = userService;
+        this.io = io;
         this.notificationList = [];
         this.profile = true;
         this.notifications = true;
@@ -33,6 +33,7 @@ var TopbarComponent = /** @class */ (function () {
     TopbarComponent.prototype.ngAfterViewInit = function () {
         this.el = this.preview.nativeElement;
         this.file = this.imgInput.nativeElement;
+        this.io.setupSocketConnection();
     };
     TopbarComponent.prototype.overlayCheck = function () {
         this.profile = true;

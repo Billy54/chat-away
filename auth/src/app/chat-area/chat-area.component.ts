@@ -1,6 +1,7 @@
 import {
   Component,
   ComponentFactoryResolver,
+  OnDestroy,
   OnInit,
   ViewChild,
   ViewContainerRef,
@@ -18,7 +19,7 @@ import { ChatDirective } from './chat.directive';
   templateUrl: './chat-area.component.html',
   styleUrls: ['./chat-area.component.css'],
 })
-export class ChatAreaComponent implements OnInit {
+export class ChatAreaComponent implements OnInit, OnDestroy {
   @ViewChild(ChatDirective, { static: true })
   appChat!: ChatDirective;
 
@@ -32,9 +33,9 @@ export class ChatAreaComponent implements OnInit {
     private componentFactoryResolver: ComponentFactoryResolver,
     private fetchData: DataShareService,
     private commentsService: CommentsService,
-    private auth: AuthService,
-    private fileService: FileService
+    private auth: AuthService
   ) {}
+  ngOnDestroy() {}
 
   ngOnInit() {
     //on room change
@@ -42,7 +43,6 @@ export class ChatAreaComponent implements OnInit {
       if (data.name == 'default') return;
       if (data.id == this.activeRoom) return;
       this.vc = this.appChat.viewContainerRef;
-      this.vc.clear();
       this.activeRoom = data.id;
       this.getRoom();
       this.previousId = '';
@@ -79,6 +79,7 @@ export class ChatAreaComponent implements OnInit {
   }
 
   renderer(comments: any) {
+    this.vc.clear();
     comments.forEach((comment: any) => {
       this.commentSectionInit(comment);
     });

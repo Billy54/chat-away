@@ -5,6 +5,7 @@ import { EmailValidators } from './email.validator';
 import { mustMatch } from './password.validators';
 import { AuthService } from '../services/auth.service';
 import { DataShareService } from '../services/data-share.service';
+import { SocketioService } from '../services/socketio.service';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +18,12 @@ export class RegisterComponent implements OnInit {
   private password1: string = '';
   isActive: boolean = false;
 
-  constructor(a: AuthService, r: Router, private dataShare: DataShareService) {
+  constructor(
+    a: AuthService,
+    r: Router,
+
+    private dataShare: DataShareService
+  ) {
     this.authService = a;
     this.router = r;
     this.dataShare.currentMessage.subscribe((message) => {
@@ -58,6 +64,7 @@ export class RegisterComponent implements OnInit {
       )
       .subscribe((response: any = []) => {
         this.authService.setUserInfo(response.user);
+        //this.socketService.setupSocketConnection();
         this.router.navigate(['/']);
       });
   }

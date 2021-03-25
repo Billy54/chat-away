@@ -17,11 +17,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   @ViewChild('chat') chatArea: any;
 
-  constructor(
-    private socketService: SocketioService,
-    private dataShare: DataShareService,
-    private r: Router
-  ) {}
+  constructor(private dataShare: DataShareService, private r: Router) {}
 
   ngAfterViewInit(): void {
     this.el = this.chatArea.nativeElement;
@@ -31,7 +27,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.socketService.setupSocketConnection();
     this.dataShare.message.subscribe((message: any = []) => {
       if (message.name != 'default') {
         if (message.id != this.cId) {

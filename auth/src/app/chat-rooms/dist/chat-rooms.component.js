@@ -81,7 +81,8 @@ var ChatRoomsComponent = /** @class */ (function () {
                 name: this.users[index].details.name,
                 id: this.users[index].details.id,
                 status: this.users[index].status,
-                avatar: this.users[index].details.avatar
+                avatar: this.users[index].details.avatar,
+                custom: this.users[index].details.custom
             });
             this.r.navigate([
                 { outlets: { chatArea: ['chat', this.users[index].details.id] } },

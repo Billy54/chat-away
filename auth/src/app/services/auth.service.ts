@@ -5,6 +5,7 @@ import { ErrorHandlerService } from './error-handler.service';
 import { catchError } from 'rxjs/operators';
 import jwt_decode from 'jwt-decode';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { SocketioService } from './socketio.service';
 
 @Injectable({
   providedIn: 'root',

@@ -9,8 +9,7 @@ exports.__esModule = true;
 exports.HomeComponent = void 0;
 var core_1 = require("@angular/core");
 var HomeComponent = /** @class */ (function () {
-    function HomeComponent(socketService, dataShare, r) {
-        this.socketService = socketService;
+    function HomeComponent(dataShare, r) {
         this.dataShare = dataShare;
         this.r = r;
         this.fade = false;
@@ -25,7 +24,6 @@ var HomeComponent = /** @class */ (function () {
     };
     HomeComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.socketService.setupSocketConnection();
         this.dataShare.message.subscribe(function (message) {
             if (message === void 0) { message = []; }
             if (message.name != 'default') {

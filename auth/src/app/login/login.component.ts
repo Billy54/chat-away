@@ -8,6 +8,7 @@ import { AuthService } from '../services/auth.service';
 import { DataShareService } from '../services/data-share.service';
 import { EmailValidators } from '../register/email.validator';
 import { mustMatch } from '../register/password.validators';
+import { SocketioService } from '../services/socketio.service';
 
 @Component({
   selector: 'app-login',

@@ -74,6 +74,7 @@ export class ChatRoomsComponent implements OnInit, AfterViewInit {
         id: this.users[index].details.id,
         status: this.users[index].status,
         avatar: this.users[index].details.avatar,
+        custom: this.users[index].details.custom,
       });
       this.r.navigate([
         { outlets: { chatArea: ['chat', this.users[index].details.id] } },
