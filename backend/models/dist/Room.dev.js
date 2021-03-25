@@ -3,9 +3,10 @@
 var mongoose = require('mongoose');
 
 var roomSchema = new mongoose.Schema({
-  roomId: {
-    type: String,
-    required: true
+  members: {
+    type: Array,
+    required: false,
+    "default": []
   },
   name: {
     type: String,
@@ -18,7 +19,8 @@ var roomSchema = new mongoose.Schema({
   },
   comments: {
     type: Array,
-    required: false
+    required: false,
+    "default": []
   },
   custom: {
     type: Boolean,

@@ -28,26 +28,22 @@ module.exports = {
     });
   },
   saveComment: function saveComment(comment) {
-    var id1, id2;
+    var ids;
     return regeneratorRuntime.async(function saveComment$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            id1 = comment.sender + comment.receiver;
-            id2 = comment.receiver + comment.sender;
+            ids = [comment.sender, comment.receiver];
+            /*if (comment.receiver == process.env.PUBLIC_ROOM) {
+                id1 = process.env.PUBLIC_ROOM;
+                id2 = process.env.PUBLIC_ROOM;
+            }*/
 
-            if (comment.receiver == process.env.PUBLIC_ROOM) {
-              id1 = process.env.PUBLIC_ROOM;
-              id2 = process.env.PUBLIC_ROOM;
-            }
-
-            _context.next = 5;
+            _context.next = 3;
             return regeneratorRuntime.awrap(Room.updateOne({
-              $or: [{
-                roomId: id1
-              }, {
-                roomId: id2
-              }]
+              members: {
+                $all: ids
+              }
             }, {
               $push: {
                 comments: comment
@@ -56,7 +52,7 @@ module.exports = {
               console.log(err);
             }));
 
-          case 5:
+          case 3:
           case "end":
             return _context.stop();
         }
@@ -82,7 +78,11 @@ module.exports = {
                 while (1) {
                   switch (_context2.prev = _context2.next) {
                     case 0:
-                      query = {};
+                      query = {
+                        members: {
+                          $all: [user._id]
+                        }
+                      };
                       updateDocument = {
                         $set: {
                           "comments.$[comment].url": url
@@ -113,18 +113,18 @@ module.exports = {
       }
     });
   },
-  customRoom: function customRoom(name, members) {
+  newRoom: function newRoom(name, members) {
     var newRoom;
-    return regeneratorRuntime.async(function customRoom$(_context5) {
+    return regeneratorRuntime.async(function newRoom$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             newRoom = new Room({
               name: name,
-              custom: true
+              custom: true,
+              members: members
             });
-            newRoom.roomId = newRoom._id;
-            _context5.next = 4;
+            _context5.next = 3;
             return regeneratorRuntime.awrap(newRoom.save().then(function _callee2(room) {
               return regeneratorRuntime.async(function _callee2$(_context4) {
                 while (1) {
@@ -158,10 +158,10 @@ module.exports = {
               console.log(er);
             }));
 
-          case 4:
+          case 3:
             return _context5.abrupt("return", _context5.sent);
 
-          case 5:
+          case 4:
           case "end":
             return _context5.stop();
         }

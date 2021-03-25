@@ -22,21 +22,16 @@ module.exports = {
         });
     },
     saveComment: async function(comment) {
-        let id1 = comment.sender + comment.receiver;
-        let id2 = comment.receiver + comment.sender;
+        let ids = [comment.sender, comment.receiver];
 
-        if (comment.receiver == process.env.PUBLIC_ROOM) {
+        /*if (comment.receiver == process.env.PUBLIC_ROOM) {
             id1 = process.env.PUBLIC_ROOM;
             id2 = process.env.PUBLIC_ROOM;
-        }
+        }*/
         await Room.updateOne({
-            $or: [{
-                    roomId: id1
-                },
-                {
-                    roomId: id2
-                }
-            ]
+            members: {
+                $all: ids
+            }
         }, {
             $push: {
                 comments: comment
@@ -53,7 +48,11 @@ module.exports = {
                 avatar: url
             }
         }).then(async(user) => {
-            const query = {};
+            const query = {
+                members: {
+                    $all: [user._id]
+                }
+            };
             const updateDocument = {
                 $set: {
                     "comments.$[comment].url": url
@@ -69,12 +68,12 @@ module.exports = {
             });
         });
     },
-    customRoom: async function(name, members) {
+    newRoom: async function(name, members) {
         const newRoom = new Room({
             name: name,
             custom: true,
+            members: members
         });
-        newRoom.roomId = newRoom._id;
         return await newRoom.save().then(async(room) => {
             return await User.updateMany({
                 _id: {

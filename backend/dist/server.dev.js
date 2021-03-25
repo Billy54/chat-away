@@ -75,7 +75,6 @@ io.on('connection', function (socket) {
   }); //a message received save and emit to receiver(s) - emmiter
 
   socket.on('message', function (msg) {
-    console.log(msg);
     saveComment(msg).then(function () {
       socket.to(msg.receiver).emit('message', {
         message: msg
@@ -93,7 +92,7 @@ io.on('connection', function (socket) {
     customRoom(data.name, data.members).then(function (room) {
       var newRoom = {
         name: room.name,
-        id: room.roomId,
+        id: room._id,
         custom: true,
         avatar: room.url
       };

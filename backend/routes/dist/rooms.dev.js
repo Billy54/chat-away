@@ -8,37 +8,36 @@ var User = require('../models/User');
 
 var Room = require('../models/Room');
 
-var _require = require("../utils/authentication"),
-    ensureAuthenticated = _require.ensureAuthenticated;
+var _require = require('../utils/helpers'),
+    newRoom = _require.newRoom;
+
+var _require2 = require("../utils/authentication"),
+    ensureAuthenticated = _require2.ensureAuthenticated;
 
 require('dotenv/config'); //new room get or 
 
 
 router.post("/room", ensureAuthenticated, function _callee2(req, res) {
-  var id1, id2, pId, newRoom;
+  var ids, newRoom;
   return regeneratorRuntime.async(function _callee2$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
-          id1 = req.body.sender + req.body.receiver;
-          id2 = req.body.receiver + req.body.sender;
-          pId = process.env.PUBLIC_ROOM;
-
+          ids = [req.body.sender, req.body.receiver];
+          /*let pId = process.env.PUBLIC_ROOM;
           if (req.body.receiver == pId) {
-            id1 = pId;
-            id2 = pId;
-          }
+              id1 = pId;
+              id2 = pId;
+          }*/
 
           newRoom = new Room({
-            roomId: id1
+            members: ids
           });
-          _context2.next = 7;
+          _context2.next = 4;
           return regeneratorRuntime.awrap(Room.findOne({
-            $or: [{
-              roomId: String(id1)
-            }, {
-              roomId: String(id2)
-            }]
+            members: {
+              $all: ids
+            }
           }).then(function _callee(room) {
             return regeneratorRuntime.async(function _callee$(_context) {
               while (1) {
@@ -75,7 +74,7 @@ router.post("/room", ensureAuthenticated, function _callee2(req, res) {
             console.log(err);
           }));
 
-        case 7:
+        case 4:
         case "end":
           return _context2.stop();
       }

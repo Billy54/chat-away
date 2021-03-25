@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 
 const roomSchema = new mongoose.Schema({
-    roomId: {
-        type: String,
-        required: true
+    members: {
+        type: Array,
+        required: false,
+        default: []
     },
     name: {
         type: String,
@@ -17,6 +18,7 @@ const roomSchema = new mongoose.Schema({
     comments: {
         type: Array,
         required: false,
+        default: []
     },
     custom: {
         type: Boolean,
