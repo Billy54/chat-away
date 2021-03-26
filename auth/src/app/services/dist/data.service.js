@@ -22,7 +22,7 @@ var DataService = /** @class */ (function () {
         headers.append('Content-Type', 'application/json');
         this.options = { headers: headers, withCredentials: true };
     }
-    //get all but one
+    //get all
     DataService.prototype.getAll = function (uri) {
         return this.http
             .get(this.url + uri, this.options)

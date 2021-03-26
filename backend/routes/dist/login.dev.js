@@ -10,8 +10,6 @@ var bcrypt = require('bcryptjs');
 
 var passport = require('passport');
 
-var Room = require('../models/Room');
-
 var path = require('path');
 
 var _require = require("../utils/authentication"),
@@ -21,8 +19,8 @@ var _require = require("../utils/authentication"),
 var _require2 = require('../utils/helpers'),
     encodeData = _require2.encodeData;
 
-var _require3 = require("express-session"),
-    Cookie = _require3.Cookie;
+var _require3 = require('../utils/customRooms'),
+    put = _require3.put;
 
 require('dotenv/config');
 
@@ -49,6 +47,7 @@ router.post('/login', function (req, res, next) {
     });
   })(req, res, next);
 }, function (req, res) {
+  put(req.user.rooms);
   res.status(200).json({
     "statusCode": 200,
     "message": "Success",

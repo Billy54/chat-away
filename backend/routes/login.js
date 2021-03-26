@@ -3,7 +3,6 @@ const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
-const Room = require('../models/Room');
 const path = require('path');
 const {
     forwardAuthenticated,
@@ -12,11 +11,15 @@ const {
 const {
     encodeData
 } = require('../utils/helpers');
+
 const {
-    Cookie
-} = require("express-session");
+    put
+} = require('../utils/customRooms');
+
+
 require('dotenv/config');
 const reqPath = path.join(__dirname, '../');
+
 
 router.get('/login', forwardAuthenticated, (req, res) => {
     res.sendFile(reqPath + '/public/index.html');
@@ -43,6 +46,7 @@ router.post('/login', (req, res, next) => {
             })
         })(req, res, next)
 }, (req, res) => {
+    put(req.user.rooms);
     res.status(200).json({
         "statusCode": 200,
         "message": "Success",

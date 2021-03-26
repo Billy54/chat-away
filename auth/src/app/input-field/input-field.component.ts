@@ -12,6 +12,7 @@ import { SocketioService } from '../services/socketio.service';
 })
 export class InputFieldComponent implements OnInit {
   private receiver: string = '';
+  private custom: any;
   public comment: string = '';
   public url: string = '';
   constructor(
@@ -24,6 +25,7 @@ export class InputFieldComponent implements OnInit {
     this.forwardMessage.message.subscribe((message: any = []) => {
       if (message.name != 'default') {
         this.receiver = message.id;
+        this.custom = message.custom;
       }
       this.forwardMessage.changeUrl.subscribe((url: string) => {
         this.url = url;
@@ -43,6 +45,7 @@ export class InputFieldComponent implements OnInit {
       text: this.comment.trim(),
       url: this.url,
       date: new Date(),
+      custom: this.custom,
     };
 
     this.forwardMessage.sendlocal(newComment);

@@ -34,17 +34,7 @@ var fileUpload = require('express-fileupload');
 
 var router = require('./routes/index');
 
-var _require = require('./utils/handleRooms'),
-    addUser = _require.addUser,
-    deleteUser = _require.deleteUser,
-    getRooms = _require.getRooms;
-
-var _require2 = require('./utils/helpers'),
-    saveComment = _require2.saveComment,
-    customRoom = _require2.customRoom;
-
-var _require3 = require('passport'),
-    authorize = _require3.authorize;
+var socketIO = require('./socketIO/socket');
 
 require('dotenv/config'); //make our public folder static
 
@@ -57,65 +47,7 @@ var io = require('socket.io')(http, {
   }
 });
 
-io.on('connection', function (socket) {
-  console.log('a user connected'); //a room for each user
-
-  socket.on('userJoin', function (id) {
-    socket.username = id;
-    socket.join(id);
-    socket.join(process.env.PUBLIC_ROOM);
-    console.log('joined');
-    getRooms().forEach(function (i) {
-      io.to(i).emit('joined', {
-        id: id,
-        alive: true
-      });
-    });
-    addUser(id);
-  }); //a message received save and emit to receiver(s) - emmiter
-
-  socket.on('message', function (msg) {
-    saveComment(msg).then(function () {
-      socket.to(msg.receiver).emit('message', {
-        message: msg
-      });
-    })["catch"](function (err) {
-      console.log(err);
-    });
-  }); //join custom room 
-
-  socket.on('accept', function (roomId) {
-    socket.join(roomId);
-  }); //custom room
-
-  socket.on('newRoom', function (data) {
-    customRoom(data.name, data.members).then(function (room) {
-      var newRoom = {
-        name: room.name,
-        id: room._id,
-        custom: true,
-        avatar: room.url
-      };
-      data.members.forEach(function (member) {
-        io.to(member).emit('invite', newRoom);
-      });
-      console.log(room);
-    })["catch"](function (err) {
-      console.log(err);
-    });
-  }); //notify the rest
-
-  socket.on('disconnect', function () {
-    console.log('disconnected');
-    deleteUser(socket.username);
-    getRooms().forEach(function (i) {
-      io.to(i).emit('left', {
-        id: socket.username,
-        alive: false
-      });
-    });
-  });
-}); /////////////////////////////////////////////////////////////////
+socketIO(io); /////////////////////////////////////////////////////////////////
 //cors to allow request from the front end
 
 app.use(cors({

@@ -15,23 +15,21 @@ module.exports = {
             name: data.name,
             email: data.email,
             id: data._id,
-            avatar: data.avatar
-
         }, process.env.SESSION_SECRET, {
             expiresIn: '3600s'
         });
     },
     saveComment: async function(comment) {
-        let ids = [comment.sender, comment.receiver];
 
-        /*if (comment.receiver == process.env.PUBLIC_ROOM) {
-            id1 = process.env.PUBLIC_ROOM;
-            id2 = process.env.PUBLIC_ROOM;
-        }*/
+        let ids = [comment.sender, comment.receiver];
         await Room.updateOne({
-            members: {
-                $all: ids
-            }
+            $or: [{
+                members: {
+                    $all: ids
+                }
+            }, {
+                _id: ids[1]
+            }]
         }, {
             $push: {
                 comments: comment
@@ -68,7 +66,7 @@ module.exports = {
             });
         });
     },
-    newRoom: async function(name, members) {
+    customRoom: async function(name, members) {
         const newRoom = new Room({
             name: name,
             custom: true,
@@ -81,7 +79,7 @@ module.exports = {
                 },
             }, {
                 $push: {
-                    rooms: room.roomId
+                    rooms: String(room._id)
                 }
             }).then(() => {
                 return newRoom;

@@ -12,21 +12,13 @@ export class CommentComponent implements OnInit {
   public foreign: boolean = false;
   public isFirst: boolean = true;
   public shouldBeRendered: boolean = true;
-  private readonly publicId = '60539a6801ac562984ae4f93';
   private uid = this.auth.getUserInfo().id;
 
   constructor(private auth: AuthService) {}
   ngOnInit(): void {
     if (this.data.sender == 'default') {
       this.shouldBeRendered = false;
-    } //public case
-    else if (this.data.receiver == this.publicId) {
-      if (this.data.sender != this.uid) {
-        this.foreign = true;
-        this.isConsecutive();
-      }
-    } //private case
-    else if (this.data.sender != this.uid) {
+    } else if (this.data.sender != this.uid) {
       this.foreign = true;
       this.isConsecutive();
     }

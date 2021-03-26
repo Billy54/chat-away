@@ -34,6 +34,7 @@ export class SocketioService {
 
     //keep an eye out for anyone who might disconnect
     this.socket.on('left', (data: any) => {
+      console.log(data);
       this.forwardMessage.updateStatus(data);
     });
 

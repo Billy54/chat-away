@@ -14,19 +14,12 @@ var CommentComponent = /** @class */ (function () {
         this.foreign = false;
         this.isFirst = true;
         this.shouldBeRendered = true;
-        this.publicId = '60539a6801ac562984ae4f93';
         this.uid = this.auth.getUserInfo().id;
     }
     CommentComponent.prototype.ngOnInit = function () {
         if (this.data.sender == 'default') {
             this.shouldBeRendered = false;
-        } //public case
-        else if (this.data.receiver == this.publicId) {
-            if (this.data.sender != this.uid) {
-                this.foreign = true;
-                this.isConsecutive();
-            }
-        } //private case
+        }
         else if (this.data.sender != this.uid) {
             this.foreign = true;
             this.isConsecutive();

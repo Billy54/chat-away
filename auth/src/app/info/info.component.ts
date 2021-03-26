@@ -12,8 +12,7 @@ import { UsersComponent } from '../users/users.component';
   styleUrls: ['./info.component.css'],
 })
 export class InfoComponent implements OnInit {
-  private readonly publicId = '60539a6801ac562984ae4f93';
-  private cId: any;
+  private custom: any;
   public infoName: string = '';
   public info: string = '';
   public url: any;
@@ -30,7 +29,7 @@ export class InfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataShare.status.subscribe((data: any) => {
-      if (data.id == '' || this.cId == this.publicId) return;
+      if (data.id == '' || this.custom) return;
       if (this.info == 'Active now.') {
         this.info = 'Offline.';
       } else {
@@ -42,7 +41,7 @@ export class InfoComponent implements OnInit {
         this.infoName = message.name;
         this.url = message.avatar;
         this.changeStatus(message.status);
-        this.cId = message.id;
+        this.custom = message.custom;
       }
     });
   }
@@ -93,9 +92,7 @@ export class InfoComponent implements OnInit {
     }
     this.fetchUsers.getAll('users').subscribe((response: any = []) => {
       response.users.forEach((user: any) => {
-        if (user.id != this.publicId) {
-          this.users.push(new User(user));
-        }
+        this.users.push(new User(user));
       });
     });
   }

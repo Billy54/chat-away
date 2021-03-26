@@ -19,14 +19,13 @@ import { ChatDirective } from './chat.directive';
   templateUrl: './chat-area.component.html',
   styleUrls: ['./chat-area.component.css'],
 })
-export class ChatAreaComponent implements OnInit, OnDestroy {
+export class ChatAreaComponent implements OnInit {
   @ViewChild(ChatDirective, { static: true })
   appChat!: ChatDirective;
 
   private rooms: any = Array<Room>();
   private vc!: ViewContainerRef;
   private activeRoom: any;
-  private readonly public = '60539a6801ac562984ae4f93';
   private previousId: string = '';
 
   constructor(
@@ -35,17 +34,14 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
     private commentsService: CommentsService,
     private auth: AuthService
   ) {}
-  ngOnDestroy() {}
 
   ngOnInit() {
     //on room change
     this.fetchData.message.subscribe((data: any) => {
-      if (data.name == 'default') return;
-      if (data.id == this.activeRoom) return;
+      if (data.name == 'default' || data.id == this.activeRoom) return;
       this.vc = this.appChat.viewContainerRef;
       this.activeRoom = data.id;
       this.getRoom();
-      this.previousId = '';
     });
 
     // local append
@@ -56,7 +52,7 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
 
     //remote append
     this.fetchData.remote.subscribe((data: any) => {
-      if (this.public == data.receiver) {
+      if (data.custom) {
         this.saveLocal(data.receiver, data);
         if (data.receiver == this.activeRoom) {
           this.commentSectionInit(data);
@@ -80,6 +76,7 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
 
   renderer(comments: any) {
     this.vc.clear();
+    this.previousId = '';
     comments.forEach((comment: any) => {
       this.commentSectionInit(comment);
     });

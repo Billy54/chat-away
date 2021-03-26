@@ -15,7 +15,6 @@ var InfoComponent = /** @class */ (function () {
         this.fetchUsers = fetchUsers;
         this.io = io;
         this.auth = auth;
-        this.publicId = '60539a6801ac562984ae4f93';
         this.infoName = '';
         this.info = '';
         this.name = '';
@@ -25,7 +24,7 @@ var InfoComponent = /** @class */ (function () {
     InfoComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.dataShare.status.subscribe(function (data) {
-            if (data.id == '' || _this.cId == _this.publicId)
+            if (data.id == '' || _this.custom)
                 return;
             if (_this.info == 'Active now.') {
                 _this.info = 'Offline.';
@@ -40,7 +39,7 @@ var InfoComponent = /** @class */ (function () {
                 _this.infoName = message.name;
                 _this.url = message.avatar;
                 _this.changeStatus(message.status);
-                _this.cId = message.id;
+                _this.custom = message.custom;
             }
         });
     };
@@ -92,9 +91,7 @@ var InfoComponent = /** @class */ (function () {
         this.fetchUsers.getAll('users').subscribe(function (response) {
             if (response === void 0) { response = []; }
             response.users.forEach(function (user) {
-                if (user.id != _this.publicId) {
-                    _this.users.push(new user_1.User(user));
-                }
+                _this.users.push(new user_1.User(user));
             });
         });
     };

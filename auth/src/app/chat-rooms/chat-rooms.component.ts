@@ -29,10 +29,10 @@ export class ChatRoomsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.userService.getAll('users').subscribe((response: any = []) => {
-      for (const user of response.users) {
-        this.users.push(new User(user));
-      }
-      this.changeRoom(0);
+      this.initUsers(response.users);
+      this.userService.getAll('custom').subscribe((response: any = []) => {
+        this.initUsers(response.users);
+      });
     });
     this.dataShare.refresh.subscribe((id) => {
       if (id == '') return;
@@ -92,6 +92,13 @@ export class ChatRoomsComponent implements OnInit, AfterViewInit {
         user.status = data.alive;
       }
     });
+  }
+
+  initUsers(users: any) {
+    for (const user of users) {
+      this.users.push(new User(user));
+    }
+    this.changeRoom(0);
   }
 
   searchUser() {

@@ -33,6 +33,7 @@ var SocketioService = /** @class */ (function () {
         });
         //keep an eye out for anyone who might disconnect
         this.socket.on('left', function (data) {
+            console.log(data);
             _this.forwardMessage.updateStatus(data);
         });
         //some one added

@@ -27,7 +27,7 @@ export class DataService {
     this.options = { headers: headers, withCredentials: true };
   }
 
-  //get all but one
+  //get all
   getAll(uri: string): Observable<any> {
     return this.http
       .get(this.url + uri, this.options)

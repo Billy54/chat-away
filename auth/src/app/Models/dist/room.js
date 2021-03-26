@@ -6,6 +6,7 @@ var Room = /** @class */ (function () {
         this.commentsList = Array();
         this.senderId = '';
         this.lastComment = '';
+        this.custom = false;
         this.commentsList = list;
         this.senderId = id;
     }

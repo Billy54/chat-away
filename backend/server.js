@@ -17,19 +17,7 @@ const expressLayouts = require('express-ejs-layouts');
 const initializePassport = require('./utils/passport-intialize');
 const fileUpload = require('express-fileupload');
 const router = require('./routes/index');
-
-const {
-    addUser,
-    deleteUser,
-    getRooms
-} = require('./utils/handleRooms')
-const {
-    saveComment,
-    customRoom
-} = require('./utils/helpers');
-const {
-    authorize
-} = require('passport');
+const socketIO = require('./socketIO/socket');
 
 require('dotenv/config');
 //make our public folder static
@@ -42,70 +30,7 @@ const io = require('socket.io')(http, {
         origins: ['http://localhost:4200', 'https://chat-app-ang.herokuapp.com']
     }
 });
-io.on('connection', (socket) => {
-    console.log('a user connected');
-
-    //a room for each user
-    socket.on('userJoin', (id) => {
-        socket.username = id;
-        socket.join(id);
-        socket.join(process.env.PUBLIC_ROOM);
-        console.log('joined');
-        getRooms().forEach(i => {
-            io.to(i).emit('joined', {
-                id: id,
-                alive: true
-            });
-        });
-        addUser(id);
-    });
-
-    //a message received save and emit to receiver(s) - emmiter
-    socket.on('message', (msg) => {
-        saveComment(msg).then(() => {
-            socket.to(msg.receiver).emit('message', {
-                message: msg
-            });
-        }).catch(err => {
-            console.log(err);
-        });
-    });
-
-    //join custom room 
-    socket.on('accept', (roomId) => {
-        socket.join(roomId);
-    });
-
-    //custom room
-    socket.on('newRoom', (data) => {
-        customRoom(data.name, data.members).then((room) => {
-            let newRoom = {
-                name: room.name,
-                id: room._id,
-                custom: true,
-                avatar: room.url
-            };
-            data.members.forEach(member => {
-                io.to(member).emit('invite', newRoom);
-            });
-            console.log(room);
-        }).catch(err => {
-            console.log(err);
-        });
-    });
-
-    //notify the rest
-    socket.on('disconnect', () => {
-        console.log('disconnected');
-        deleteUser(socket.username);
-        getRooms().forEach(i => {
-            io.to(i).emit('left', {
-                id: socket.username,
-                alive: false
-            });
-        });
-    });
-});
+socketIO(io);
 /////////////////////////////////////////////////////////////////
 
 //cors to allow request from the front end

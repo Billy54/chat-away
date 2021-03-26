@@ -23,6 +23,7 @@ var InputFieldComponent = /** @class */ (function () {
             if (message === void 0) { message = []; }
             if (message.name != 'default') {
                 _this.receiver = message.id;
+                _this.custom = message.custom;
             }
             _this.forwardMessage.changeUrl.subscribe(function (url) {
                 _this.url = url;
@@ -39,7 +40,8 @@ var InputFieldComponent = /** @class */ (function () {
             receiver: this.receiver,
             text: this.comment.trim(),
             url: this.url,
-            date: new Date()
+            date: new Date(),
+            custom: this.custom
         };
         this.forwardMessage.sendlocal(newComment);
         this.io.messageSubmit(newComment);

@@ -18,22 +18,17 @@ var ChatAreaComponent = /** @class */ (function () {
         this.commentsService = commentsService;
         this.auth = auth;
         this.rooms = Array();
-        this.public = '60539a6801ac562984ae4f93';
         this.previousId = '';
     }
-    ChatAreaComponent.prototype.ngOnDestroy = function () { };
     ChatAreaComponent.prototype.ngOnInit = function () {
         var _this = this;
         //on room change
         this.fetchData.message.subscribe(function (data) {
-            if (data.name == 'default')
-                return;
-            if (data.id == _this.activeRoom)
+            if (data.name == 'default' || data.id == _this.activeRoom)
                 return;
             _this.vc = _this.appChat.viewContainerRef;
             _this.activeRoom = data.id;
             _this.getRoom();
-            _this.previousId = '';
         });
         // local append
         this.fetchData.local.subscribe(function (data) {
@@ -42,7 +37,7 @@ var ChatAreaComponent = /** @class */ (function () {
         });
         //remote append
         this.fetchData.remote.subscribe(function (data) {
-            if (_this.public == data.receiver) {
+            if (data.custom) {
                 _this.saveLocal(data.receiver, data);
                 if (data.receiver == _this.activeRoom) {
                     _this.commentSectionInit(data);
@@ -66,6 +61,7 @@ var ChatAreaComponent = /** @class */ (function () {
     ChatAreaComponent.prototype.renderer = function (comments) {
         var _this = this;
         this.vc.clear();
+        this.previousId = '';
         comments.forEach(function (comment) {
             _this.commentSectionInit(comment);
         });

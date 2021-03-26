@@ -30,11 +30,11 @@ var ChatRoomsComponent = /** @class */ (function () {
         var _this = this;
         this.userService.getAll('users').subscribe(function (response) {
             if (response === void 0) { response = []; }
-            for (var _i = 0, _a = response.users; _i < _a.length; _i++) {
-                var user = _a[_i];
-                _this.users.push(new user_1.User(user));
-            }
-            _this.changeRoom(0);
+            _this.initUsers(response.users);
+            _this.userService.getAll('custom').subscribe(function (response) {
+                if (response === void 0) { response = []; }
+                _this.initUsers(response.users);
+            });
         });
         this.dataShare.refresh.subscribe(function (id) {
             if (id == '')
@@ -100,6 +100,13 @@ var ChatRoomsComponent = /** @class */ (function () {
                 user.status = data.alive;
             }
         });
+    };
+    ChatRoomsComponent.prototype.initUsers = function (users) {
+        for (var _i = 0, users_1 = users; _i < users_1.length; _i++) {
+            var user = users_1[_i];
+            this.users.push(new user_1.User(user));
+        }
+        this.changeRoom(0);
     };
     ChatRoomsComponent.prototype.searchUser = function () {
         for (var _i = 0, _a = this.users; _i < _a.length; _i++) {

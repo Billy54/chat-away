@@ -21,8 +21,7 @@ module.exports = {
     return jwt.sign({
       name: data.name,
       email: data.email,
-      id: data._id,
-      avatar: data.avatar
+      id: data._id
     }, process.env.SESSION_SECRET, {
       expiresIn: '3600s'
     });
@@ -34,16 +33,15 @@ module.exports = {
         switch (_context.prev = _context.next) {
           case 0:
             ids = [comment.sender, comment.receiver];
-            /*if (comment.receiver == process.env.PUBLIC_ROOM) {
-                id1 = process.env.PUBLIC_ROOM;
-                id2 = process.env.PUBLIC_ROOM;
-            }*/
-
             _context.next = 3;
             return regeneratorRuntime.awrap(Room.updateOne({
-              members: {
-                $all: ids
-              }
+              $or: [{
+                members: {
+                  $all: ids
+                }
+              }, {
+                _id: ids[1]
+              }]
             }, {
               $push: {
                 comments: comment
@@ -113,9 +111,9 @@ module.exports = {
       }
     });
   },
-  newRoom: function newRoom(name, members) {
+  customRoom: function customRoom(name, members) {
     var newRoom;
-    return regeneratorRuntime.async(function newRoom$(_context5) {
+    return regeneratorRuntime.async(function customRoom$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
@@ -137,7 +135,7 @@ module.exports = {
                         }
                       }, {
                         $push: {
-                          rooms: room.roomId
+                          rooms: String(room._id)
                         }
                       }).then(function () {
                         return newRoom;
