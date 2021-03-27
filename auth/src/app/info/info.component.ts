@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { User } from '../chat-rooms/user';
 import { AuthService } from '../services/auth.service';
 import { DataShareService } from '../services/data-share.service';
@@ -11,7 +12,7 @@ import { UsersComponent } from '../users/users.component';
   templateUrl: './info.component.html',
   styleUrls: ['./info.component.css'],
 })
-export class InfoComponent implements OnInit {
+export class InfoComponent implements OnInit, OnDestroy {
   private custom: any;
   public infoName: string = '';
   public info: string = '';
@@ -19,6 +20,7 @@ export class InfoComponent implements OnInit {
   public name: string = '';
   private users: User[] = [];
   public open: boolean = false;
+  private observers: Subscription[] = [];
 
   constructor(
     private dataShare: DataShareService,
@@ -28,21 +30,31 @@ export class InfoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.dataShare.status.subscribe((data: any) => {
-      if (data.id == '' || this.custom) return;
-      if (this.info == 'Active now.') {
-        this.info = 'Offline.';
-      } else {
-        this.info = 'Active now.';
-      }
-    });
-    this.dataShare.message.subscribe((message: any = []) => {
-      if (message.name != 'default') {
-        this.infoName = message.name;
-        this.url = message.avatar;
-        this.changeStatus(message.status);
-        this.custom = message.custom;
-      }
+    this.observers.push(
+      this.dataShare.status.subscribe((data: any) => {
+        if (data.id == '' || this.custom) return;
+        if (this.info == 'Active now.') {
+          this.info = 'Offline.';
+        } else {
+          this.info = 'Active now.';
+        }
+      })
+    );
+    this.observers.push(
+      this.dataShare.message.subscribe((message: any = []) => {
+        if (message.name != 'default') {
+          this.infoName = message.name;
+          this.url = message.avatar;
+          this.changeStatus(message.status);
+          this.custom = message.custom;
+        }
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.observers.forEach((observer) => {
+      observer.unsubscribe();
     });
   }
 

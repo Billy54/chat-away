@@ -20,10 +20,11 @@ var InfoComponent = /** @class */ (function () {
         this.name = '';
         this.users = [];
         this.open = false;
+        this.observers = [];
     }
     InfoComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.dataShare.status.subscribe(function (data) {
+        this.observers.push(this.dataShare.status.subscribe(function (data) {
             if (data.id == '' || _this.custom)
                 return;
             if (_this.info == 'Active now.') {
@@ -32,8 +33,8 @@ var InfoComponent = /** @class */ (function () {
             else {
                 _this.info = 'Active now.';
             }
-        });
-        this.dataShare.message.subscribe(function (message) {
+        }));
+        this.observers.push(this.dataShare.message.subscribe(function (message) {
             if (message === void 0) { message = []; }
             if (message.name != 'default') {
                 _this.infoName = message.name;
@@ -41,6 +42,11 @@ var InfoComponent = /** @class */ (function () {
                 _this.changeStatus(message.status);
                 _this.custom = message.custom;
             }
+        }));
+    };
+    InfoComponent.prototype.ngOnDestroy = function () {
+        this.observers.forEach(function (observer) {
+            observer.unsubscribe();
         });
     };
     InfoComponent.prototype.changeStatus = function (status) {

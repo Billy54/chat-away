@@ -1,14 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ThrowStmt } from '@angular/compiler';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RegisterComponent } from '../register/register.component';
 import { AuthService } from '../services/auth.service';
 import { DataShareService } from '../services/data-share.service';
-import { EmailValidators } from '../register/email.validator';
-import { mustMatch } from '../register/password.validators';
-import { SocketioService } from '../services/socketio.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +13,6 @@ import { SocketioService } from '../services/socketio.service';
 export class LoginComponent implements OnInit {
   private authService: AuthService;
   private router: Router;
-  private password1: string = '';
   private dataShare: DataShareService;
 
   constructor(a: AuthService, r: Router, d: DataShareService) {

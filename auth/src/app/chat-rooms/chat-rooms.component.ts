@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 import { DataShareService } from '../services/data-share.service';
 import { UsersService } from '../services/users.service';
 import { User } from './user';
@@ -9,10 +10,11 @@ import { User } from './user';
   templateUrl: './chat-rooms.component.html',
   styleUrls: ['./chat-rooms.component.css'],
 })
-export class ChatRoomsComponent implements OnInit, AfterViewInit {
+export class ChatRoomsComponent implements OnInit, OnDestroy {
   private users: User[] = [];
   public userName: string = '';
   private activeRoom: number = 0;
+  private observers: Subscription[] = [];
 
   constructor(
     private r: Router,
@@ -20,45 +22,59 @@ export class ChatRoomsComponent implements OnInit, AfterViewInit {
     private dataShare: DataShareService
   ) {}
 
-  ngAfterViewInit(): void {
-    this.dataShare.newRoom.subscribe((room) => {
-      if (!room.name) return;
-      this.users.push(new User(room));
+  ngOnDestroy(): void {
+    this.observers.forEach((observer) => {
+      observer.unsubscribe();
     });
   }
 
   ngOnInit(): void {
-    this.userService.getAll('users').subscribe((response: any = []) => {
-      this.initUsers(response.users);
-      this.userService.getAll('custom').subscribe((response: any = []) => {
+    this.observers.push(
+      this.userService.getAll('users').subscribe((response: any = []) => {
         this.initUsers(response.users);
-      });
-    });
-    this.dataShare.refresh.subscribe((id) => {
-      if (id == '') return;
-      setTimeout(() => {
-        this.addUser(id);
-      }, 2500);
-    });
-    this.dataShare.status.subscribe((data) => {
-      this.updateStatus(data);
-    });
-    this.dataShare.swapRoom.subscribe((id) => {
-      let i = 0;
-      this.users.forEach((user) => {
-        if (user.details.id == id) {
-          this.changeRoom(i);
-        }
-        i++;
-      });
-    });
-  }
+      })
+    );
 
-  get getUsers() {
-    return this.users;
+    //refresh users
+    this.observers.push(
+      this.dataShare.refresh.subscribe((id) => {
+        setTimeout(() => {
+          this.addUser(id);
+        }, 2500);
+      })
+    );
+
+    //update status
+    this.observers.push(
+      this.dataShare.status.subscribe((data) => {
+        this.updateStatus(data);
+      })
+    );
+
+    //swap current room from notifications
+    this.observers.push(
+      this.dataShare.swapRoom.subscribe((id) => {
+        let i = 0;
+        this.users.forEach((user) => {
+          if (user.details.id == id) {
+            this.changeRoom(i);
+          }
+          i++;
+        });
+      })
+    );
+
+    //invited to new room
+    this.observers.push(
+      this.dataShare.newRoom.subscribe((room) => {
+        if (!room.name) return;
+        this.users.push(new User(room));
+      })
+    );
   }
 
   addUser(id: string) {
+    if (id == '') return;
     for (const user of this.users) {
       if (user.details.id == id) return;
     }
@@ -114,5 +130,9 @@ export class ChatRoomsComponent implements OnInit, AfterViewInit {
         user.isVisible = true;
       }
     }
+  }
+
+  get getUsers() {
+    return this.users;
   }
 }

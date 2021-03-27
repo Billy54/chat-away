@@ -19,24 +19,31 @@ var ChatAreaComponent = /** @class */ (function () {
         this.auth = auth;
         this.rooms = Array();
         this.previousId = '';
+        this.observers = [];
     }
+    ChatAreaComponent.prototype.ngOnDestroy = function () {
+        this.observers.forEach(function (observer) {
+            observer.unsubscribe();
+        });
+    };
     ChatAreaComponent.prototype.ngOnInit = function () {
         var _this = this;
         //on room change
-        this.fetchData.message.subscribe(function (data) {
+        this.observers.push(this.fetchData.message.subscribe(function (data) {
             if (data.name == 'default' || data.id == _this.activeRoom)
                 return;
             _this.vc = _this.appChat.viewContainerRef;
+            _this.vc.clear();
             _this.activeRoom = data.id;
             _this.getRoom();
-        });
+        }));
         // local append
-        this.fetchData.local.subscribe(function (data) {
+        this.observers.push(this.fetchData.local.subscribe(function (data) {
             _this.commentSectionInit(data);
             _this.saveLocal(_this.activeRoom, data);
-        });
+        }));
         //remote append
-        this.fetchData.remote.subscribe(function (data) {
+        this.observers.push(this.fetchData.remote.subscribe(function (data) {
             if (data.custom) {
                 _this.saveLocal(data.receiver, data);
                 if (data.receiver == _this.activeRoom) {
@@ -49,7 +56,7 @@ var ChatAreaComponent = /** @class */ (function () {
                     _this.commentSectionInit(data);
                 }
             }
-        });
+        }));
     };
     ChatAreaComponent.prototype.saveLocal = function (id, data) {
         this.rooms.forEach(function (room) {
@@ -58,14 +65,14 @@ var ChatAreaComponent = /** @class */ (function () {
             }
         });
     };
-    ChatAreaComponent.prototype.renderer = function (comments) {
+    ChatAreaComponent.prototype.renderer = function (comments, rid) {
         var _this = this;
-        this.vc.clear();
         this.previousId = '';
         comments.forEach(function (comment) {
             _this.commentSectionInit(comment);
         });
         this.fetchData.stopLoading();
+        this.fetchData.sendroomId(rid);
     };
     //create a comment instance for each comment
     ChatAreaComponent.prototype.commentSectionInit = function (data) {
@@ -82,7 +89,7 @@ var ChatAreaComponent = /** @class */ (function () {
         for (var _i = 0, _a = this.rooms; _i < _a.length; _i++) {
             var room = _a[_i];
             if (room.getSender() == this.activeRoom) {
-                this.renderer(room.getComments());
+                this.renderer(room.getComments(), room.id);
                 return;
             }
         }
@@ -98,9 +105,9 @@ var ChatAreaComponent = /** @class */ (function () {
         })
             .subscribe(function (response) {
             if (response === void 0) { response = []; }
-            var room = new room_1.Room(response.comments, _this.activeRoom);
+            var room = new room_1.Room(response.comments, _this.activeRoom, response.rid);
             _this.rooms.push(room);
-            _this.renderer(response.comments);
+            _this.renderer(response.comments, room.id);
         });
     };
     __decorate([

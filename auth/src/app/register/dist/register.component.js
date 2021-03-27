@@ -12,10 +12,12 @@ var forms_1 = require("@angular/forms");
 var email_validator_1 = require("./email.validator");
 var password_validators_1 = require("./password.validators");
 var RegisterComponent = /** @class */ (function () {
-    function RegisterComponent(a, r, dataShare) {
-        var _this = this;
+    function RegisterComponent(authService, router, dataShare) {
+        this.authService = authService;
+        this.router = router;
         this.dataShare = dataShare;
-        this.password1 = '';
+        this.observers = [];
+        this.password = '';
         this.isActive = false;
         this.registerForm = new forms_1.FormGroup({
             name: new forms_1.FormControl('', [forms_1.Validators.minLength(3), forms_1.Validators.required]),
@@ -30,12 +32,18 @@ var RegisterComponent = /** @class */ (function () {
                 password_validators_1.mustMatch(),
             ])
         });
-        this.authService = a;
-        this.router = r;
-        this.dataShare.currentMessage.subscribe(function (message) {
-            _this.toggleModal(); //will receive msg from login component
-        });
     }
+    RegisterComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.observers.push(this.dataShare.currentMessage.subscribe(function (message) {
+            _this.toggleModal();
+        }));
+    };
+    RegisterComponent.prototype.ngOnDestroy = function () {
+        this.observers.forEach(function (observer) {
+            observer.unsubscribe();
+        });
+    };
     RegisterComponent.prototype.register = function () {
         var _this = this;
         //check if the form is valid
@@ -47,7 +55,6 @@ var RegisterComponent = /** @class */ (function () {
             .subscribe(function (response) {
             if (response === void 0) { response = []; }
             _this.authService.setUserInfo(response.user);
-            //this.socketService.setupSocketConnection();
             _this.router.navigate(['/']);
         });
     };
@@ -80,14 +87,12 @@ var RegisterComponent = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    RegisterComponent.prototype.onChange = function (val) {
-        this.password1 = val.target.value;
-        localStorage.setItem('pass', this.password1);
+    RegisterComponent.prototype.onChange = function () {
+        localStorage.setItem('pass', this.password);
     };
     RegisterComponent.prototype.toggleModal = function () {
         this.isActive = !this.isActive;
     };
-    RegisterComponent.prototype.ngOnInit = function () { };
     RegisterComponent = __decorate([
         core_1.Component({
             selector: 'app-register',

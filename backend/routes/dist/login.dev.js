@@ -57,7 +57,9 @@ router.post('/login', function (req, res, next) {
 
 router.get('/logout', ensureAuthenticated, function (req, res) {
   req.logout();
-  res.sendFile(reqPath + '/public/index.html');
+  res.status(200).json({
+    msg: 'log out succesfull'
+  });
 }); //check if the user email is already registered
 
 router.post('/validateEmail', forwardAuthenticated, function (req, res) {

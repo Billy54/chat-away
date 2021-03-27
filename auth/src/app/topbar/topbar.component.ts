@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { SocketioService } from '../services/socketio.service';
@@ -7,23 +13,25 @@ import { DataShareService } from '../services/data-share.service';
 import { FileService } from '../services/file.service';
 import { UsersService } from '../services/users.service';
 import { formatDate } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.css'],
 })
-export class TopbarComponent implements OnInit, AfterViewInit {
+export class TopbarComponent implements OnInit, AfterViewInit, OnDestroy {
   private el: any;
   public notificationList: Notification[] = [];
+  private observers: Subscription[] = [];
   public profile: boolean = true;
   public notifications: boolean = true;
   public overlay: boolean = true;
   public file: any;
   public exp: string = 'translateX(0px)';
   public expHeight: string = '197px';
-  public url: string = '';
-  public name: string = '';
+  public url: string = this.authService.getUserInfo().avatar;
+  public name: string = this.authService.getUserInfo().name;
   public newmsg: boolean = false;
   public fadeIn: boolean = false;
   public active: boolean = true;
@@ -36,13 +44,34 @@ export class TopbarComponent implements OnInit, AfterViewInit {
     private router: Router,
     private dataShareService: DataShareService,
     private fileService: FileService,
-    private userService: UsersService,
     private io: SocketioService
   ) {}
+
+  ngOnDestroy(): void {
+    this.observers.forEach((observer) => {
+      observer.unsubscribe();
+    });
+  }
+
   ngAfterViewInit(): void {
     this.el = this.preview.nativeElement;
     this.file = this.imgInput.nativeElement;
     this.io.setupSocketConnection();
+  }
+
+  ngOnInit(): void {
+    this.observers.push(
+      this.dataShareService.remote.subscribe((data: any) => {
+        if (data.sender == 'default') return;
+        this.notificationList.unshift(new Notification(data));
+        if (!this.notifications) {
+          this.newmsg = false;
+        } else {
+          this.newmsg = true;
+        }
+      })
+    );
+    this.dataShareService.sendUrl(this.url);
   }
 
   overlayCheck() {
@@ -78,22 +107,6 @@ export class TopbarComponent implements OnInit, AfterViewInit {
     this.router.navigateByUrl('/login');
   }
 
-  appendNotification(data: any) {
-    let notification = new Notification();
-    let now = new Date();
-    notification.date = formatDate(
-      now,
-      'dd/MM/yyyy hh:mm:ss a',
-      'en-US',
-      '+0530'
-    );
-    notification.name = data.senderName;
-    notification.sender = data.sender;
-    notification.receiver = data.receiver;
-    notification.url = data.url;
-    this.notificationList.unshift(notification);
-  }
-
   changeAvatar() {
     this.exp = 'translateX(-297px)';
     this.expHeight = '400px';
@@ -125,6 +138,7 @@ export class TopbarComponent implements OnInit, AfterViewInit {
     if (this.file && this.file.files[0]) {
       const fd = new FormData();
       fd.append('image', this.file.files[0]);
+      fd.append('uid', this.authService.getUserInfo().id);
       this.fileService
         .postAvatar('avatar', fd)
         .subscribe((response: any = []) => {
@@ -147,24 +161,5 @@ export class TopbarComponent implements OnInit, AfterViewInit {
       this.router.navigateByUrl('/');
     }
     this.active = !this.active;
-  }
-
-  ngOnInit(): void {
-    this.dataShareService.remote.subscribe((data: any) => {
-      if (data.sender == 'default') return;
-      this.appendNotification(data);
-      if (!this.notifications) {
-        this.newmsg = false;
-      } else {
-        this.newmsg = true;
-      }
-    });
-    this.userService
-      .getUser('users/' + this.authService.getUserInfo().id)
-      .subscribe((response: any = []) => {
-        this.name = response.user.name;
-        this.url = response.user.avatar;
-        this.dataShareService.sendUrl(this.url);
-      });
   }
 }

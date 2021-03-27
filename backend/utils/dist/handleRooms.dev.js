@@ -23,6 +23,8 @@ var getRooms = function getRooms() {
 };
 
 var online = function online(id) {
+  console.log(rooms);
+
   for (var i = 0; i < rooms.length; i++) {
     if (rooms[i] == id) {
       return true;

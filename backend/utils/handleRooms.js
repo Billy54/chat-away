@@ -20,6 +20,7 @@ const getRooms = function() {
 }
 
 const online = function(id) {
+    console.log(rooms);
     for (let i = 0; i < rooms.length; i++) {
         if (rooms[i] == id) {
             return true;

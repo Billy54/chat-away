@@ -14,31 +14,40 @@ var HomeComponent = /** @class */ (function () {
         this.r = r;
         this.fade = false;
         this.loader = false;
+        this.observers = [];
     }
+    HomeComponent.prototype.ngOnDestroy = function () {
+        this.observers.forEach(function (observer) {
+            observer.unsubscribe();
+        });
+    };
     HomeComponent.prototype.ngAfterViewInit = function () {
         var _this = this;
         this.el = this.chatArea.nativeElement;
-        this.dataShare.local.subscribe(function (d) {
+        this.observers.push(this.dataShare.local.subscribe(function (d) {
             _this.smoothScrolling();
-        });
+        }));
     };
     HomeComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.dataShare.message.subscribe(function (message) {
+        //room switched
+        this.observers.push(this.dataShare.message.subscribe(function (message) {
             if (message === void 0) { message = []; }
             if (message.name != 'default') {
                 if (message.id != _this.cId) {
+                    console.log('loader');
                     _this.loader = true;
                 }
                 _this.smoothScrolling();
                 _this.cId = message.id;
                 _this.fadeOut();
             }
-        });
-        this.dataShare.loader.subscribe(function () {
+        }));
+        //stop the loader
+        this.observers.push(this.dataShare.loader.subscribe(function () {
             _this.loader = false;
             _this.smoothScrolling();
-        });
+        }));
     };
     //scroll to bottom
     HomeComponent.prototype.smoothScrolling = function () {

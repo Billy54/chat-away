@@ -16,13 +16,14 @@ var _require2 = require("../utils/authentication"),
 
 
 router.post("/avatar", ensureAuthenticated, function (req, res) {
+  var id = req.body.uid;
   var sampleFile = req.files.image;
   var uploadPath = path.join(__dirname, '../') + '/public/assets/' + sampleFile.name;
   sampleFile.mv(uploadPath, function (err) {
     if (err) return res.status(500).json({
       msg: 'could not be saved'
     });
-    return updateAvatar('assets/' + sampleFile.name, req.user.email).then(function () {
+    return updateAvatar('assets/' + sampleFile.name, id).then(function () {
       return res.status(200).json({
         path: 'assets/' + sampleFile.name
       });

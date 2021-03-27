@@ -30,15 +30,12 @@ var DataShareService = /** @class */ (function () {
             sender: 'default'
         });
         this.local = this.localData.asObservable();
-        //potentially some one mede a new account so we need to render them on the list
+        //potentially some one made a new account so we need to render them on the list
         this.refreshRooms = new rxjs_1.BehaviorSubject('');
         this.refresh = this.refreshRooms.asObservable();
         //update status
         this.userStatus = new rxjs_1.BehaviorSubject('');
         this.status = this.userStatus.asObservable();
-        //fetchRooms
-        this.userIds = new rxjs_1.BehaviorSubject({});
-        this.userIdsMessage = this.userStatus.asObservable();
         //send new url to chat room
         this.updateUrl = new rxjs_1.BehaviorSubject('');
         this.changeUrl = this.updateUrl.asObservable();
@@ -48,9 +45,12 @@ var DataShareService = /** @class */ (function () {
         //room loader
         this.load = new rxjs_1.BehaviorSubject(false);
         this.loader = this.load.asObservable();
-        //room loader
+        //invited to custom room
         this.room = new rxjs_1.BehaviorSubject({});
         this.newRoom = this.room.asObservable();
+        //in which room we will be saving the comments
+        this.roomId = new rxjs_1.BehaviorSubject('');
+        this.writeToRoom = this.roomId.asObservable();
     }
     DataShareService.prototype.registerModal = function (hidden) {
         this.modalSwitch.next(hidden);
@@ -76,11 +76,6 @@ var DataShareService = /** @class */ (function () {
             return;
         this.userStatus.next(id);
     };
-    DataShareService.prototype.sendIds = function (ids) {
-        if (ids == '')
-            return;
-        this.userIds.next(ids);
-    };
     DataShareService.prototype.sendUrl = function (url) {
         if (!url)
             return;
@@ -96,6 +91,9 @@ var DataShareService = /** @class */ (function () {
     };
     DataShareService.prototype.sendRoom = function (room) {
         this.room.next(room);
+    };
+    DataShareService.prototype.sendroomId = function (id) {
+        this.roomId.next(id);
     };
     DataShareService = __decorate([
         core_1.Injectable({

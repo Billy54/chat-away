@@ -14,9 +14,9 @@ var http_1 = require("@angular/common/http");
 var core_1 = require("@angular/core");
 var operators_1 = require("rxjs/operators");
 var DataService = /** @class */ (function () {
-    function DataService(http, er, url) {
+    function DataService(http, errorHandler, url) {
         this.http = http;
-        this.errorHandler = er;
+        this.errorHandler = errorHandler;
         this.url = url;
         var headers = new http_1.HttpHeaders();
         headers.append('Content-Type', 'application/json');

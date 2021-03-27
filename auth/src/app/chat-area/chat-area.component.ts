@@ -6,6 +6,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { CommentComponent } from '../comment/comment.component';
 import { Room } from '../Models/room';
 import { AuthService } from '../services/auth.service';
@@ -19,7 +20,7 @@ import { ChatDirective } from './chat.directive';
   templateUrl: './chat-area.component.html',
   styleUrls: ['./chat-area.component.css'],
 })
-export class ChatAreaComponent implements OnInit {
+export class ChatAreaComponent implements OnInit, OnDestroy {
   @ViewChild(ChatDirective, { static: true })
   appChat!: ChatDirective;
 
@@ -27,6 +28,7 @@ export class ChatAreaComponent implements OnInit {
   private vc!: ViewContainerRef;
   private activeRoom: any;
   private previousId: string = '';
+  private observers: Subscription[] = [];
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -35,35 +37,48 @@ export class ChatAreaComponent implements OnInit {
     private auth: AuthService
   ) {}
 
+  ngOnDestroy() {
+    this.observers.forEach((observer) => {
+      observer.unsubscribe();
+    });
+  }
+
   ngOnInit() {
     //on room change
-    this.fetchData.message.subscribe((data: any) => {
-      if (data.name == 'default' || data.id == this.activeRoom) return;
-      this.vc = this.appChat.viewContainerRef;
-      this.activeRoom = data.id;
-      this.getRoom();
-    });
+    this.observers.push(
+      this.fetchData.message.subscribe((data: any) => {
+        if (data.name == 'default' || data.id == this.activeRoom) return;
+        this.vc = this.appChat.viewContainerRef;
+        this.vc.clear();
+        this.activeRoom = data.id;
+        this.getRoom();
+      })
+    );
 
     // local append
-    this.fetchData.local.subscribe((data: any) => {
-      this.commentSectionInit(data);
-      this.saveLocal(this.activeRoom, data);
-    });
+    this.observers.push(
+      this.fetchData.local.subscribe((data: any) => {
+        this.commentSectionInit(data);
+        this.saveLocal(this.activeRoom, data);
+      })
+    );
 
     //remote append
-    this.fetchData.remote.subscribe((data: any) => {
-      if (data.custom) {
-        this.saveLocal(data.receiver, data);
-        if (data.receiver == this.activeRoom) {
-          this.commentSectionInit(data);
+    this.observers.push(
+      this.fetchData.remote.subscribe((data: any) => {
+        if (data.custom) {
+          this.saveLocal(data.receiver, data);
+          if (data.receiver == this.activeRoom) {
+            this.commentSectionInit(data);
+          }
+        } else {
+          this.saveLocal(data.sender, data);
+          if (this.activeRoom == data.sender) {
+            this.commentSectionInit(data);
+          }
         }
-      } else {
-        this.saveLocal(data.sender, data);
-        if (this.activeRoom == data.sender) {
-          this.commentSectionInit(data);
-        }
-      }
-    });
+      })
+    );
   }
 
   saveLocal(id: string, data: any) {
@@ -74,13 +89,13 @@ export class ChatAreaComponent implements OnInit {
     });
   }
 
-  renderer(comments: any) {
-    this.vc.clear();
+  renderer(comments: any, rid: string) {
     this.previousId = '';
     comments.forEach((comment: any) => {
       this.commentSectionInit(comment);
     });
     this.fetchData.stopLoading();
+    this.fetchData.sendroomId(rid);
   }
 
   //create a comment instance for each comment
@@ -101,7 +116,7 @@ export class ChatAreaComponent implements OnInit {
   getRoom() {
     for (let room of this.rooms) {
       if (room.getSender() == this.activeRoom) {
-        this.renderer(room.getComments());
+        this.renderer(room.getComments(), room.id);
         return;
       }
     }
@@ -116,9 +131,9 @@ export class ChatAreaComponent implements OnInit {
         sender: sender,
       })
       .subscribe((response: any = []) => {
-        let room = new Room(response.comments, this.activeRoom);
+        let room = new Room(response.comments, this.activeRoom, response.rid);
         this.rooms.push(room);
-        this.renderer(response.comments);
+        this.renderer(response.comments, room.id);
       });
   }
 }

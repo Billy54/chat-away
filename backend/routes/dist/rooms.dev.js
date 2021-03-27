@@ -4,9 +4,9 @@ var express = require("express");
 
 var router = express.Router();
 
-var User = require('../models/User');
-
 var Room = require('../models/Room');
+
+var Message = require('../models/Message');
 
 var _require = require('../utils/helpers'),
     newRoom = _require.newRoom;
@@ -42,27 +42,43 @@ router.post("/room", ensureAuthenticated, function _callee2(req, res) {
                 switch (_context.prev = _context.next) {
                   case 0:
                     if (!room) {
-                      _context.next = 4;
+                      _context.next = 5;
                       break;
                     }
 
-                    res.status(200).json({
-                      comments: room.comments
-                    });
-                    _context.next = 6;
+                    _context.next = 3;
+                    return regeneratorRuntime.awrap(Message.find({
+                      roomId: room._id
+                    }, {
+                      _id: 0,
+                      roomId: 0
+                    }).then(function (messages) {
+                      res.status(200).json({
+                        comments: messages,
+                        rid: room._id
+                      });
+                    })["catch"](function (err) {
+                      res.status(500).json({
+                        err: err
+                      });
+                    }));
+
+                  case 3:
+                    _context.next = 7;
                     break;
 
-                  case 4:
-                    _context.next = 6;
+                  case 5:
+                    _context.next = 7;
                     return regeneratorRuntime.awrap(newRoom.save().then(function (room) {
                       res.status(200).json({
-                        comments: room.comments
+                        comments: [],
+                        rid: room._id
                       });
                     })["catch"](function (err) {
                       console.log(err);
                     }));
 
-                  case 6:
+                  case 7:
                   case "end":
                     return _context.stop();
                 }
@@ -75,66 +91,6 @@ router.post("/room", ensureAuthenticated, function _callee2(req, res) {
         case 4:
         case "end":
           return _context2.stop();
-      }
-    }
-  });
-}); //fetch custom rooms
-
-router.get('/custom', ensureAuthenticated, function _callee4(req, res) {
-  return regeneratorRuntime.async(function _callee4$(_context4) {
-    while (1) {
-      switch (_context4.prev = _context4.next) {
-        case 0:
-          _context4.next = 2;
-          return regeneratorRuntime.awrap(User.findOne({
-            email: req.user.email
-          }, {
-            rooms: 1,
-            _id: 0
-          }).then(function _callee3(result) {
-            return regeneratorRuntime.async(function _callee3$(_context3) {
-              while (1) {
-                switch (_context3.prev = _context3.next) {
-                  case 0:
-                    _context3.next = 2;
-                    return regeneratorRuntime.awrap(Room.find({
-                      _id: {
-                        $in: result.rooms
-                      }
-                    }).then(function (rooms) {
-                      var roomDto = [];
-                      rooms.forEach(function (room) {
-                        roomDto.push({
-                          name: room.name,
-                          id: room._id,
-                          custom: true,
-                          avatar: room.url
-                        });
-                      });
-                      res.status(200).json({
-                        users: roomDto
-                      });
-                    })["catch"](function (err) {
-                      res.status(500).json({
-                        err: err
-                      });
-                    }));
-
-                  case 2:
-                  case "end":
-                    return _context3.stop();
-                }
-              }
-            });
-          })["catch"](function (err) {
-            res.status(500).json({
-              err: err
-            });
-          }));
-
-        case 2:
-        case "end":
-          return _context4.stop();
       }
     }
   });

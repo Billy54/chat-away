@@ -1,6 +1,6 @@
-import { formatDate } from '@angular/common';
-import { AfterViewInit, ViewChild } from '@angular/core';
+import { OnDestroy, ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { DataShareService } from '../services/data-share.service';
 import { SocketioService } from '../services/socketio.service';
@@ -10,11 +10,14 @@ import { SocketioService } from '../services/socketio.service';
   templateUrl: './input-field.component.html',
   styleUrls: ['./input-field.component.css'],
 })
-export class InputFieldComponent implements OnInit {
+export class InputFieldComponent implements OnInit, OnDestroy {
   private receiver: string = '';
   private custom: any;
+  private roomId: any;
   public comment: string = '';
   public url: string = '';
+  private observers: Subscription[] = [];
+
   constructor(
     private forwardMessage: DataShareService,
     private auth: AuthService,
@@ -22,14 +25,34 @@ export class InputFieldComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.forwardMessage.message.subscribe((message: any = []) => {
-      if (message.name != 'default') {
-        this.receiver = message.id;
-        this.custom = message.custom;
-      }
+    this.observers.push(
+      this.forwardMessage.message.subscribe((message: any = []) => {
+        if (message.name != 'default') {
+          this.receiver = message.id;
+          this.custom = message.custom;
+        }
+      })
+    );
+
+    //avatar url
+    this.observers.push(
       this.forwardMessage.changeUrl.subscribe((url: string) => {
         this.url = url;
-      });
+      })
+    );
+
+    //which room to append the comment
+    this.observers.push(
+      this.forwardMessage.writeToRoom.subscribe((id: string) => {
+        if (!id) return;
+        this.roomId = id;
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.observers.forEach((observer) => {
+      observer.unsubscribe();
     });
   }
 
@@ -44,8 +67,8 @@ export class InputFieldComponent implements OnInit {
       receiver: this.receiver,
       text: this.comment.trim(),
       url: this.url,
-      date: new Date(),
       custom: this.custom,
+      roomId: this.roomId,
     };
 
     this.forwardMessage.sendlocal(newComment);

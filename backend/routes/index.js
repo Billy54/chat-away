@@ -8,8 +8,6 @@ const {
 
 //index route home
 router.get('/', ensureAuthenticated, async(req, res) => {
-    res.render('../views/index.ejs', {
-
-    });
+    //res.sendFile(reqPath + '/public/index.html');
 });
 module.exports = router;

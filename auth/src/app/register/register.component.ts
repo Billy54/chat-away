@@ -1,33 +1,39 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EmailValidators } from './email.validator';
 import { mustMatch } from './password.validators';
 import { AuthService } from '../services/auth.service';
 import { DataShareService } from '../services/data-share.service';
-import { SocketioService } from '../services/socketio.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
-export class RegisterComponent implements OnInit {
-  private authService: AuthService;
-  private router: Router;
-  private password1: string = '';
-  isActive: boolean = false;
+export class RegisterComponent implements OnInit, OnDestroy {
+  private observers: Subscription[] = [];
+  public password: string = '';
+  public isActive: boolean = false;
 
   constructor(
-    a: AuthService,
-    r: Router,
-
+    private authService: AuthService,
+    private router: Router,
     private dataShare: DataShareService
-  ) {
-    this.authService = a;
-    this.router = r;
-    this.dataShare.currentMessage.subscribe((message) => {
-      this.toggleModal(); //will receive msg from login component
+  ) {}
+
+  ngOnInit(): void {
+    this.observers.push(
+      this.dataShare.currentMessage.subscribe((message) => {
+        this.toggleModal();
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.observers.forEach((observer) => {
+      observer.unsubscribe();
     });
   }
 
@@ -64,7 +70,6 @@ export class RegisterComponent implements OnInit {
       )
       .subscribe((response: any = []) => {
         this.authService.setUserInfo(response.user);
-        //this.socketService.setupSocketConnection();
         this.router.navigate(['/']);
       });
   }
@@ -86,14 +91,11 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.get('password2');
   }
 
-  onChange(val: any) {
-    this.password1 = (<HTMLInputElement>val.target).value as string;
-    localStorage.setItem('pass', this.password1);
+  onChange() {
+    localStorage.setItem('pass', this.password);
   }
 
   public toggleModal() {
     this.isActive = !this.isActive;
   }
-
-  ngOnInit(): void {}
 }

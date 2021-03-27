@@ -8,20 +8,13 @@ import { ErrorHandlerService } from './error-handler.service';
   providedIn: 'root',
 })
 export class DataService {
-  private readonly url: string;
-  private http: HttpClient;
-  private errorHandler: ErrorHandlerService;
   private options: any;
 
   constructor(
-    http: HttpClient,
-    er: ErrorHandlerService,
-    @Inject(String) url: string
+    private http: HttpClient,
+    private errorHandler: ErrorHandlerService,
+    @Inject(String) private readonly url: string
   ) {
-    this.http = http;
-    this.errorHandler = er;
-    this.url = url;
-
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     this.options = { headers: headers, withCredentials: true };

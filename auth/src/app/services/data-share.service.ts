@@ -43,7 +43,7 @@ export class DataShareService {
     this.localData.next(d);
   }
 
-  //potentially some one mede a new account so we need to render them on the list
+  //potentially some one made a new account so we need to render them on the list
   private refreshRooms = new BehaviorSubject('');
   refresh = this.refreshRooms.asObservable();
   public refreshUsers(id: string) {
@@ -57,14 +57,6 @@ export class DataShareService {
   public updateStatus(id: string) {
     if (id == '') return;
     this.userStatus.next(id);
-  }
-
-  //fetchRooms
-  private userIds = new BehaviorSubject<any>({});
-  userIdsMessage = this.userStatus.asObservable();
-  public sendIds(ids: any) {
-    if (ids == '') return;
-    this.userIds.next(ids);
   }
 
   //send new url to chat room
@@ -90,10 +82,17 @@ export class DataShareService {
     this.load.next(true);
   }
 
-  //room loader
+  //invited to custom room
   private room = new BehaviorSubject<any>({});
   newRoom = this.room.asObservable();
   public sendRoom(room: any) {
     this.room.next(room);
+  }
+
+  //in which room we will be saving the comments
+  private roomId = new BehaviorSubject<string>('');
+  writeToRoom = this.roomId.asObservable();
+  public sendroomId(id: string) {
+    this.roomId.next(id);
   }
 }

@@ -3,10 +3,7 @@ const User = require('../models/User');
 require('dotenv/config');
 const jwt = require("jsonwebtoken");
 const Room = require('../models/Room');
-const ObjectId = require('mongodb').ObjectID;
-const {
-    resolve
-} = require('path');
+const Message = require('../models/Message');
 
 module.exports = {
     //encode sensitive data before sending to the client for storage
@@ -15,54 +12,43 @@ module.exports = {
             name: data.name,
             email: data.email,
             id: data._id,
+            avatar: data.avatar
         }, process.env.SESSION_SECRET, {
             expiresIn: '3600s'
         });
     },
-    saveComment: async function(comment) {
-
-        let ids = [comment.sender, comment.receiver];
-        await Room.updateOne({
-            $or: [{
-                members: {
-                    $all: ids
-                }
-            }, {
-                _id: ids[1]
-            }]
-        }, {
-            $push: {
-                comments: comment
-            }
-        }).catch((err) => {
-            console.log(err);
+    saveComment: async function(msg) {
+        let newMessage = new Message({
+            sender: msg.sender,
+            receiver: msg.receiver,
+            text: msg.text,
+            url: msg.url,
+            roomId: msg.roomId,
+            senderName: msg.senderName
         });
-    }, //update user avatar as well as all the comments in the rooms
-    updateAvatar: async function(url, email) {
+        await newMessage.save().then(message => {
+            return message;
+        }).catch((err) => {
+            return err;
+        });
+
+    }, //update user avatar as well as all the comments
+    updateAvatar: async function(url, uid) {
         await User.findOneAndUpdate({
-            email: email
+            _id: uid
         }, {
             $set: {
                 avatar: url
             }
         }).then(async(user) => {
-            const query = {
-                members: {
-                    $all: [user._id]
-                }
-            };
-            const updateDocument = {
+            await Message.updateMany({
+                sender: uid
+            }, {
                 $set: {
-                    "comments.$[comment].url": url
+                    url: url
                 }
-            };
-            const options = {
-                arrayFilters: [{
-                    "comment.sender": String(user._id)
-                }]
-            };
-            await Room.updateMany(query, updateDocument, options).catch((er) => {
-                console.log(er);
+            }).catch(err => {
+                console.log(err);
             });
         });
     },
@@ -91,3 +77,34 @@ module.exports = {
         });
     }
 }
+
+/*much easier to update urls with a reference schema
+updateAvatar: async function(url, email) {
+        await User.findOneAndUpdate({
+            email: email
+        }, {
+            $set: {
+                avatar: url
+            }
+        }).then(async(user) => {
+            const query = {
+                members: {
+                    $all: [user._id]
+                }
+            };
+            const updateDocument = {
+                $set: {
+                    "comments.$[comment].url": url
+                }
+            };
+            const options = {
+                arrayFilters: [{
+                    "comment.sender": String(user._id)
+                }]
+            };
+            await Room.updateMany(query, updateDocument, options).catch((er) => {
+                console.log(er);
+            });
+        });
+    }
+*/

@@ -16,18 +16,31 @@ var InputFieldComponent = /** @class */ (function () {
         this.receiver = '';
         this.comment = '';
         this.url = '';
+        this.observers = [];
     }
     InputFieldComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.forwardMessage.message.subscribe(function (message) {
+        this.observers.push(this.forwardMessage.message.subscribe(function (message) {
             if (message === void 0) { message = []; }
             if (message.name != 'default') {
                 _this.receiver = message.id;
                 _this.custom = message.custom;
             }
-            _this.forwardMessage.changeUrl.subscribe(function (url) {
-                _this.url = url;
-            });
+        }));
+        //avatar url
+        this.observers.push(this.forwardMessage.changeUrl.subscribe(function (url) {
+            _this.url = url;
+        }));
+        //which room to append the comment
+        this.observers.push(this.forwardMessage.writeToRoom.subscribe(function (id) {
+            if (!id)
+                return;
+            _this.roomId = id;
+        }));
+    };
+    InputFieldComponent.prototype.ngOnDestroy = function () {
+        this.observers.forEach(function (observer) {
+            observer.unsubscribe();
         });
     };
     InputFieldComponent.prototype.newComment = function () {
@@ -40,8 +53,8 @@ var InputFieldComponent = /** @class */ (function () {
             receiver: this.receiver,
             text: this.comment.trim(),
             url: this.url,
-            date: new Date(),
-            custom: this.custom
+            custom: this.custom,
+            roomId: this.roomId
         };
         this.forwardMessage.sendlocal(newComment);
         this.io.messageSubmit(newComment);

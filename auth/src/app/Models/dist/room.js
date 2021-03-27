@@ -2,14 +2,21 @@
 exports.__esModule = true;
 exports.Room = void 0;
 var Room = /** @class */ (function () {
-    function Room(list, id) {
+    function Room(list, id, rid) {
         this.commentsList = Array();
         this.senderId = '';
-        this.lastComment = '';
-        this.custom = false;
+        this.roomId = '';
         this.commentsList = list;
         this.senderId = id;
+        this.roomId = rid;
     }
+    Object.defineProperty(Room.prototype, "id", {
+        get: function () {
+            return this.roomId;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Room.prototype.addComment = function (comment) {
         this.commentsList.push(comment);
     };

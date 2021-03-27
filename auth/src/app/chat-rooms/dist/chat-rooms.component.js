@@ -17,36 +17,31 @@ var ChatRoomsComponent = /** @class */ (function () {
         this.users = [];
         this.userName = '';
         this.activeRoom = 0;
+        this.observers = [];
     }
-    ChatRoomsComponent.prototype.ngAfterViewInit = function () {
-        var _this = this;
-        this.dataShare.newRoom.subscribe(function (room) {
-            if (!room.name)
-                return;
-            _this.users.push(new user_1.User(room));
+    ChatRoomsComponent.prototype.ngOnDestroy = function () {
+        this.observers.forEach(function (observer) {
+            observer.unsubscribe();
         });
     };
     ChatRoomsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.userService.getAll('users').subscribe(function (response) {
+        this.observers.push(this.userService.getAll('users').subscribe(function (response) {
             if (response === void 0) { response = []; }
             _this.initUsers(response.users);
-            _this.userService.getAll('custom').subscribe(function (response) {
-                if (response === void 0) { response = []; }
-                _this.initUsers(response.users);
-            });
-        });
-        this.dataShare.refresh.subscribe(function (id) {
-            if (id == '')
-                return;
+        }));
+        //refresh users
+        this.observers.push(this.dataShare.refresh.subscribe(function (id) {
             setTimeout(function () {
                 _this.addUser(id);
             }, 2500);
-        });
-        this.dataShare.status.subscribe(function (data) {
+        }));
+        //update status
+        this.observers.push(this.dataShare.status.subscribe(function (data) {
             _this.updateStatus(data);
-        });
-        this.dataShare.swapRoom.subscribe(function (id) {
+        }));
+        //swap current room from notifications
+        this.observers.push(this.dataShare.swapRoom.subscribe(function (id) {
             var i = 0;
             _this.users.forEach(function (user) {
                 if (user.details.id == id) {
@@ -54,17 +49,18 @@ var ChatRoomsComponent = /** @class */ (function () {
                 }
                 i++;
             });
-        });
+        }));
+        //invited to new room
+        this.observers.push(this.dataShare.newRoom.subscribe(function (room) {
+            if (!room.name)
+                return;
+            _this.users.push(new user_1.User(room));
+        }));
     };
-    Object.defineProperty(ChatRoomsComponent.prototype, "getUsers", {
-        get: function () {
-            return this.users;
-        },
-        enumerable: false,
-        configurable: true
-    });
     ChatRoomsComponent.prototype.addUser = function (id) {
         var _this = this;
+        if (id == '')
+            return;
         for (var _i = 0, _a = this.users; _i < _a.length; _i++) {
             var user = _a[_i];
             if (user.details.id == id)
@@ -122,6 +118,13 @@ var ChatRoomsComponent = /** @class */ (function () {
             }
         }
     };
+    Object.defineProperty(ChatRoomsComponent.prototype, "getUsers", {
+        get: function () {
+            return this.users;
+        },
+        enumerable: false,
+        configurable: true
+    });
     ChatRoomsComponent = __decorate([
         core_1.Component({
             selector: 'chat-rooms',

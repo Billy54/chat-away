@@ -10,10 +10,7 @@ var jwt = require("jsonwebtoken");
 
 var Room = require('../models/Room');
 
-var ObjectId = require('mongodb').ObjectID;
-
-var _require = require('path'),
-    resolve = _require.resolve;
+var Message = require('../models/Message');
 
 module.exports = {
   //encode sensitive data before sending to the client for storage
@@ -21,33 +18,31 @@ module.exports = {
     return jwt.sign({
       name: data.name,
       email: data.email,
-      id: data._id
+      id: data._id,
+      avatar: data.avatar
     }, process.env.SESSION_SECRET, {
       expiresIn: '3600s'
     });
   },
-  saveComment: function saveComment(comment) {
-    var ids;
+  saveComment: function saveComment(msg) {
+    var newMessage;
     return regeneratorRuntime.async(function saveComment$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            ids = [comment.sender, comment.receiver];
+            newMessage = new Message({
+              sender: msg.sender,
+              receiver: msg.receiver,
+              text: msg.text,
+              url: msg.url,
+              roomId: msg.roomId,
+              senderName: msg.senderName
+            });
             _context.next = 3;
-            return regeneratorRuntime.awrap(Room.updateOne({
-              $or: [{
-                members: {
-                  $all: ids
-                }
-              }, {
-                _id: ids[1]
-              }]
-            }, {
-              $push: {
-                comments: comment
-              }
+            return regeneratorRuntime.awrap(newMessage.save().then(function (message) {
+              return message;
             })["catch"](function (err) {
-              console.log(err);
+              return err;
             }));
 
           case 3:
@@ -57,46 +52,36 @@ module.exports = {
       }
     });
   },
-  //update user avatar as well as all the comments in the rooms
-  updateAvatar: function updateAvatar(url, email) {
+  //update user avatar as well as all the comments
+  updateAvatar: function updateAvatar(url, uid) {
     return regeneratorRuntime.async(function updateAvatar$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
             _context3.next = 2;
             return regeneratorRuntime.awrap(User.findOneAndUpdate({
-              email: email
+              _id: uid
             }, {
               $set: {
                 avatar: url
               }
             }).then(function _callee(user) {
-              var query, updateDocument, options;
               return regeneratorRuntime.async(function _callee$(_context2) {
                 while (1) {
                   switch (_context2.prev = _context2.next) {
                     case 0:
-                      query = {
-                        members: {
-                          $all: [user._id]
-                        }
-                      };
-                      updateDocument = {
+                      _context2.next = 2;
+                      return regeneratorRuntime.awrap(Message.updateMany({
+                        sender: uid
+                      }, {
                         $set: {
-                          "comments.$[comment].url": url
+                          url: url
                         }
-                      };
-                      options = {
-                        arrayFilters: [{
-                          "comment.sender": String(user._id)
-                        }]
-                      };
-                      _context2.next = 5;
-                      return regeneratorRuntime.awrap(Room.updateMany(query, updateDocument, options)["catch"](function (er) {
-                        console.log(er);
+                      })["catch"](function (err) {
+                        console.log(err);
                       }));
 
-                    case 5:
+                    case 2:
                     case "end":
                       return _context2.stop();
                   }
@@ -167,3 +152,33 @@ module.exports = {
     });
   }
 };
+/*much easier to update urls with a reference schema
+updateAvatar: async function(url, email) {
+        await User.findOneAndUpdate({
+            email: email
+        }, {
+            $set: {
+                avatar: url
+            }
+        }).then(async(user) => {
+            const query = {
+                members: {
+                    $all: [user._id]
+                }
+            };
+            const updateDocument = {
+                $set: {
+                    "comments.$[comment].url": url
+                }
+            };
+            const options = {
+                arrayFilters: [{
+                    "comment.sender": String(user._id)
+                }]
+            };
+            await Room.updateMany(query, updateDocument, options).catch((er) => {
+                console.log(er);
+            });
+        });
+    }
+*/

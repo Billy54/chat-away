@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const User = require('../models/User');
 const Room = require('../models/Room');
+const Message = require('../models/Message');
 const {
     newRoom
 } = require('../utils/helpers');
@@ -30,14 +30,27 @@ router.post("/room", ensureAuthenticated, async(req, res) => {
     }).then(async(room) => {
         //if exists return it
         if (room) {
-            res.status(200).json({
-                comments: room.comments
+            await Message.find({
+                roomId: room._id
+            }, {
+                _id: 0,
+                roomId: 0
+            }).then((messages) => {
+                res.status(200).json({
+                    comments: messages,
+                    rid: room._id
+                });
+            }).catch(err => {
+                res.status(500).json({
+                    err: err
+                });
             });
         } else {
             //if not create it first then return it
             await newRoom.save().then((room) => {
                 res.status(200).json({
-                    comments: room.comments
+                    comments: [],
+                    rid: room._id
                 });
             }).catch(err => {
                 console.log(err);
@@ -47,43 +60,4 @@ router.post("/room", ensureAuthenticated, async(req, res) => {
         console.log(err);
     });
 });
-
-//fetch custom rooms
-router.get('/custom', ensureAuthenticated, async(req, res) => {
-
-    await User.findOne({
-        email: req.user.email
-    }, {
-        rooms: 1,
-        _id: 0
-    }).then(async(result) => {
-        await Room.find({
-            _id: {
-                $in: result.rooms
-            }
-        }).then(rooms => {
-            let roomDto = [];
-            rooms.forEach(room => {
-                roomDto.push({
-                    name: room.name,
-                    id: room._id,
-                    custom: true,
-                    avatar: room.url
-                });
-            });
-            res.status(200).json({
-                users: roomDto
-            })
-        }).catch(err => {
-            res.status(500).json({
-                err: err
-            });
-        });
-    }).catch(err => {
-        res.status(500).json({
-            err: err
-        });
-    });
-});
-
 module.exports = router;

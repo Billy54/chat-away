@@ -1,12 +1,16 @@
 export class Room {
   private commentsList: any = Array<Object>();
   private senderId: string = '';
-  private lastComment: string = '';
-  private custom = false;
+  private roomId: string = '';
 
-  constructor(list: any, id: any) {
+  constructor(list: any, id: any, rid: any) {
     this.commentsList = list;
     this.senderId = id;
+    this.roomId = rid;
+  }
+
+  public get id() {
+    return this.roomId;
   }
 
   public addComment(comment: any) {

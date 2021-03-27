@@ -12,6 +12,7 @@ const {
 //file api , will be storing the files on the server
 router.post("/avatar", ensureAuthenticated, (req, res) => {
 
+    let id = req.body.uid;
     let sampleFile = req.files.image;
     let uploadPath = path.join(__dirname, '../') + '/public/assets/' + sampleFile.name;
     sampleFile.mv(uploadPath, (err) => {
@@ -19,7 +20,7 @@ router.post("/avatar", ensureAuthenticated, (req, res) => {
             return res.status(500).json({
                 msg: 'could not be saved'
             });
-        return updateAvatar('assets/' + sampleFile.name, req.user.email).then(() => {
+        return updateAvatar('assets/' + sampleFile.name, id).then(() => {
             return res.status(200).json({
                 path: 'assets/' + sampleFile.name
             });

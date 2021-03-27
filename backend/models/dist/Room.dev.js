@@ -17,11 +17,6 @@ var roomSchema = new mongoose.Schema({
     required: false,
     "default": 'assets/public.jpg'
   },
-  comments: {
-    type: Array,
-    required: false,
-    "default": []
-  },
   custom: {
     type: Boolean,
     "default": false

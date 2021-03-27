@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const Room = require('../models/Room');
 const {
     online,
-    getRooms
 } = require('../utils/handleRooms')
 const {
     ensureAuthenticated
@@ -12,23 +12,43 @@ require('dotenv/config');
 
 //get all users
 router.get("/users", ensureAuthenticated, async(req, res) => {
-    await User.find({
-        email: {
-            $ne: req.user.email
-        }
-    }).then((users) => {
+    await User.find({}).then(async(users) => {
         let userDto = [];
+        let rooms = [];
         users.forEach((user) => {
-            userDto.push({
-                name: user.name,
-                email: user.email,
-                id: user._id,
-                alive: online(user._id),
-                avatar: user.avatar
-            });
+            if (req.user.email != user.email) {
+                userDto.push({
+                    name: user.name,
+                    email: user.email,
+                    id: user._id,
+                    alive: online(user._id),
+                    avatar: user.avatar
+                });
+            } else {
+                rooms = user.rooms;
+            }
         });
-        res.status(200).json({
-            users: userDto
+        console.log(userDto);
+        await Room.find({
+            _id: {
+                $in: rooms
+            }
+        }).then((rooms) => {
+            rooms.forEach(room => {
+                userDto.push({
+                    name: room.name,
+                    id: room._id,
+                    custom: true,
+                    avatar: room.url
+                });
+            });
+            res.status(200).json({
+                users: userDto
+            });
+        }).catch(err => {
+            res.status(500).json({
+                err: err
+            });
         });
     }).catch((err) => {
         res.status(400).json({

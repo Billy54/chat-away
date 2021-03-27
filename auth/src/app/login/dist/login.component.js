@@ -12,7 +12,6 @@ var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var LoginComponent = /** @class */ (function () {
     function LoginComponent(a, r, d) {
-        this.password1 = '';
         //login validators
         this.loginForm = new forms_1.FormGroup({
             email: new forms_1.FormControl('', [

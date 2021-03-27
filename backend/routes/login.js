@@ -15,11 +15,9 @@ const {
 const {
     put
 } = require('../utils/customRooms');
-
-
 require('dotenv/config');
-const reqPath = path.join(__dirname, '../');
 
+const reqPath = path.join(__dirname, '../');
 
 router.get('/login', forwardAuthenticated, (req, res) => {
     res.sendFile(reqPath + '/public/index.html');
@@ -57,7 +55,9 @@ router.post('/login', (req, res, next) => {
 //logout
 router.get('/logout', ensureAuthenticated, (req, res) => {
     req.logout();
-    res.sendFile(reqPath + '/public/index.html');
+    res.status(200).json({
+        msg: 'log out succesfull'
+    });
 });
 
 //check if the user email is already registered

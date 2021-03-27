@@ -3,9 +3,13 @@
 var mongoose = require('mongoose');
 
 var messageSchema = new mongoose.Schema({
-  userId: {
+  sender: {
     type: String,
     requird: true
+  },
+  receiver: {
+    type: String,
+    required: true
   },
   text: {
     type: String,
@@ -15,9 +19,13 @@ var messageSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  name: {
+  senderName: {
     type: String,
     required: true
+  },
+  date: {
+    type: Date,
+    "default": Date.now()
   },
   roomId: {
     type: String,

@@ -9,31 +9,50 @@ exports.__esModule = true;
 exports.TopbarComponent = void 0;
 var core_1 = require("@angular/core");
 var notification_1 = require("../Models/notification");
-var common_1 = require("@angular/common");
 var TopbarComponent = /** @class */ (function () {
-    function TopbarComponent(authService, router, dataShareService, fileService, userService, io) {
+    function TopbarComponent(authService, router, dataShareService, fileService, io) {
         this.authService = authService;
         this.router = router;
         this.dataShareService = dataShareService;
         this.fileService = fileService;
-        this.userService = userService;
         this.io = io;
         this.notificationList = [];
+        this.observers = [];
         this.profile = true;
         this.notifications = true;
         this.overlay = true;
         this.exp = 'translateX(0px)';
         this.expHeight = '197px';
-        this.url = '';
-        this.name = '';
+        this.url = this.authService.getUserInfo().avatar;
+        this.name = this.authService.getUserInfo().name;
         this.newmsg = false;
         this.fadeIn = false;
         this.active = true;
     }
+    TopbarComponent.prototype.ngOnDestroy = function () {
+        this.observers.forEach(function (observer) {
+            observer.unsubscribe();
+        });
+    };
     TopbarComponent.prototype.ngAfterViewInit = function () {
         this.el = this.preview.nativeElement;
         this.file = this.imgInput.nativeElement;
         this.io.setupSocketConnection();
+    };
+    TopbarComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.observers.push(this.dataShareService.remote.subscribe(function (data) {
+            if (data.sender == 'default')
+                return;
+            _this.notificationList.unshift(new notification_1.Notification(data));
+            if (!_this.notifications) {
+                _this.newmsg = false;
+            }
+            else {
+                _this.newmsg = true;
+            }
+        }));
+        this.dataShareService.sendUrl(this.url);
     };
     TopbarComponent.prototype.overlayCheck = function () {
         this.profile = true;
@@ -64,16 +83,6 @@ var TopbarComponent = /** @class */ (function () {
             console.log(response);
         });
         this.router.navigateByUrl('/login');
-    };
-    TopbarComponent.prototype.appendNotification = function (data) {
-        var notification = new notification_1.Notification();
-        var now = new Date();
-        notification.date = common_1.formatDate(now, 'dd/MM/yyyy hh:mm:ss a', 'en-US', '+0530');
-        notification.name = data.senderName;
-        notification.sender = data.sender;
-        notification.receiver = data.receiver;
-        notification.url = data.url;
-        this.notificationList.unshift(notification);
     };
     TopbarComponent.prototype.changeAvatar = function () {
         this.exp = 'translateX(-297px)';
@@ -106,6 +115,7 @@ var TopbarComponent = /** @class */ (function () {
         if (this.file && this.file.files[0]) {
             var fd = new FormData();
             fd.append('image', this.file.files[0]);
+            fd.append('uid', this.authService.getUserInfo().id);
             this.fileService
                 .postAvatar('avatar', fd)
                 .subscribe(function (response) {
@@ -128,28 +138,6 @@ var TopbarComponent = /** @class */ (function () {
             this.router.navigateByUrl('/');
         }
         this.active = !this.active;
-    };
-    TopbarComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.dataShareService.remote.subscribe(function (data) {
-            if (data.sender == 'default')
-                return;
-            _this.appendNotification(data);
-            if (!_this.notifications) {
-                _this.newmsg = false;
-            }
-            else {
-                _this.newmsg = true;
-            }
-        });
-        this.userService
-            .getUser('users/' + this.authService.getUserInfo().id)
-            .subscribe(function (response) {
-            if (response === void 0) { response = []; }
-            _this.name = response.user.name;
-            _this.url = response.user.avatar;
-            _this.dataShareService.sendUrl(_this.url);
-        });
     };
     __decorate([
         core_1.ViewChild('imagePreview')
