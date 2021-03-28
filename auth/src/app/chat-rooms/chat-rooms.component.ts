@@ -41,7 +41,7 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
       this.dataShare.refresh.subscribe((id) => {
         setTimeout(() => {
           this.addUser(id);
-        }, 2500);
+        }, 2000);
       })
     );
 
@@ -68,14 +68,12 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
     //invited to new room
     this.observers.push(
       this.dataShare.newRoom.subscribe((room) => {
-        if (!room.name) return;
         this.users.push(new User(room));
       })
     );
   }
 
   addUser(id: string) {
-    if (id == '') return;
     for (const user of this.users) {
       if (user.details.id == id) return;
     }
@@ -107,7 +105,6 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
   }
 
   updateStatus(data: any) {
-    if (!data) return;
     this.users.forEach((user: any) => {
       if (user.details.id == data.id) {
         user.status = data.alive;
@@ -128,7 +125,7 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
         !(user.details.name as string)
           .trim()
           .toLowerCase()
-          .startsWith((this.userName as string).trim().toLowerCase())
+          .startsWith(this.userName.trim().toLowerCase())
       ) {
         user.isVisible = false;
       } else {

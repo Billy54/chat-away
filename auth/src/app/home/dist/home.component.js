@@ -34,15 +34,13 @@ var HomeComponent = /** @class */ (function () {
         //room switched
         this.observers.push(this.dataShare.message.subscribe(function (message) {
             if (message === void 0) { message = []; }
-            if (message.name != 'default') {
-                if (message.id != _this.cId) {
-                    console.log('loader');
-                    _this.loader = true;
-                }
-                _this.smoothScrolling();
-                _this.cId = message.id;
-                _this.fadeOut();
+            if (message.id != _this.cId) {
+                console.log('loader');
+                _this.loader = true;
             }
+            _this.smoothScrolling();
+            _this.cId = message.id;
+            _this.fadeOut();
         }));
         //stop the loader
         this.observers.push(this.dataShare.loader.subscribe(function () {

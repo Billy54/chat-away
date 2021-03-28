@@ -62,7 +62,6 @@ export class TopbarComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.observers.push(
       this.dataShareService.remote.subscribe((data: any) => {
-        if (data.sender == 'default') return;
         this.notificationList.unshift(new Notification(data));
         if (!this.notifications) {
           this.newmsg = false;

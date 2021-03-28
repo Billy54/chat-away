@@ -1,13 +1,13 @@
-<div *ngIf="shouldBeRendered">
+<div *ngIf="data.shouldBeRendered">
     <!----------not mine------------>
-    <div class="comment-wrapper not-my-comment " *ngIf="foreign">
+    <div class="comment-wrapper not-my-comment " *ngIf="data.foreign">
         <div class="comment ">
-            <div class="comment-user " *ngIf="isFirst">
-                <small>{{data.senderName}}</small>
+            <div class="comment-user " *ngIf="data.isFirst">
+                <small>{{data.name}}</small>
             </div>
             <div class="inner-wrapper ">
-                <img [src]="data.url" *ngIf="isFirst" class="avatar ">
-                <div class="blank-avatar" *ngIf="!isFirst"></div>
+                <img [src]="data.url" *ngIf="data.isFirst" class="avatar ">
+                <div class="blank-avatar" *ngIf="!data.isFirst"></div>
                 <div class="comment-body comment-text ">
                     {{data.text}}
                 </div>
@@ -16,7 +16,7 @@
     </div>
 
     <!------------mine------------->
-    <div class="comment-wrapper my-comment " *ngIf="!foreign">
+    <div class="comment-wrapper my-comment " *ngIf="!data.foreign">
         <div class="comment ">
             <div class="inner-wrapper ">
                 <div class="comment-body comment-text ">

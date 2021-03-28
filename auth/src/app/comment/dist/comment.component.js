@@ -9,33 +9,12 @@ exports.__esModule = true;
 exports.CommentComponent = void 0;
 var core_1 = require("@angular/core");
 var CommentComponent = /** @class */ (function () {
-    function CommentComponent(auth) {
-        this.auth = auth;
-        this.foreign = false;
-        this.isFirst = true;
-        this.shouldBeRendered = true;
-        this.uid = this.auth.getUserInfo().id;
+    function CommentComponent() {
     }
-    CommentComponent.prototype.ngOnInit = function () {
-        if (this.data.sender == 'default') {
-            this.shouldBeRendered = false;
-        }
-        else if (this.data.sender != this.uid) {
-            this.foreign = true;
-            this.isConsecutive();
-        }
-    };
-    CommentComponent.prototype.isConsecutive = function () {
-        if (this.data.sender == this.previousId) {
-            this.isFirst = false;
-        }
-    };
+    CommentComponent.prototype.ngOnInit = function () { };
     __decorate([
         core_1.Input()
     ], CommentComponent.prototype, "data");
-    __decorate([
-        core_1.Input()
-    ], CommentComponent.prototype, "previousId");
     CommentComponent = __decorate([
         core_1.Component({
             selector: 'app-comment',

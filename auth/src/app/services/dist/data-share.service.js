@@ -9,58 +9,50 @@ exports.__esModule = true;
 exports.DataShareService = void 0;
 var core_1 = require("@angular/core");
 var rxjs_1 = require("rxjs");
+var rxjs_2 = require("rxjs");
 var DataShareService = /** @class */ (function () {
     //emit to the subscribers
     function DataShareService() {
-        this.modalSwitch = new rxjs_1.BehaviorSubject('default');
+        this.modalSwitch = new rxjs_1.Subject();
         this.currentMessage = this.modalSwitch.asObservable();
-        //change current user info header
-        this.changeName = new rxjs_1.BehaviorSubject({
-            name: 'default',
-            room: 0
-        });
+        //change current user info header , buffer size = 1 cache always the last emmit
+        this.changeName = new rxjs_2.ReplaySubject(1);
         this.message = this.changeName.asObservable();
         //pass comment data to chatArea for new comments!!!
-        this.commentData = new rxjs_1.BehaviorSubject({
-            sender: 'default'
-        });
+        this.commentData = new rxjs_2.ReplaySubject(1);
         this.remote = this.commentData.asObservable();
         //pass comment data to chatArea for new comments!!!
-        this.localData = new rxjs_1.BehaviorSubject({
-            sender: 'default'
-        });
+        this.localData = new rxjs_2.ReplaySubject(1);
         this.local = this.localData.asObservable();
         //potentially some one made a new account so we need to render them on the list
-        this.refreshRooms = new rxjs_1.BehaviorSubject('');
+        this.refreshRooms = new rxjs_1.Subject();
         this.refresh = this.refreshRooms.asObservable();
         //update status
-        this.userStatus = new rxjs_1.BehaviorSubject('');
+        this.userStatus = new rxjs_2.ReplaySubject(1);
         this.status = this.userStatus.asObservable();
         //send new url to chat room
-        this.updateUrl = new rxjs_1.BehaviorSubject('');
+        this.updateUrl = new rxjs_2.ReplaySubject(1);
         this.changeUrl = this.updateUrl.asObservable();
         //swap current room
-        this.swap = new rxjs_1.BehaviorSubject('');
+        this.swap = new rxjs_2.ReplaySubject(1);
         this.swapRoom = this.swap.asObservable();
         //room loader
-        this.load = new rxjs_1.BehaviorSubject(false);
+        this.load = new rxjs_2.ReplaySubject(1);
         this.loader = this.load.asObservable();
         //invited to custom room
-        this.room = new rxjs_1.BehaviorSubject({});
+        this.room = new rxjs_2.ReplaySubject(1);
         this.newRoom = this.room.asObservable();
         //in which room we will be saving the comments
-        this.roomId = new rxjs_1.BehaviorSubject('');
+        this.roomId = new rxjs_2.ReplaySubject(1);
         this.writeToRoom = this.roomId.asObservable();
         //open new room list
-        this.opener = new rxjs_1.BehaviorSubject(false);
+        this.opener = new rxjs_1.Subject();
         this.openList = this.opener.asObservable();
     }
     DataShareService.prototype.registerModal = function (hidden) {
         this.modalSwitch.next(hidden);
     };
     DataShareService.prototype.notifyChange = function (data) {
-        if (data.sender == 'default')
-            return;
         this.changeName.next(data);
     };
     DataShareService.prototype.sendRemote = function (d) {
@@ -70,23 +62,15 @@ var DataShareService = /** @class */ (function () {
         this.localData.next(d);
     };
     DataShareService.prototype.refreshUsers = function (id) {
-        if (id == '')
-            return;
         this.refreshRooms.next(id);
     };
     DataShareService.prototype.updateStatus = function (id) {
-        if (id == '')
-            return;
         this.userStatus.next(id);
     };
     DataShareService.prototype.sendUrl = function (url) {
-        if (!url)
-            return;
         this.updateUrl.next(url);
     };
     DataShareService.prototype.swapCurrent = function (id) {
-        if (!id)
-            return;
         this.swap.next(id);
     };
     DataShareService.prototype.stopLoading = function () {

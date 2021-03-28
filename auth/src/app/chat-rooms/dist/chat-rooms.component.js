@@ -35,7 +35,7 @@ var ChatRoomsComponent = /** @class */ (function () {
         this.observers.push(this.dataShare.refresh.subscribe(function (id) {
             setTimeout(function () {
                 _this.addUser(id);
-            }, 2500);
+            }, 2000);
         }));
         //update status
         this.observers.push(this.dataShare.status.subscribe(function (data) {
@@ -53,15 +53,11 @@ var ChatRoomsComponent = /** @class */ (function () {
         }));
         //invited to new room
         this.observers.push(this.dataShare.newRoom.subscribe(function (room) {
-            if (!room.name)
-                return;
             _this.users.push(new user_1.User(room));
         }));
     };
     ChatRoomsComponent.prototype.addUser = function (id) {
         var _this = this;
-        if (id == '')
-            return;
         for (var _i = 0, _a = this.users; _i < _a.length; _i++) {
             var user = _a[_i];
             if (user.details.id == id)
@@ -92,8 +88,6 @@ var ChatRoomsComponent = /** @class */ (function () {
         }
     };
     ChatRoomsComponent.prototype.updateStatus = function (data) {
-        if (!data)
-            return;
         this.users.forEach(function (user) {
             if (user.details.id == data.id) {
                 user.status = data.alive;

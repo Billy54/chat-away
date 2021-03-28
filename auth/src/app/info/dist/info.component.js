@@ -30,7 +30,7 @@ var InfoComponent = /** @class */ (function () {
         }));
         //status check
         this.observers.push(this.dataShare.status.subscribe(function (data) {
-            if (data.id == '' || _this.custom)
+            if (_this.custom)
                 return;
             if (_this.info == 'Active now.') {
                 _this.info = 'Offline.';
@@ -42,12 +42,10 @@ var InfoComponent = /** @class */ (function () {
         //status check on swap
         this.observers.push(this.dataShare.message.subscribe(function (message) {
             if (message === void 0) { message = []; }
-            if (message.name != 'default') {
-                _this.infoName = message.name;
-                _this.url = message.avatar;
-                _this.changeStatus(message.status);
-                _this.custom = message.custom;
-            }
+            _this.infoName = message.name;
+            _this.url = message.avatar;
+            _this.changeStatus(message.status);
+            _this.custom = message.custom;
         }));
     };
     InfoComponent.prototype.ngOnDestroy = function () {

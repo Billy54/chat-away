@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.observers.push(
-      this.dataShare.currentMessage.subscribe((message) => {
+      this.dataShare.currentMessage.subscribe((message: string) => {
         this.toggleModal();
       })
     );

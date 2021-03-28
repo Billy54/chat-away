@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CommentComponent } from '../comment/comment.component';
+import { CommentFactory } from '../commentFactory/factory';
 import { Room } from '../Models/room';
 import { AuthService } from '../services/auth.service';
 import { CommentsService } from '../services/comments.service';
@@ -29,13 +30,16 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
   private activeRoom: any;
   private previousId: string = '';
   private observers: Subscription[] = [];
+  private factory: CommentFactory;
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
     private fetchData: DataShareService,
     private commentsService: CommentsService,
     private auth: AuthService
-  ) {}
+  ) {
+    this.factory = new CommentFactory(this.auth.getUserInfo().id);
+  }
 
   ngOnDestroy() {
     this.observers.forEach((observer) => {
@@ -47,7 +51,7 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
     //on room change
     this.observers.push(
       this.fetchData.message.subscribe((data: any) => {
-        if (data.name == 'default' || data.id == this.activeRoom) return;
+        if (data.id == this.activeRoom) return;
         this.vc = this.appChat.viewContainerRef;
         this.vc.clear();
         this.activeRoom = data.id;
@@ -55,7 +59,7 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
       })
     );
 
-    // local append
+    // local comment
     this.observers.push(
       this.fetchData.local.subscribe((data: any) => {
         this.commentSectionInit(data);
@@ -63,7 +67,7 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
       })
     );
 
-    //remote append
+    //received comment
     this.observers.push(
       this.fetchData.remote.subscribe((data: any) => {
         if (data.custom) {
@@ -100,7 +104,6 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
 
   //create a comment instance for each comment
   commentSectionInit(data: any) {
-    if (!data) return;
     this.vc = this.appChat.viewContainerRef;
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
       CommentComponent
@@ -108,8 +111,8 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
     const componentRef = this.vc.createComponent<CommentComponent>(
       componentFactory
     );
-    (<CommentComponent>componentRef.instance).data = data;
-    (<CommentComponent>componentRef.instance).previousId = this.previousId;
+    let newComment = this.factory.newComment(this.previousId, data);
+    (<CommentComponent>componentRef.instance).data = newComment;
     this.previousId = data.sender;
   }
 
@@ -124,11 +127,10 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
   }
 
   fetchFromServer() {
-    let sender = this.auth.getUserInfo().id;
     this.commentsService
       .getComments('room', {
         receiver: this.activeRoom,
-        sender: sender,
+        sender: this.auth.getUserInfo().id,
       })
       .subscribe((response: any = []) => {
         let room = new Room(response.comments, this.activeRoom, response.rid);

@@ -39,15 +39,13 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     //room switched
     this.observers.push(
       this.dataShare.message.subscribe((message: any = []) => {
-        if (message.name != 'default') {
-          if (message.id != this.cId) {
-            console.log('loader');
-            this.loader = true;
-          }
-          this.smoothScrolling();
-          this.cId = message.id;
-          this.fadeOut();
+        if (message.id != this.cId) {
+          console.log('loader');
+          this.loader = true;
         }
+        this.smoothScrolling();
+        this.cId = message.id;
+        this.fadeOut();
       })
     );
 

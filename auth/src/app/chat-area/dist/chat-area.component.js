@@ -9,6 +9,7 @@ exports.__esModule = true;
 exports.ChatAreaComponent = void 0;
 var core_1 = require("@angular/core");
 var comment_component_1 = require("../comment/comment.component");
+var factory_1 = require("../commentFactory/factory");
 var room_1 = require("../Models/room");
 var chat_directive_1 = require("./chat.directive");
 var ChatAreaComponent = /** @class */ (function () {
@@ -20,6 +21,7 @@ var ChatAreaComponent = /** @class */ (function () {
         this.rooms = Array();
         this.previousId = '';
         this.observers = [];
+        this.factory = new factory_1.CommentFactory(this.auth.getUserInfo().id);
     }
     ChatAreaComponent.prototype.ngOnDestroy = function () {
         this.observers.forEach(function (observer) {
@@ -30,19 +32,19 @@ var ChatAreaComponent = /** @class */ (function () {
         var _this = this;
         //on room change
         this.observers.push(this.fetchData.message.subscribe(function (data) {
-            if (data.name == 'default' || data.id == _this.activeRoom)
+            if (data.id == _this.activeRoom)
                 return;
             _this.vc = _this.appChat.viewContainerRef;
             _this.vc.clear();
             _this.activeRoom = data.id;
             _this.getRoom();
         }));
-        // local append
+        // local comment
         this.observers.push(this.fetchData.local.subscribe(function (data) {
             _this.commentSectionInit(data);
             _this.saveLocal(_this.activeRoom, data);
         }));
-        //remote append
+        //received comment
         this.observers.push(this.fetchData.remote.subscribe(function (data) {
             if (data.custom) {
                 _this.saveLocal(data.receiver, data);
@@ -76,13 +78,11 @@ var ChatAreaComponent = /** @class */ (function () {
     };
     //create a comment instance for each comment
     ChatAreaComponent.prototype.commentSectionInit = function (data) {
-        if (!data)
-            return;
         this.vc = this.appChat.viewContainerRef;
         var componentFactory = this.componentFactoryResolver.resolveComponentFactory(comment_component_1.CommentComponent);
         var componentRef = this.vc.createComponent(componentFactory);
-        componentRef.instance.data = data;
-        componentRef.instance.previousId = this.previousId;
+        var newComment = this.factory.newComment(this.previousId, data);
+        componentRef.instance.data = newComment;
         this.previousId = data.sender;
     };
     ChatAreaComponent.prototype.getRoom = function () {
@@ -97,11 +97,10 @@ var ChatAreaComponent = /** @class */ (function () {
     };
     ChatAreaComponent.prototype.fetchFromServer = function () {
         var _this = this;
-        var sender = this.auth.getUserInfo().id;
         this.commentsService
             .getComments('room', {
             receiver: this.activeRoom,
-            sender: sender
+            sender: this.auth.getUserInfo().id
         })
             .subscribe(function (response) {
             if (response === void 0) { response = []; }

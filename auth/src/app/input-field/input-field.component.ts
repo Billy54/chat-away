@@ -27,10 +27,8 @@ export class InputFieldComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.observers.push(
       this.forwardMessage.message.subscribe((message: any = []) => {
-        if (message.name != 'default') {
-          this.receiver = message.id;
-          this.custom = message.custom;
-        }
+        this.receiver = message.id;
+        this.custom = message.custom;
       })
     );
 
@@ -44,7 +42,6 @@ export class InputFieldComponent implements OnInit, OnDestroy {
     //which room to append the comment
     this.observers.push(
       this.forwardMessage.writeToRoom.subscribe((id: string) => {
-        if (!id) return;
         this.roomId = id;
       })
     );

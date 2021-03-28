@@ -26,12 +26,12 @@ import { DataService } from './services/data.service';
 import { UsersService } from './services/users.service';
 import { InputFieldComponent } from './input-field/input-field.component';
 import { CommentsService } from './services/comments.service';
-import { StatusComponent } from './status/status.component';
 import { FormsModule } from '@angular/forms';
 import { InfoComponent } from './info/info.component';
 import { FileService } from './services/file.service';
 import { UsersComponent } from './users/users.component';
 import { RoomInfoComponent } from './room-info/room-info.component';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -47,7 +47,6 @@ import { RoomInfoComponent } from './room-info/room-info.component';
     ConversationDirective,
     ChatRoomsComponent,
     InputFieldComponent,
-    StatusComponent,
     InfoComponent,
     UsersComponent,
     RoomInfoComponent,
@@ -72,6 +71,7 @@ import { RoomInfoComponent } from './room-info/room-info.component';
     UsersService,
     CommentsService,
     FileService,
+    AuthService,
   ],
   bootstrap: [AppComponent],
   exports: [RouterModule],

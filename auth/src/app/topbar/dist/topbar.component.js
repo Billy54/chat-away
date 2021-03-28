@@ -42,8 +42,6 @@ var TopbarComponent = /** @class */ (function () {
     TopbarComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.observers.push(this.dataShareService.remote.subscribe(function (data) {
-            if (data.sender == 'default')
-                return;
             _this.notificationList.unshift(new notification_1.Notification(data));
             if (!_this.notifications) {
                 _this.newmsg = false;

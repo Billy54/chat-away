@@ -49,7 +49,7 @@ export class InfoComponent implements OnInit, OnDestroy {
     //status check
     this.observers.push(
       this.dataShare.status.subscribe((data: any) => {
-        if (data.id == '' || this.custom) return;
+        if (this.custom) return;
         if (this.info == 'Active now.') {
           this.info = 'Offline.';
         } else {
@@ -61,12 +61,10 @@ export class InfoComponent implements OnInit, OnDestroy {
     //status check on swap
     this.observers.push(
       this.dataShare.message.subscribe((message: any = []) => {
-        if (message.name != 'default') {
-          this.infoName = message.name;
-          this.url = message.avatar;
-          this.changeStatus(message.status);
-          this.custom = message.custom;
-        }
+        this.infoName = message.name;
+        this.url = message.avatar;
+        this.changeStatus(message.status);
+        this.custom = message.custom;
       })
     );
   }

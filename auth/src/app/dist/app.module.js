@@ -34,10 +34,12 @@ var data_service_1 = require("./services/data.service");
 var users_service_1 = require("./services/users.service");
 var input_field_component_1 = require("./input-field/input-field.component");
 var comments_service_1 = require("./services/comments.service");
-var status_component_1 = require("./status/status.component");
 var forms_2 = require("@angular/forms");
 var info_component_1 = require("./info/info.component");
 var file_service_1 = require("./services/file.service");
+var users_component_1 = require("./users/users.component");
+var room_info_component_1 = require("./room-info/room-info.component");
+var auth_service_1 = require("./services/auth.service");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -56,8 +58,9 @@ var AppModule = /** @class */ (function () {
                 conversation_directive_1.ConversationDirective,
                 chat_rooms_component_1.ChatRoomsComponent,
                 input_field_component_1.InputFieldComponent,
-                status_component_1.StatusComponent,
                 info_component_1.InfoComponent,
+                users_component_1.UsersComponent,
+                room_info_component_1.RoomInfoComponent,
             ],
             imports: [
                 forms_1.ReactiveFormsModule,
@@ -79,6 +82,7 @@ var AppModule = /** @class */ (function () {
                 users_service_1.UsersService,
                 comments_service_1.CommentsService,
                 file_service_1.FileService,
+                auth_service_1.AuthService,
             ],
             bootstrap: [app_component_1.AppComponent],
             exports: [router_1.RouterModule]

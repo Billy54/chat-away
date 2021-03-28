@@ -22,10 +22,8 @@ var InputFieldComponent = /** @class */ (function () {
         var _this = this;
         this.observers.push(this.forwardMessage.message.subscribe(function (message) {
             if (message === void 0) { message = []; }
-            if (message.name != 'default') {
-                _this.receiver = message.id;
-                _this.custom = message.custom;
-            }
+            _this.receiver = message.id;
+            _this.custom = message.custom;
         }));
         //avatar url
         this.observers.push(this.forwardMessage.changeUrl.subscribe(function (url) {
@@ -33,8 +31,6 @@ var InputFieldComponent = /** @class */ (function () {
         }));
         //which room to append the comment
         this.observers.push(this.forwardMessage.writeToRoom.subscribe(function (id) {
-            if (!id)
-                return;
             _this.roomId = id;
         }));
     };
