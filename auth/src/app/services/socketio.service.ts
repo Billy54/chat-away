@@ -8,7 +8,7 @@ import { DataShareService } from './data-share.service';
 })
 export class SocketioService {
   private socket: any;
-  private readonly id = this.auth.getUserInfo().id;
+
   constructor(
     private auth: AuthService,
     private forwardMessage: DataShareService
@@ -17,14 +17,12 @@ export class SocketioService {
   setupSocketConnection() {
     //init , connect and create aprivate room for each user
     this.socket = io('http://localhost:5000');
-    this.socket.emit('userJoin', this.id);
+    this.socket.emit('userJoin', this.auth.getUserInfo().id);
 
     //some one joined , possibly a new account
     this.socket.on('joined', (data: any) => {
-      if (data.id != this.id) {
-        this.forwardMessage.refreshUsers(data.id);
-        this.forwardMessage.updateStatus(data);
-      }
+      this.forwardMessage.refreshUsers(data.id);
+      this.forwardMessage.updateStatus(data);
     });
 
     //listen for messages
@@ -34,7 +32,6 @@ export class SocketioService {
 
     //keep an eye out for anyone who might disconnect
     this.socket.on('left', (data: any) => {
-      console.log(data);
       this.forwardMessage.updateStatus(data);
     });
 

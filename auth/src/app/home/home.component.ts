@@ -9,7 +9,8 @@ import { DataShareService } from '../services/data-share.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
-  public el: any;
+  private el: any;
+  public slide: boolean = false;
   public fade: boolean = false;
   public loader: boolean = false;
   private cId: any;
@@ -63,6 +64,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       this.el.scrollTop = this.el.scrollHeight - this.el.clientHeight;
     }, 200);
+  }
+
+  slideRight() {
+    this.slide = !this.slide;
   }
 
   fadeOut() {

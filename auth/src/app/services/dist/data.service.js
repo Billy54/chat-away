@@ -56,6 +56,12 @@ var DataService = /** @class */ (function () {
             .get(this.url + uri, this.options)
             .pipe(operators_1.catchError(this.errorHandler.handleError));
     };
+    //get current room names
+    DataService.prototype.getNames = function (uri) {
+        return this.http
+            .get(this.url + uri, this.options)
+            .pipe(operators_1.catchError(this.errorHandler.handleError));
+    };
     DataService = __decorate([
         core_1.Injectable({
             providedIn: 'root'

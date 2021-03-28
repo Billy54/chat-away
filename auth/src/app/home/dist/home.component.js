@@ -12,6 +12,7 @@ var HomeComponent = /** @class */ (function () {
     function HomeComponent(dataShare, r) {
         this.dataShare = dataShare;
         this.r = r;
+        this.slide = false;
         this.fade = false;
         this.loader = false;
         this.observers = [];
@@ -55,6 +56,9 @@ var HomeComponent = /** @class */ (function () {
         setTimeout(function () {
             _this.el.scrollTop = _this.el.scrollHeight - _this.el.clientHeight;
         }, 200);
+    };
+    HomeComponent.prototype.slideRight = function () {
+        this.slide = !this.slide;
     };
     HomeComponent.prototype.fadeOut = function () {
         var _this = this;

@@ -1,6 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  Output,
+  EventEmitter,
+  ViewChild,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
-import { User } from '../chat-rooms/user';
+import { User } from '../Models/user';
 import { AuthService } from '../services/auth.service';
 import { DataShareService } from '../services/data-share.service';
 import { SocketioService } from '../services/socketio.service';
@@ -13,14 +21,16 @@ import { UsersComponent } from '../users/users.component';
   styleUrls: ['./info.component.css'],
 })
 export class InfoComponent implements OnInit, OnDestroy {
+  @Output() slide: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   private custom: any;
   public infoName: string = '';
   public info: string = '';
   public url: any;
   public name: string = '';
   private users: User[] = [];
-  public open: boolean = false;
   private observers: Subscription[] = [];
+  public open: boolean = false;
 
   constructor(
     private dataShare: DataShareService,
@@ -29,7 +39,14 @@ export class InfoComponent implements OnInit, OnDestroy {
     private auth: AuthService
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.observers.push(
+      this.dataShare.openList.subscribe((v: any) => {
+        this.openList(v);
+      })
+    );
+
+    //status check
     this.observers.push(
       this.dataShare.status.subscribe((data: any) => {
         if (data.id == '' || this.custom) return;
@@ -40,6 +57,8 @@ export class InfoComponent implements OnInit, OnDestroy {
         }
       })
     );
+
+    //status check on swap
     this.observers.push(
       this.dataShare.message.subscribe((message: any = []) => {
         if (message.name != 'default') {
@@ -83,14 +102,19 @@ export class InfoComponent implements OnInit, OnDestroy {
       return;
     }
     this.io.newRoom(members, this.name);
-    this.openList();
+    this.openList(true);
   }
 
-  openList() {
+  openList(v: boolean) {
+    this.open = v;
     this.name = '';
-    this.open = !this.open;
     if (this.users.length < 1) {
       this.getList();
+    }
+    if (!this.open) {
+      this.users.forEach((user) => {
+        user.active = false;
+      });
     }
   }
 
@@ -99,13 +123,18 @@ export class InfoComponent implements OnInit, OnDestroy {
   }
 
   getList() {
+    //should change this
     if (this.users.length > 0) {
       return;
     }
     this.fetchUsers.getAll('users').subscribe((response: any = []) => {
       response.users.forEach((user: any) => {
-        this.users.push(new User(user));
+        if (!user.custom) this.users.push(new User(user));
       });
     });
+  }
+
+  slider() {
+    this.slide.emit(true);
   }
 }

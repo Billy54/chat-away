@@ -139,13 +139,15 @@ export class TopbarComponent implements OnInit, AfterViewInit, OnDestroy {
       const fd = new FormData();
       fd.append('image', this.file.files[0]);
       fd.append('uid', this.authService.getUserInfo().id);
-      this.fileService
-        .postAvatar('avatar', fd)
-        .subscribe((response: any = []) => {
-          this.url = response.path;
-          this.slide();
-          this.dataShareService.sendUrl(this.url);
-        });
+      this.observers.push(
+        this.fileService
+          .postAvatar('avatar', fd)
+          .subscribe((response: any = []) => {
+            this.url = response.path;
+            this.slide();
+            this.dataShareService.sendUrl(this.url);
+          })
+      );
     }
   }
 

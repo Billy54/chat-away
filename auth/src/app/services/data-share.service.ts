@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Observer } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -94,5 +95,12 @@ export class DataShareService {
   writeToRoom = this.roomId.asObservable();
   public sendroomId(id: string) {
     this.roomId.next(id);
+  }
+
+  //open new room list
+  private opener = new BehaviorSubject<boolean>(false);
+  openList = this.opener.asObservable();
+  public switch(state: boolean) {
+    this.opener.next(state);
   }
 }

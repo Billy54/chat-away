@@ -31,6 +31,7 @@ import { FormsModule } from '@angular/forms';
 import { InfoComponent } from './info/info.component';
 import { FileService } from './services/file.service';
 import { UsersComponent } from './users/users.component';
+import { RoomInfoComponent } from './room-info/room-info.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { UsersComponent } from './users/users.component';
     StatusComponent,
     InfoComponent,
     UsersComponent,
+    RoomInfoComponent,
   ],
   imports: [
     ReactiveFormsModule,

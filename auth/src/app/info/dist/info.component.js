@@ -8,22 +8,27 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.InfoComponent = void 0;
 var core_1 = require("@angular/core");
-var user_1 = require("../chat-rooms/user");
+var user_1 = require("../Models/user");
 var InfoComponent = /** @class */ (function () {
     function InfoComponent(dataShare, fetchUsers, io, auth) {
         this.dataShare = dataShare;
         this.fetchUsers = fetchUsers;
         this.io = io;
         this.auth = auth;
+        this.slide = new core_1.EventEmitter();
         this.infoName = '';
         this.info = '';
         this.name = '';
         this.users = [];
-        this.open = false;
         this.observers = [];
+        this.open = false;
     }
     InfoComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.observers.push(this.dataShare.openList.subscribe(function (v) {
+            _this.openList(v);
+        }));
+        //status check
         this.observers.push(this.dataShare.status.subscribe(function (data) {
             if (data.id == '' || _this.custom)
                 return;
@@ -34,6 +39,7 @@ var InfoComponent = /** @class */ (function () {
                 _this.info = 'Active now.';
             }
         }));
+        //status check on swap
         this.observers.push(this.dataShare.message.subscribe(function (message) {
             if (message === void 0) { message = []; }
             if (message.name != 'default') {
@@ -73,13 +79,18 @@ var InfoComponent = /** @class */ (function () {
             return;
         }
         this.io.newRoom(members, this.name);
-        this.openList();
+        this.openList(true);
     };
-    InfoComponent.prototype.openList = function () {
+    InfoComponent.prototype.openList = function (v) {
+        this.open = v;
         this.name = '';
-        this.open = !this.open;
         if (this.users.length < 1) {
             this.getList();
+        }
+        if (!this.open) {
+            this.users.forEach(function (user) {
+                user.active = false;
+            });
         }
     };
     Object.defineProperty(InfoComponent.prototype, "usersList", {
@@ -91,16 +102,24 @@ var InfoComponent = /** @class */ (function () {
     });
     InfoComponent.prototype.getList = function () {
         var _this = this;
+        //should change this
         if (this.users.length > 0) {
             return;
         }
         this.fetchUsers.getAll('users').subscribe(function (response) {
             if (response === void 0) { response = []; }
             response.users.forEach(function (user) {
-                _this.users.push(new user_1.User(user));
+                if (!user.custom)
+                    _this.users.push(new user_1.User(user));
             });
         });
     };
+    InfoComponent.prototype.slider = function () {
+        this.slide.emit(true);
+    };
+    __decorate([
+        core_1.Output()
+    ], InfoComponent.prototype, "slide");
     InfoComponent = __decorate([
         core_1.Component({
             selector: 'active-info',

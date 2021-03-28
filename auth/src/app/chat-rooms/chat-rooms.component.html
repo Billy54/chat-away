@@ -4,6 +4,9 @@
             <span>
                 <b>Chats</b>
             </span>
+            <div class="new-room" [class.active]="active" (click)="toggle()">
+                <i class="fas fa-edit plus"></i>
+            </div>
         </div>
         <form class="search-chat search-field ">
             <i class="fas fa-search "></i>

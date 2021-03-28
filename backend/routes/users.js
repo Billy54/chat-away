@@ -21,14 +21,13 @@ router.get("/users", ensureAuthenticated, async(req, res) => {
                     name: user.name,
                     email: user.email,
                     id: user._id,
-                    alive: online(user._id),
+                    alive: online(String(user._id)),
                     avatar: user.avatar
                 });
             } else {
                 rooms = user.rooms;
             }
         });
-        console.log(userDto);
         await Room.find({
             _id: {
                 $in: rooms
@@ -74,6 +73,27 @@ router.get("/users/:userId", ensureAuthenticated, async(req, res) => {
         });
     }).catch((err) => {
         res.status(400).json({
+            err: err
+        });
+    });
+});
+
+router.get('/names/:id', async(req, res) => {
+    let id = req.params.id
+    await User.find({
+        rooms: {
+            $all: [id]
+        }
+    }).then(users => {
+        names = [];
+        users.forEach(user => {
+            names.push(user.name);
+        });
+        res.status(200).json({
+            names: names
+        });
+    }).catch(err => {
+        res.status(500).json({
             err: err
         });
     });

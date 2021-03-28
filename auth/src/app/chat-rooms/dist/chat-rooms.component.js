@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.ChatRoomsComponent = void 0;
 var core_1 = require("@angular/core");
-var user_1 = require("./user");
+var user_1 = require("../Models/user");
 var ChatRoomsComponent = /** @class */ (function () {
     function ChatRoomsComponent(r, userService, dataShare) {
         this.r = r;
@@ -18,6 +18,7 @@ var ChatRoomsComponent = /** @class */ (function () {
         this.userName = '';
         this.activeRoom = 0;
         this.observers = [];
+        this.active = false;
     }
     ChatRoomsComponent.prototype.ngOnDestroy = function () {
         this.observers.forEach(function (observer) {
@@ -66,10 +67,12 @@ var ChatRoomsComponent = /** @class */ (function () {
             if (user.details.id == id)
                 return;
         }
-        this.userService.getUser('users/' + id).subscribe(function (response) {
+        this.observers.push(this.userService
+            .getUser('users/' + id)
+            .subscribe(function (response) {
             if (response === void 0) { response = []; }
             _this.users.push(new user_1.User(response.user));
-        });
+        }));
     };
     ChatRoomsComponent.prototype.changeRoom = function (index) {
         if (index < this.users.length) {
@@ -117,6 +120,10 @@ var ChatRoomsComponent = /** @class */ (function () {
                 user.isVisible = true;
             }
         }
+    };
+    ChatRoomsComponent.prototype.toggle = function () {
+        this.active = !this.active;
+        this.dataShare["switch"](this.active);
     };
     Object.defineProperty(ChatRoomsComponent.prototype, "getUsers", {
         get: function () {

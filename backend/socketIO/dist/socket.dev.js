@@ -24,7 +24,7 @@ var socketIO = function socketIO(io) {
       });
       console.log('joined');
       getRooms().forEach(function (i) {
-        io.to(i).emit('joined', {
+        socket.to(i).emit('joined', {
           id: id,
           alive: true
         });
@@ -53,7 +53,8 @@ var socketIO = function socketIO(io) {
           id: room._id,
           custom: true,
           avatar: room.url
-        };
+        }; //to all
+
         data.members.forEach(function (member) {
           io.to(member).emit('invite', newRoom);
         });

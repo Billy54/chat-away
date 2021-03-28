@@ -1,18 +1,17 @@
 <div class="chat-info ">
-    <img [src]="url" class="user-avatar">
+    <img [src]="url" *ngIf="!open" class="user-avatar">
     <form class="user-details ">
-        <input *ngIf="open" [(ngModel)]="name" name="name" class="custom" type="text">
+        <input *ngIf="open" [(ngModel)]="name" name="name" class="custom" type="text" placeholder="name your room" autofocus>
         <h1 *ngIf="!open">{{infoName}}</h1>
-        <small>{{info}}</small>
+        <small *ngIf="!open">{{info}}</small>
     </form>
     <div *ngIf="open" class="notification-dropdown">
-        <div class="profile-item " *ngFor="let user of usersList;let i=index " [class.tik]="user.active" (click)="select(i)">
+        <div class="profile-item" *ngFor="let user of usersList; let i=index " [class.tik]="user.active" (click)="select(i)">
             <img [src]="user.details.avatar" class=" avatar " style="margin-top: 0px;">
             <div class="details ">
                 <div class="message">{{user.details.name}}</div>
             </div>
         </div>
     </div>
-    <i class="fas fa-edit plus" (click)="openList()"></i>
-    <i class="fas fa-bell plus" style="right: 10px;" (click)="submit()"></i>
+    <i class="fas fa-info-circle info" (click)="slider()"></i>
 </div>

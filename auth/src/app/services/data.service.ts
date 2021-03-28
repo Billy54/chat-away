@@ -59,4 +59,11 @@ export class DataService {
       .get(this.url + uri, this.options)
       .pipe(catchError(this.errorHandler.handleError));
   }
+
+  //get current room names
+  getNames(uri: string): Observable<any> {
+    return this.http
+      .get(this.url + uri, this.options)
+      .pipe(catchError(this.errorHandler.handleError));
+  }
 }

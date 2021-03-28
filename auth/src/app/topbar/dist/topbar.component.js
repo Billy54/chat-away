@@ -116,14 +116,14 @@ var TopbarComponent = /** @class */ (function () {
             var fd = new FormData();
             fd.append('image', this.file.files[0]);
             fd.append('uid', this.authService.getUserInfo().id);
-            this.fileService
+            this.observers.push(this.fileService
                 .postAvatar('avatar', fd)
                 .subscribe(function (response) {
                 if (response === void 0) { response = []; }
                 _this.url = response.path;
                 _this.slide();
                 _this.dataShareService.sendUrl(_this.url);
-            });
+            }));
         }
     };
     TopbarComponent.prototype.browse = function (index) {

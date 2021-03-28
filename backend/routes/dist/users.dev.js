@@ -37,15 +37,14 @@ router.get("/users", ensureAuthenticated, function _callee2(req, res) {
                           name: user.name,
                           email: user.email,
                           id: user._id,
-                          alive: online(user._id),
+                          alive: online(String(user._id)),
                           avatar: user.avatar
                         });
                       } else {
                         rooms = user.rooms;
                       }
                     });
-                    console.log(userDto);
-                    _context.next = 6;
+                    _context.next = 5;
                     return regeneratorRuntime.awrap(Room.find({
                       _id: {
                         $in: rooms
@@ -68,7 +67,7 @@ router.get("/users", ensureAuthenticated, function _callee2(req, res) {
                       });
                     }));
 
-                  case 6:
+                  case 5:
                   case "end":
                     return _context.stop();
                 }
@@ -115,6 +114,39 @@ router.get("/users/:userId", ensureAuthenticated, function _callee3(req, res) {
         case 2:
         case "end":
           return _context3.stop();
+      }
+    }
+  });
+});
+router.get('/names/:id', function _callee4(req, res) {
+  var id;
+  return regeneratorRuntime.async(function _callee4$(_context4) {
+    while (1) {
+      switch (_context4.prev = _context4.next) {
+        case 0:
+          id = req.params.id;
+          _context4.next = 3;
+          return regeneratorRuntime.awrap(User.find({
+            rooms: {
+              $all: [id]
+            }
+          }).then(function (users) {
+            names = [];
+            users.forEach(function (user) {
+              names.push(user.name);
+            });
+            res.status(200).json({
+              names: names
+            });
+          })["catch"](function (err) {
+            res.status(500).json({
+              err: err
+            });
+          }));
+
+        case 3:
+        case "end":
+          return _context4.stop();
       }
     }
   });

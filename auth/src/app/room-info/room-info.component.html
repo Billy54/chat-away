@@ -1,0 +1,11 @@
+<div class="sidenav">
+    <div class="container">
+        <div class="avatar-upload">
+            <img [src]="currentRoom.avatar" class="avatar-preview">
+        </div>
+    </div>
+    <div class="names">
+        <h1 class="header">Chat members</h1>
+        <h1 class="header user" *ngFor="let name of currentRoom.unames">{{name}}</h1>
+    </div>
+</div>

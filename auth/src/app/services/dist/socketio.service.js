@@ -13,19 +13,16 @@ var SocketioService = /** @class */ (function () {
     function SocketioService(auth, forwardMessage) {
         this.auth = auth;
         this.forwardMessage = forwardMessage;
-        this.id = this.auth.getUserInfo().id;
     }
     SocketioService.prototype.setupSocketConnection = function () {
         var _this = this;
         //init , connect and create aprivate room for each user
         this.socket = socket_io_client_1.io('http://localhost:5000');
-        this.socket.emit('userJoin', this.id);
+        this.socket.emit('userJoin', this.auth.getUserInfo().id);
         //some one joined , possibly a new account
         this.socket.on('joined', function (data) {
-            if (data.id != _this.id) {
-                _this.forwardMessage.refreshUsers(data.id);
-                _this.forwardMessage.updateStatus(data);
-            }
+            _this.forwardMessage.refreshUsers(data.id);
+            _this.forwardMessage.updateStatus(data);
         });
         //listen for messages
         this.socket.on('message', function (data) {
@@ -33,7 +30,6 @@ var SocketioService = /** @class */ (function () {
         });
         //keep an eye out for anyone who might disconnect
         this.socket.on('left', function (data) {
-            console.log(data);
             _this.forwardMessage.updateStatus(data);
         });
         //some one added

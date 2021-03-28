@@ -51,6 +51,9 @@ var DataShareService = /** @class */ (function () {
         //in which room we will be saving the comments
         this.roomId = new rxjs_1.BehaviorSubject('');
         this.writeToRoom = this.roomId.asObservable();
+        //open new room list
+        this.opener = new rxjs_1.BehaviorSubject(false);
+        this.openList = this.opener.asObservable();
     }
     DataShareService.prototype.registerModal = function (hidden) {
         this.modalSwitch.next(hidden);
@@ -94,6 +97,9 @@ var DataShareService = /** @class */ (function () {
     };
     DataShareService.prototype.sendroomId = function (id) {
         this.roomId.next(id);
+    };
+    DataShareService.prototype["switch"] = function (state) {
+        this.opener.next(state);
     };
     DataShareService = __decorate([
         core_1.Injectable({

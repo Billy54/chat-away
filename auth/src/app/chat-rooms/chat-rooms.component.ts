@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { DataShareService } from '../services/data-share.service';
 import { UsersService } from '../services/users.service';
-import { User } from './user';
+import { User } from '../Models/user';
 
 @Component({
   selector: 'chat-rooms',
@@ -15,6 +15,7 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
   public userName: string = '';
   private activeRoom: number = 0;
   private observers: Subscription[] = [];
+  public active: boolean = false;
 
   constructor(
     private r: Router,
@@ -78,9 +79,13 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
     for (const user of this.users) {
       if (user.details.id == id) return;
     }
-    this.userService.getUser('users/' + id).subscribe((response: any = []) => {
-      this.users.push(new User(response.user));
-    });
+    this.observers.push(
+      this.userService
+        .getUser('users/' + id)
+        .subscribe((response: any = []) => {
+          this.users.push(new User(response.user));
+        })
+    );
   }
 
   changeRoom(index: any) {
@@ -130,6 +135,11 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
         user.isVisible = true;
       }
     }
+  }
+
+  toggle() {
+    this.active = !this.active;
+    this.dataShare.switch(this.active);
   }
 
   get getUsers() {
