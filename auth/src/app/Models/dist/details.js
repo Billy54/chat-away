@@ -2,10 +2,12 @@
 exports.__esModule = true;
 exports.Details = void 0;
 var Details = /** @class */ (function () {
-    function Details(url, names, id) {
+    function Details(url, names, id, uids) {
         this.url = url;
         this.names = names;
         this.id = id;
+        this.uids = uids;
+        this.custom = false;
     }
     Object.defineProperty(Details.prototype, "avatar", {
         get: function () {
@@ -24,6 +26,13 @@ var Details = /** @class */ (function () {
     Object.defineProperty(Details.prototype, "unames", {
         get: function () {
             return this.names;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Details.prototype, "ids", {
+        get: function () {
+            return this.uids;
         },
         enumerable: false,
         configurable: true

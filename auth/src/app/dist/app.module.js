@@ -37,7 +37,6 @@ var comments_service_1 = require("./services/comments.service");
 var forms_2 = require("@angular/forms");
 var info_component_1 = require("./info/info.component");
 var file_service_1 = require("./services/file.service");
-var users_component_1 = require("./users/users.component");
 var room_info_component_1 = require("./room-info/room-info.component");
 var auth_service_1 = require("./services/auth.service");
 var AppModule = /** @class */ (function () {
@@ -59,7 +58,6 @@ var AppModule = /** @class */ (function () {
                 chat_rooms_component_1.ChatRoomsComponent,
                 input_field_component_1.InputFieldComponent,
                 info_component_1.InfoComponent,
-                users_component_1.UsersComponent,
                 room_info_component_1.RoomInfoComponent,
             ],
             imports: [

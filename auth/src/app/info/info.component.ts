@@ -13,7 +13,6 @@ import { AuthService } from '../services/auth.service';
 import { DataShareService } from '../services/data-share.service';
 import { SocketioService } from '../services/socketio.service';
 import { UsersService } from '../services/users.service';
-import { UsersComponent } from '../users/users.component';
 
 @Component({
   selector: 'active-info',
@@ -30,11 +29,11 @@ export class InfoComponent implements OnInit, OnDestroy {
   public name: string = '';
   private users: User[] = [];
   private observers: Subscription[] = [];
+  private cid: string = '';
   public open: boolean = false;
 
   constructor(
     private dataShare: DataShareService,
-    private fetchUsers: UsersService,
     private io: SocketioService,
     private auth: AuthService
   ) {}
@@ -46,10 +45,21 @@ export class InfoComponent implements OnInit, OnDestroy {
       })
     );
 
+    //get users
+    this.observers.push(
+      this.dataShare.passUsers.subscribe((users: any) => {
+        for (const user of users) {
+          if (!user.custom) {
+            this.users.push(new User(user));
+          }
+        }
+      })
+    );
+
     //status check
     this.observers.push(
       this.dataShare.status.subscribe((data: any) => {
-        if (this.custom) return;
+        if (this.custom || this.cid != data.id) return;
         if (this.info == 'Active now.') {
           this.info = 'Offline.';
         } else {
@@ -65,6 +75,7 @@ export class InfoComponent implements OnInit, OnDestroy {
         this.url = message.avatar;
         this.changeStatus(message.status);
         this.custom = message.custom;
+        this.cid = message.id;
       })
     );
   }
@@ -100,15 +111,12 @@ export class InfoComponent implements OnInit, OnDestroy {
       return;
     }
     this.io.newRoom(members, this.name);
-    this.openList(true);
+    this.openList(false);
   }
 
   openList(v: boolean) {
     this.open = v;
     this.name = '';
-    if (this.users.length < 1) {
-      this.getList();
-    }
     if (!this.open) {
       this.users.forEach((user) => {
         user.active = false;
@@ -118,18 +126,6 @@ export class InfoComponent implements OnInit, OnDestroy {
 
   get usersList() {
     return this.users;
-  }
-
-  getList() {
-    //should change this
-    if (this.users.length > 0) {
-      return;
-    }
-    this.fetchUsers.getAll('users').subscribe((response: any = []) => {
-      response.users.forEach((user: any) => {
-        if (!user.custom) this.users.push(new User(user));
-      });
-    });
   }
 
   slider() {

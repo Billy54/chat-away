@@ -1,7 +1,7 @@
 <div class="chat-info ">
     <img [src]="url" *ngIf="!open" class="user-avatar">
     <form class="user-details ">
-        <input *ngIf="open" [(ngModel)]="name" name="name" class="custom" type="text" placeholder="name your room" autofocus>
+        <input *ngIf="open" [(ngModel)]="name" name="name" class="custom" (keyup.enter)="submit()" type="text" placeholder="name your room" autofocus>
         <h1 *ngIf="!open">{{infoName}}</h1>
         <small *ngIf="!open">{{info}}</small>
     </form>

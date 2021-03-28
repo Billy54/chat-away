@@ -99,6 +99,7 @@ var ChatRoomsComponent = /** @class */ (function () {
             var user = users_1[_i];
             this.users.push(new user_1.User(user));
         }
+        this.dataShare.passToComponent(users);
         this.changeRoom(0);
     };
     ChatRoomsComponent.prototype.searchUser = function () {

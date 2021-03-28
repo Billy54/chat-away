@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Subject } from 'rxjs';
 import { Observer, ReplaySubject } from 'rxjs';
+import { User } from '../Models/user';
 
 @Injectable({
   providedIn: 'root',
@@ -91,5 +92,12 @@ export class DataShareService {
   openList = this.opener.asObservable();
   public switch(state: boolean) {
     this.opener.next(state);
+  }
+
+  //in which room we will be saving the comments
+  private users = new Subject<any>();
+  passUsers = this.users.asObservable();
+  public passToComponent(users: any) {
+    this.users.next(users);
   }
 }

@@ -116,6 +116,7 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
     for (const user of users) {
       this.users.push(new User(user));
     }
+    this.dataShare.passToComponent(users);
     this.changeRoom(0);
   }
 

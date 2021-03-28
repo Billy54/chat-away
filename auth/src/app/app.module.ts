@@ -29,9 +29,9 @@ import { CommentsService } from './services/comments.service';
 import { FormsModule } from '@angular/forms';
 import { InfoComponent } from './info/info.component';
 import { FileService } from './services/file.service';
-import { UsersComponent } from './users/users.component';
 import { RoomInfoComponent } from './room-info/room-info.component';
 import { AuthService } from './services/auth.service';
+import { UsersComponent } from './users/users.component';
 
 @NgModule({
   declarations: [
@@ -48,8 +48,8 @@ import { AuthService } from './services/auth.service';
     ChatRoomsComponent,
     InputFieldComponent,
     InfoComponent,
-    UsersComponent,
     RoomInfoComponent,
+    UsersComponent,
   ],
   imports: [
     ReactiveFormsModule,

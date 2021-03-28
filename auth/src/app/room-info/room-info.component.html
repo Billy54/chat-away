@@ -8,4 +8,16 @@
         <h1 class="header">Chat members</h1>
         <h1 class="header user" *ngFor="let name of currentRoom?.unames">{{name}}</h1>
     </div>
+    <div *ngIf="currentRoom?.custom">
+        <h1 class="header">Add Users</h1>
+        <div class="notification-dropdown">
+            <div *ngFor="let user of all">
+                <div class="profile-item" *ngIf="!currentRoom?.ids.includes(user.details.id)">
+                    <div class="details ">
+                        <div class="message">{{user.details.name}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

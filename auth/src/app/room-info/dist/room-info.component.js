@@ -45,18 +45,29 @@ exports.__esModule = true;
 exports.RoomInfoComponent = void 0;
 var core_1 = require("@angular/core");
 var details_1 = require("../Models/details");
+var user_1 = require("../Models/user");
 var RoomInfoComponent = /** @class */ (function () {
     function RoomInfoComponent(dataShare, userService, auth) {
         this.dataShare = dataShare;
         this.userService = userService;
         this.auth = auth;
         this.info = [];
+        this.users = [];
         this.observers = [];
     }
     RoomInfoComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.observers.push(this.dataShare.message.subscribe(function (data) {
             _this.displayInfo(data);
+        }));
+        //get users
+        this.observers.push(this.dataShare.passUsers.subscribe(function (users) {
+            for (var _i = 0, users_1 = users; _i < users_1.length; _i++) {
+                var user = users_1[_i];
+                if (!user.custom) {
+                    _this.users.push(new user_1.User(user));
+                }
+            }
         }));
     };
     RoomInfoComponent.prototype.ngOnDestroy = function () {
@@ -69,6 +80,7 @@ var RoomInfoComponent = /** @class */ (function () {
             var details = _a[_i];
             if (details.rid == data.id) {
                 this.current = details;
+                this.current.custom = details.custom;
                 return;
             }
         }
@@ -77,21 +89,22 @@ var RoomInfoComponent = /** @class */ (function () {
     RoomInfoComponent.prototype.newDetails = function (data) {
         var _this = this;
         if (!data.custom) {
-            this.createDetails(data.avatar, [data.name, this.auth.getUserInfo().name], data.id);
+            this.createDetails(data.avatar, [data.name, this.auth.getUserInfo().name], data.id, [], false);
         }
         else {
             this.fetchNames(data.id)
                 .then(function (res) {
-                _this.createDetails(data.avatar, res.names, data.id);
+                _this.createDetails(data.avatar, res.names, data.id, res.ids, true);
             })["catch"](function (err) {
                 console.log(err);
             });
         }
     };
-    RoomInfoComponent.prototype.createDetails = function (url, names, id) {
-        var details = new details_1.Details(url, names, id);
+    RoomInfoComponent.prototype.createDetails = function (url, names, id, uids, custom) {
+        var details = new details_1.Details(url, names, id, uids);
         this.info.push(details);
         this.current = details;
+        this.current.custom = custom;
     };
     RoomInfoComponent.prototype.fetchNames = function (id) {
         return __awaiter(this, void 0, void 0, function () {
@@ -106,6 +119,13 @@ var RoomInfoComponent = /** @class */ (function () {
     Object.defineProperty(RoomInfoComponent.prototype, "currentRoom", {
         get: function () {
             return this.current;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(RoomInfoComponent.prototype, "all", {
+        get: function () {
+            return this.users;
         },
         enumerable: false,
         configurable: true

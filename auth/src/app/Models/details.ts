@@ -1,8 +1,10 @@
 export class Details {
+  public custom: boolean = false;
   constructor(
     private url: string,
     private names: string[],
-    private id: string
+    private id: string,
+    private uids: string[]
   ) {}
 
   public get avatar() {
@@ -15,5 +17,9 @@ export class Details {
 
   public get unames() {
     return this.names;
+  }
+
+  public get ids() {
+    return this.uids;
   }
 }

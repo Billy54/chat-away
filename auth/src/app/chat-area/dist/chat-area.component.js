@@ -70,6 +70,7 @@ var ChatAreaComponent = /** @class */ (function () {
     ChatAreaComponent.prototype.renderer = function (comments, rid) {
         var _this = this;
         this.previousId = '';
+        this.vc.clear();
         comments.forEach(function (comment) {
             _this.commentSectionInit(comment);
         });

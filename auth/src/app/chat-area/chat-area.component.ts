@@ -95,6 +95,7 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
 
   renderer(comments: any, rid: string) {
     this.previousId = '';
+    this.vc.clear();
     comments.forEach((comment: any) => {
       this.commentSectionInit(comment);
     });

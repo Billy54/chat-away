@@ -41,7 +41,7 @@
     overflow-x: hidden;
     padding: 3px;
     margin-top: 0px;
-    height: calc(100% - 11.6rem);
+    height: calc(100% - 11.3rem);
 }
 
 .ts-user {
@@ -94,15 +94,6 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-}
-
-.user-list {
-    list-style-type: none;
-    overflow: scroll;
-    overflow-x: hidden;
-    padding: 3px;
-    margin-top: 0px;
-    height: calc(100% - 11.6rem);
 }
 
 .sidenav a:hover {

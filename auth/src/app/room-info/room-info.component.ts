@@ -4,6 +4,7 @@ import { Details } from '../Models/details';
 import { DataShareService } from '../services/data-share.service';
 import { UsersService } from '../services/users.service';
 import { AuthService } from '../services/auth.service';
+import { User } from '../Models/user';
 
 @Component({
   selector: 'room-info',
@@ -12,6 +13,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class RoomInfoComponent implements OnInit, OnDestroy {
   private info: Details[] = [];
+  private users: User[] = [];
   private observers: Subscription[] = [];
   private current!: Details;
 
@@ -27,6 +29,17 @@ export class RoomInfoComponent implements OnInit, OnDestroy {
         this.displayInfo(data);
       })
     );
+
+    //get users
+    this.observers.push(
+      this.dataShare.passUsers.subscribe((users: any) => {
+        for (const user of users) {
+          if (!user.custom) {
+            this.users.push(new User(user));
+          }
+        }
+      })
+    );
   }
 
   ngOnDestroy() {
@@ -39,6 +52,7 @@ export class RoomInfoComponent implements OnInit, OnDestroy {
     for (const details of this.info) {
       if (details.rid == data.id) {
         this.current = details;
+        this.current.custom = details.custom;
         return;
       }
     }
@@ -50,12 +64,14 @@ export class RoomInfoComponent implements OnInit, OnDestroy {
       this.createDetails(
         data.avatar,
         [data.name, this.auth.getUserInfo().name],
-        data.id
+        data.id,
+        [],
+        false
       );
     } else {
       this.fetchNames(data.id)
         .then((res) => {
-          this.createDetails(data.avatar, res.names, data.id);
+          this.createDetails(data.avatar, res.names, data.id, res.ids, true);
         })
         .catch((err) => {
           console.log(err);
@@ -63,10 +79,17 @@ export class RoomInfoComponent implements OnInit, OnDestroy {
     }
   }
 
-  createDetails(url: string, names: string[], id: string) {
-    let details = new Details(url, names, id);
+  createDetails(
+    url: string,
+    names: string[],
+    id: string,
+    uids: string[],
+    custom: any
+  ) {
+    let details = new Details(url, names, id, uids);
     this.info.push(details);
     this.current = details;
+    this.current.custom = custom;
   }
 
   async fetchNames(id: any) {
@@ -75,5 +98,9 @@ export class RoomInfoComponent implements OnInit, OnDestroy {
 
   get currentRoom() {
     return this.current;
+  }
+
+  get all() {
+    return this.users;
   }
 }
