@@ -6,7 +6,8 @@ const addUser = function(id) {
             return;
         }
     }
-    rooms.push(id);
+    rooms.push(String(id));
+    console.log(rooms);
 }
 
 const deleteUser = function(id) {

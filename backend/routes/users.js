@@ -65,9 +65,10 @@ router.get("/users/:userId", ensureAuthenticated, async(req, res) => {
             name: user.name,
             email: user.email,
             id: user._id,
-            alive: online(user._id),
+            alive: online(String(user._id)),
             avatar: user.avatar
         };
+        console.log(userDto);
         res.status(200).json({
             user: userDto
         });
@@ -85,12 +86,15 @@ router.get('/names/:id', async(req, res) => {
             $all: [id]
         }
     }).then(users => {
-        names = [];
+        let names = [];
+        let ids = [];
         users.forEach(user => {
             names.push(user.name);
+            ids.push(user._id);
         });
         res.status(200).json({
-            names: names
+            names: names,
+            ids: ids
         });
     }).catch(err => {
         res.status(500).json({

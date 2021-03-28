@@ -99,9 +99,10 @@ router.get("/users/:userId", ensureAuthenticated, function _callee3(req, res) {
               name: user.name,
               email: user.email,
               id: user._id,
-              alive: online(user._id),
+              alive: online(String(user._id)),
               avatar: user.avatar
             };
+            console.log(userDto);
             res.status(200).json({
               user: userDto
             });
@@ -131,12 +132,15 @@ router.get('/names/:id', function _callee4(req, res) {
               $all: [id]
             }
           }).then(function (users) {
-            names = [];
+            var names = [];
+            var ids = [];
             users.forEach(function (user) {
               names.push(user.name);
+              ids.push(user._id);
             });
             res.status(200).json({
-              names: names
+              names: names,
+              ids: ids
             });
           })["catch"](function (err) {
             res.status(500).json({
