@@ -150,6 +150,53 @@ module.exports = {
         }
       }
     });
+  },
+  add: function add(uid, rid) {
+    return regeneratorRuntime.async(function add$(_context7) {
+      while (1) {
+        switch (_context7.prev = _context7.next) {
+          case 0:
+            _context7.next = 2;
+            return regeneratorRuntime.awrap(User.findOneAndUpdate({
+              _id: uid
+            }, {
+              $push: {
+                rooms: rid
+              }
+            }).then(function _callee3(user) {
+              return regeneratorRuntime.async(function _callee3$(_context6) {
+                while (1) {
+                  switch (_context6.prev = _context6.next) {
+                    case 0:
+                      _context6.next = 2;
+                      return regeneratorRuntime.awrap(Room.findOneAndUpdate({
+                        _id: rid
+                      }, {
+                        $push: {
+                          members: uid
+                        }
+                      }).then(function (room) {
+                        return room.name;
+                      })["catch"](function (err) {
+                        console.log(err);
+                      }));
+
+                    case 2:
+                    case "end":
+                      return _context6.stop();
+                  }
+                }
+              });
+            })["catch"](function (err) {
+              console.log(err);
+            }));
+
+          case 2:
+          case "end":
+            return _context7.stop();
+        }
+      }
+    });
   }
 };
 /*much easier to update urls with a reference schema

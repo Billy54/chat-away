@@ -14,7 +14,7 @@ export class SocketioService {
     private forwardMessage: DataShareService
   ) {}
 
-  setupSocketConnection() {
+  public setupSocketConnection() {
     //init , connect and create aprivate room for each user
     this.socket = io('http://localhost:5000');
     this.socket.emit('userJoin', this.auth.getUserInfo().id);
@@ -43,17 +43,22 @@ export class SocketioService {
   }
 
   //new custom room
-  newRoom(members: any, name: string) {
+  public newRoom(members: any, name: string) {
     this.socket.emit('newRoom', { name: name, members: members });
   }
 
+  //invite some one to a custom room
+  public invite(uid: string, rid: any) {
+    this.socket.emit('add', { uid: uid, rid: rid });
+  }
+
   //send messages
-  messageSubmit(message: any) {
+  public messageSubmit(message: any) {
     this.socket.emit('message', message);
   }
 
   //disconnect on logout
-  disconnectSocket() {
+  public disconnectSocket() {
     if (this.socket) {
       this.socket.disconnect();
     }

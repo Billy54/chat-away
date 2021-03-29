@@ -66,4 +66,11 @@ export class DataService {
       .get(this.url + uri, this.options)
       .pipe(catchError(this.errorHandler.handleError));
   }
+
+  /*/add user to custom room   will use sockets instead
+  addUser(uri: string, data: any): Observable<any> {
+    return this.http
+      .put(this.url + uri, data, this.options)
+      .pipe(catchError(this.errorHandler.handleError));
+  }*/
 }

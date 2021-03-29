@@ -8,7 +8,8 @@ const {
 } = require('../utils/handleRooms')
 const {
     saveComment,
-    customRoom
+    customRoom,
+    add
 } = require('../utils/helpers');
 
 const socketIO = function(io) {
@@ -43,7 +44,7 @@ const socketIO = function(io) {
             });
         });
 
-        //join custom room 
+        //join custom room in real time
         socket.on('accept', (roomId) => {
             socket.join(roomId);
         });
@@ -60,6 +61,15 @@ const socketIO = function(io) {
                 data.members.forEach(member => {
                     io.to(member).emit('invite', newRoom);
                 });
+            }).catch(err => {
+                console.log(err);
+            });
+        });
+
+        //add user
+        socket.on('add', (data) => {
+            add(data.uid, data.rid).then((name) => {
+                console.log(name);
             }).catch(err => {
                 console.log(err);
             });

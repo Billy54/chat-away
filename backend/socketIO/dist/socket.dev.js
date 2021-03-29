@@ -10,7 +10,8 @@ var _require2 = require('../utils/handleRooms'),
 
 var _require3 = require('../utils/helpers'),
     saveComment = _require3.saveComment,
-    customRoom = _require3.customRoom;
+    customRoom = _require3.customRoom,
+    add = _require3.add;
 
 var socketIO = function socketIO(io) {
   io.on('connection', function (socket) {
@@ -40,7 +41,7 @@ var socketIO = function socketIO(io) {
       })["catch"](function (err) {
         console.log(err);
       });
-    }); //join custom room 
+    }); //join custom room in real time
 
     socket.on('accept', function (roomId) {
       socket.join(roomId);
@@ -58,6 +59,14 @@ var socketIO = function socketIO(io) {
         data.members.forEach(function (member) {
           io.to(member).emit('invite', newRoom);
         });
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }); //add user
+
+    socket.on('add', function (data) {
+      add(data.uid, data.rid).then(function (name) {
+        console.log(name);
       })["catch"](function (err) {
         console.log(err);
       });

@@ -52,6 +52,7 @@ var InputFieldComponent = /** @class */ (function () {
             custom: this.custom,
             roomId: this.roomId
         };
+        console.log(newComment);
         this.forwardMessage.sendlocal(newComment);
         this.io.messageSubmit(newComment);
         this.comment = '';

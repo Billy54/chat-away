@@ -8,16 +8,15 @@
         <h1 class="header">Chat members</h1>
         <h1 class="header user" *ngFor="let name of currentRoom?.unames">{{name}}</h1>
     </div>
-    <div *ngIf="currentRoom?.custom">
-        <h1 class="header">Add Users</h1>
-        <div class="notification-dropdown">
-            <div *ngFor="let user of all">
-                <div class="profile-item" *ngIf="!currentRoom?.ids.includes(user.details.id)">
-                    <div class="details ">
-                        <div class="message">{{user.details.name}}</div>
-                    </div>
-                </div>
+    <ng-container *ngIf="currentRoom?.custom">
+        <div class="profile-item">
+            <i class="fas fa-user-plus"></i>
+            <div class="details ">
+                <h1 style="margin: 0;" data-toggle="modal" data-target="#exampleModalCenter" class="header">Add Users
+                </h1>
             </div>
         </div>
-    </div>
+    </ng-container>
 </div>
+<!--bound child to current and event emmiter to a method in parrent-->
+<pop-up (selected)="updateDetails($event)" [details]=currentRoom></pop-up>

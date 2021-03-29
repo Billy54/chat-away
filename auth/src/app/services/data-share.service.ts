@@ -81,7 +81,7 @@ export class DataShareService {
   }
 
   //in which room we will be saving the comments
-  private roomId = new ReplaySubject<string>(1);
+  private roomId = new Subject<string>();
   writeToRoom = this.roomId.asObservable();
   public sendroomId(id: string) {
     this.roomId.next(id);

@@ -22,4 +22,12 @@ export class Details {
   public get ids() {
     return this.uids;
   }
+
+  public set uNames(v: string) {
+    this.names.push(v);
+  }
+
+  public set idS(v: string) {
+    this.uids.push(v);
+  }
 }

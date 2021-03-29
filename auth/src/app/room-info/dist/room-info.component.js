@@ -45,29 +45,18 @@ exports.__esModule = true;
 exports.RoomInfoComponent = void 0;
 var core_1 = require("@angular/core");
 var details_1 = require("../Models/details");
-var user_1 = require("../Models/user");
 var RoomInfoComponent = /** @class */ (function () {
     function RoomInfoComponent(dataShare, userService, auth) {
         this.dataShare = dataShare;
         this.userService = userService;
         this.auth = auth;
         this.info = [];
-        this.users = [];
         this.observers = [];
     }
     RoomInfoComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.observers.push(this.dataShare.message.subscribe(function (data) {
             _this.displayInfo(data);
-        }));
-        //get users
-        this.observers.push(this.dataShare.passUsers.subscribe(function (users) {
-            for (var _i = 0, users_1 = users; _i < users_1.length; _i++) {
-                var user = users_1[_i];
-                if (!user.custom) {
-                    _this.users.push(new user_1.User(user));
-                }
-            }
         }));
     };
     RoomInfoComponent.prototype.ngOnDestroy = function () {
@@ -116,16 +105,19 @@ var RoomInfoComponent = /** @class */ (function () {
             });
         });
     };
+    RoomInfoComponent.prototype.updateDetails = function (v) {
+        var _this = this;
+        this.info.forEach(function (el) {
+            if (el.rid == _this.current.rid) {
+                el.idS = v.details.id;
+                el.uNames = v.details.name;
+                _this.current = el;
+            }
+        });
+    };
     Object.defineProperty(RoomInfoComponent.prototype, "currentRoom", {
         get: function () {
             return this.current;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(RoomInfoComponent.prototype, "all", {
-        get: function () {
-            return this.users;
         },
         enumerable: false,
         configurable: true

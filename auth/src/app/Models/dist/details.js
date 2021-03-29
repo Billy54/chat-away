@@ -37,6 +37,20 @@ var Details = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Details.prototype, "uNames", {
+        set: function (v) {
+            this.names.push(v);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Details.prototype, "idS", {
+        set: function (v) {
+            this.uids.push(v);
+        },
+        enumerable: false,
+        configurable: true
+    });
     return Details;
 }());
 exports.Details = Details;

@@ -14,7 +14,7 @@ var _require = require('../utils/helpers'),
 var _require2 = require("../utils/authentication"),
     ensureAuthenticated = _require2.ensureAuthenticated;
 
-require('dotenv/config'); //new room get or 
+require('dotenv/config'); //new room get or  //fix here custom
 
 
 router.post("/room", ensureAuthenticated, function _callee2(req, res) {

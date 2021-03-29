@@ -43,7 +43,7 @@ var DataShareService = /** @class */ (function () {
         this.room = new rxjs_2.ReplaySubject(1);
         this.newRoom = this.room.asObservable();
         //in which room we will be saving the comments
-        this.roomId = new rxjs_2.ReplaySubject(1);
+        this.roomId = new rxjs_1.Subject();
         this.writeToRoom = this.roomId.asObservable();
         //open new room list
         this.opener = new rxjs_1.Subject();

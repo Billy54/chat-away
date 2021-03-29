@@ -42,6 +42,10 @@ var SocketioService = /** @class */ (function () {
     SocketioService.prototype.newRoom = function (members, name) {
         this.socket.emit('newRoom', { name: name, members: members });
     };
+    //invite some one to a custom room
+    SocketioService.prototype.invite = function (uid, rid) {
+        this.socket.emit('add', { uid: uid, rid: rid });
+    };
     //send messages
     SocketioService.prototype.messageSubmit = function (message) {
         this.socket.emit('message', message);

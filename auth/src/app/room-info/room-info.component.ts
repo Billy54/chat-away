@@ -13,7 +13,6 @@ import { User } from '../Models/user';
 })
 export class RoomInfoComponent implements OnInit, OnDestroy {
   private info: Details[] = [];
-  private users: User[] = [];
   private observers: Subscription[] = [];
   private current!: Details;
 
@@ -27,17 +26,6 @@ export class RoomInfoComponent implements OnInit, OnDestroy {
     this.observers.push(
       this.dataShare.message.subscribe((data: any) => {
         this.displayInfo(data);
-      })
-    );
-
-    //get users
-    this.observers.push(
-      this.dataShare.passUsers.subscribe((users: any) => {
-        for (const user of users) {
-          if (!user.custom) {
-            this.users.push(new User(user));
-          }
-        }
       })
     );
   }
@@ -96,11 +84,17 @@ export class RoomInfoComponent implements OnInit, OnDestroy {
     return await this.userService.getNames('names/' + id).toPromise();
   }
 
-  get currentRoom() {
-    return this.current;
+  updateDetails(v: any) {
+    this.info.forEach((el) => {
+      if (el.rid == this.current.rid) {
+        el.idS = v.details.id;
+        el.uNames = v.details.name;
+        this.current = el;
+      }
+    });
   }
 
-  get all() {
-    return this.users;
+  get currentRoom() {
+    return this.current;
   }
 }

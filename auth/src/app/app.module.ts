@@ -32,6 +32,7 @@ import { FileService } from './services/file.service';
 import { RoomInfoComponent } from './room-info/room-info.component';
 import { AuthService } from './services/auth.service';
 import { UsersComponent } from './users/users.component';
+import { PopUpComponent } from './pop-up/pop-up.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { UsersComponent } from './users/users.component';
     InfoComponent,
     RoomInfoComponent,
     UsersComponent,
+    PopUpComponent,
   ],
   imports: [
     ReactiveFormsModule,
