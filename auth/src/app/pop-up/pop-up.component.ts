@@ -7,6 +7,8 @@ import {
   OnDestroy,
   OnInit,
   SimpleChanges,
+  ViewChild,
+  AfterViewInit,
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Subscription } from 'rxjs';
@@ -21,13 +23,15 @@ import { UsersService } from '../services/users.service';
   templateUrl: './pop-up.component.html',
   styleUrls: ['./pop-up.component.css'],
 })
-export class PopUpComponent implements OnInit, OnDestroy, OnChanges {
+export class PopUpComponent implements OnInit, OnDestroy, AfterViewInit {
   //
   @Input() details: Details | undefined;
   @Output() selected: EventEmitter<User> = new EventEmitter<User>();
+  @ViewChild('close') button: any;
 
   private users: User[] = [];
   private observers: Subscription[] = [];
+  private btn!: HTMLElement;
   //private usersPipe$!:Observable<any>;
 
   constructor(
@@ -35,8 +39,8 @@ export class PopUpComponent implements OnInit, OnDestroy, OnChanges {
     private io: SocketioService
   ) {}
 
-  ngOnChanges(changes: SimpleChanges) {
-    //console.log(this.details);
+  ngAfterViewInit() {
+    this.btn = this.button.nativeElement;
   }
 
   ngOnInit(): void {
@@ -62,6 +66,7 @@ export class PopUpComponent implements OnInit, OnDestroy, OnChanges {
   submit(index: number) {
     this.io.invite(this.users[index].details.id, this.details?.rid);
     this.selected.emit(this.users[index]);
+    this.btn.click();
   }
 
   get all() {

@@ -10,23 +10,17 @@ exports.TopbarComponent = void 0;
 var core_1 = require("@angular/core");
 var notification_1 = require("../Models/notification");
 var TopbarComponent = /** @class */ (function () {
-    function TopbarComponent(authService, router, dataShareService, fileService, io) {
-        this.authService = authService;
+    function TopbarComponent(router, dataShareService, io, authService) {
         this.router = router;
         this.dataShareService = dataShareService;
-        this.fileService = fileService;
         this.io = io;
+        this.authService = authService;
         this.notificationList = [];
         this.observers = [];
-        this.profile = true;
         this.notifications = true;
+        this.profile = true;
         this.overlay = true;
-        this.exp = 'translateX(0px)';
-        this.expHeight = '197px';
-        this.url = this.authService.getUserInfo().avatar;
-        this.name = this.authService.getUserInfo().name;
         this.newmsg = false;
-        this.fadeIn = false;
         this.active = true;
     }
     TopbarComponent.prototype.ngOnDestroy = function () {
@@ -35,8 +29,6 @@ var TopbarComponent = /** @class */ (function () {
         });
     };
     TopbarComponent.prototype.ngAfterViewInit = function () {
-        this.el = this.preview.nativeElement;
-        this.file = this.imgInput.nativeElement;
         this.io.setupSocketConnection();
     };
     TopbarComponent.prototype.ngOnInit = function () {
@@ -50,7 +42,6 @@ var TopbarComponent = /** @class */ (function () {
                 _this.newmsg = true;
             }
         }));
-        this.dataShareService.sendUrl(this.url);
     };
     TopbarComponent.prototype.overlayCheck = function () {
         this.profile = true;
@@ -67,12 +58,12 @@ var TopbarComponent = /** @class */ (function () {
             this.profile = true;
         }
     };
-    TopbarComponent.prototype.profileCheck = function () {
-        this.profile = !this.profile;
-        this.overlay = false;
-        if (!this.notifications) {
-            this.notifications = true;
-        }
+    TopbarComponent.prototype.notSwap = function (v) {
+        this.notifications = v;
+    };
+    TopbarComponent.prototype.ovSwap = function (v) {
+        this.overlay = v;
+        this.profile = v;
     };
     TopbarComponent.prototype.logout = function () {
         this.io.disconnectSocket();
@@ -82,67 +73,18 @@ var TopbarComponent = /** @class */ (function () {
         });
         this.router.navigateByUrl('/login');
     };
-    TopbarComponent.prototype.changeAvatar = function () {
-        this.exp = 'translateX(-297px)';
-        this.expHeight = '400px';
-    };
-    TopbarComponent.prototype.slide = function () {
-        var _this = this;
-        this.exp = 'translateX(0px)';
-        this.expHeight = '197px';
-        this.fadeIn = false;
-        setTimeout(function () {
-            _this.el.style.backgroundImage = 'url(' + _this.url + ')';
-        }, 200);
-    };
-    TopbarComponent.prototype.previewAvatar = function () {
-        var _this = this;
-        var reader = new FileReader();
-        var element = this.el;
-        reader.onload = function (e) {
-            element.style.backgroundImage = 'url(' + e.target.result + ')';
-        };
-        reader.readAsDataURL(this.file.files[0]);
-        this.fadeIn = true;
-        setTimeout(function () {
-            _this.fadeIn = false;
-        }, 500);
-    };
-    TopbarComponent.prototype.upload = function () {
-        var _this = this;
-        if (this.file && this.file.files[0]) {
-            var fd = new FormData();
-            fd.append('image', this.file.files[0]);
-            fd.append('uid', this.authService.getUserInfo().id);
-            this.observers.push(this.fileService
-                .postAvatar('avatar', fd)
-                .subscribe(function (response) {
-                if (response === void 0) { response = []; }
-                _this.url = response.path;
-                _this.slide();
-                _this.dataShareService.sendUrl(_this.url);
-            }));
-        }
-    };
     TopbarComponent.prototype.browse = function (index) {
         this.dataShareService.swapCurrent(this.notificationList[index].getRoom());
         this.notificationsCheck();
     };
-    TopbarComponent.prototype.navigate = function () {
-        if (this.active) {
-            this.router.navigateByUrl('/users');
-        }
-        else {
-            this.router.navigateByUrl('/');
-        }
-        this.active = !this.active;
+    TopbarComponent.prototype.users = function () {
+        this.active = false;
+        this.router.navigateByUrl('users');
     };
-    __decorate([
-        core_1.ViewChild('imagePreview')
-    ], TopbarComponent.prototype, "preview");
-    __decorate([
-        core_1.ViewChild('input')
-    ], TopbarComponent.prototype, "imgInput");
+    TopbarComponent.prototype.home = function () {
+        this.active = true;
+        this.router.navigateByUrl('');
+    };
     TopbarComponent = __decorate([
         core_1.Component({
             selector: 'app-topbar',

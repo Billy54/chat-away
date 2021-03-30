@@ -1,8 +1,10 @@
 import {
   AfterViewInit,
   Component,
+  OnChanges,
   OnDestroy,
   OnInit,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -21,30 +23,19 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./topbar.component.css'],
 })
 export class TopbarComponent implements OnInit, AfterViewInit, OnDestroy {
-  private el: any;
   public notificationList: Notification[] = [];
   private observers: Subscription[] = [];
-  public profile: boolean = true;
   public notifications: boolean = true;
+  public profile: any = true;
   public overlay: boolean = true;
-  public file: any;
-  public exp: string = 'translateX(0px)';
-  public expHeight: string = '197px';
-  public url: string = this.authService.getUserInfo().avatar;
-  public name: string = this.authService.getUserInfo().name;
   public newmsg: boolean = false;
-  public fadeIn: boolean = false;
   public active: boolean = true;
 
-  @ViewChild('imagePreview') preview: any;
-  @ViewChild('input') imgInput: any;
-
   constructor(
-    private authService: AuthService,
     private router: Router,
     private dataShareService: DataShareService,
-    private fileService: FileService,
-    private io: SocketioService
+    private io: SocketioService,
+    private authService: AuthService
   ) {}
 
   ngOnDestroy(): void {
@@ -54,8 +45,6 @@ export class TopbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.el = this.preview.nativeElement;
-    this.file = this.imgInput.nativeElement;
     this.io.setupSocketConnection();
   }
 
@@ -70,7 +59,6 @@ export class TopbarComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       })
     );
-    this.dataShareService.sendUrl(this.url);
   }
 
   overlayCheck() {
@@ -90,12 +78,13 @@ export class TopbarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  profileCheck() {
-    this.profile = !this.profile;
-    this.overlay = false;
-    if (!this.notifications) {
-      this.notifications = true;
-    }
+  notSwap(v: any) {
+    this.notifications = v;
+  }
+
+  ovSwap(v: any) {
+    this.overlay = v;
+    this.profile = v;
   }
 
   logout() {
@@ -106,61 +95,18 @@ export class TopbarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigateByUrl('/login');
   }
 
-  changeAvatar() {
-    this.exp = 'translateX(-297px)';
-    this.expHeight = '400px';
-  }
-
-  slide() {
-    this.exp = 'translateX(0px)';
-    this.expHeight = '197px';
-    this.fadeIn = false;
-    setTimeout(() => {
-      this.el.style.backgroundImage = 'url(' + this.url + ')';
-    }, 200);
-  }
-
-  previewAvatar() {
-    let reader = new FileReader();
-    let element = this.el;
-    reader.onload = function (e: any) {
-      element.style.backgroundImage = 'url(' + e.target.result + ')';
-    };
-    reader.readAsDataURL(this.file.files[0]);
-    this.fadeIn = true;
-    setTimeout(() => {
-      this.fadeIn = false;
-    }, 500);
-  }
-
-  upload() {
-    if (this.file && this.file.files[0]) {
-      const fd = new FormData();
-      fd.append('image', this.file.files[0]);
-      fd.append('uid', this.authService.getUserInfo().id);
-      this.observers.push(
-        this.fileService
-          .postAvatar('avatar', fd)
-          .subscribe((response: any = []) => {
-            this.url = response.path;
-            this.slide();
-            this.dataShareService.sendUrl(this.url);
-          })
-      );
-    }
-  }
-
   browse(index: any) {
     this.dataShareService.swapCurrent(this.notificationList[index].getRoom());
     this.notificationsCheck();
   }
 
-  navigate() {
-    if (this.active) {
-      this.router.navigateByUrl('/users');
-    } else {
-      this.router.navigateByUrl('/');
-    }
-    this.active = !this.active;
+  users() {
+    this.active = false;
+    this.router.navigateByUrl('users');
+  }
+
+  home() {
+    this.active = true;
+    this.router.navigateByUrl('');
   }
 }

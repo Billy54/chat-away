@@ -3,9 +3,6 @@ const router = express.Router();
 const Room = require('../models/Room');
 const Message = require('../models/Message');
 const {
-    newRoom
-} = require('../utils/helpers');
-const {
     ensureAuthenticated
 } = require("../utils/authentication");
 require('dotenv/config');
@@ -23,7 +20,10 @@ router.post("/room", ensureAuthenticated, async(req, res) => {
         $or: [{
             members: {
                 $all: ids
-            }
+            },
+            $and: [{
+                custom: false
+            }]
         }, {
             _id: ids[1]
         }]

@@ -176,12 +176,18 @@ module.exports = {
                           members: uid
                         }
                       }).then(function (room) {
-                        return room.name;
+                        return {
+                          name: room.name,
+                          url: room.url
+                        };
                       })["catch"](function (err) {
-                        console.log(err);
+                        consloe.log(err);
                       }));
 
                     case 2:
+                      return _context6.abrupt("return", _context6.sent);
+
+                    case 3:
                     case "end":
                       return _context6.stop();
                   }
@@ -192,6 +198,9 @@ module.exports = {
             }));
 
           case 2:
+            return _context7.abrupt("return", _context7.sent);
+
+          case 3:
           case "end":
             return _context7.stop();
         }

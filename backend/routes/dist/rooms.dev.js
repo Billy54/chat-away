@@ -8,11 +8,8 @@ var Room = require('../models/Room');
 
 var Message = require('../models/Message');
 
-var _require = require('../utils/helpers'),
-    newRoom = _require.newRoom;
-
-var _require2 = require("../utils/authentication"),
-    ensureAuthenticated = _require2.ensureAuthenticated;
+var _require = require("../utils/authentication"),
+    ensureAuthenticated = _require.ensureAuthenticated;
 
 require('dotenv/config'); //new room get or  //fix here custom
 
@@ -32,7 +29,10 @@ router.post("/room", ensureAuthenticated, function _callee2(req, res) {
             $or: [{
               members: {
                 $all: ids
-              }
+              },
+              $and: [{
+                custom: false
+              }]
             }, {
               _id: ids[1]
             }]

@@ -68,8 +68,14 @@ const socketIO = function(io) {
 
         //add user
         socket.on('add', (data) => {
-            add(data.uid, data.rid).then((name) => {
-                console.log(name);
+            add(data.uid, data.rid).then((room) => {
+                let newRoom = {
+                    name: room.name,
+                    id: data.rid,
+                    custom: true,
+                    avatar: room.url
+                }
+                socket.to(data.uid).emit('invite', newRoom);
             }).catch(err => {
                 console.log(err);
             });

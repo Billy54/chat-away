@@ -11,7 +11,7 @@ var http_1 = require("@angular/common/http");
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent(a, r, d) {
+    function LoginComponent(a, r) {
         //login validators
         this.loginForm = new forms_1.FormGroup({
             email: new forms_1.FormControl('', [
@@ -26,7 +26,6 @@ var LoginComponent = /** @class */ (function () {
         });
         this.authService = a;
         this.router = r;
-        this.dataShare = d;
     }
     LoginComponent.prototype.login = function () {
         var _this = this;
@@ -77,9 +76,6 @@ var LoginComponent = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    LoginComponent.prototype.toggleModal = function () {
-        this.dataShare.registerModal('changed');
-    };
     LoginComponent.prototype.ngOnInit = function () { };
     LoginComponent = __decorate([
         core_1.Component({

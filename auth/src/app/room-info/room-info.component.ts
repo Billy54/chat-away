@@ -25,6 +25,7 @@ export class RoomInfoComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.observers.push(
       this.dataShare.message.subscribe((data: any) => {
+        console.log(data);
         this.displayInfo(data);
       })
     );

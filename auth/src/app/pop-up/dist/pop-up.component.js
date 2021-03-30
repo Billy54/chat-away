@@ -18,8 +18,8 @@ var PopUpComponent = /** @class */ (function () {
         this.users = [];
         this.observers = [];
     }
-    PopUpComponent.prototype.ngOnChanges = function (changes) {
-        //console.log(this.details);
+    PopUpComponent.prototype.ngAfterViewInit = function () {
+        this.btn = this.button.nativeElement;
     };
     PopUpComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -43,6 +43,7 @@ var PopUpComponent = /** @class */ (function () {
         var _a;
         this.io.invite(this.users[index].details.id, (_a = this.details) === null || _a === void 0 ? void 0 : _a.rid);
         this.selected.emit(this.users[index]);
+        this.btn.click();
     };
     Object.defineProperty(PopUpComponent.prototype, "all", {
         get: function () {
@@ -57,6 +58,9 @@ var PopUpComponent = /** @class */ (function () {
     __decorate([
         core_1.Output()
     ], PopUpComponent.prototype, "selected");
+    __decorate([
+        core_1.ViewChild('close')
+    ], PopUpComponent.prototype, "button");
     PopUpComponent = __decorate([
         core_1.Component({
             selector: 'pop-up',

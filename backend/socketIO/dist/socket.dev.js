@@ -65,8 +65,14 @@ var socketIO = function socketIO(io) {
     }); //add user
 
     socket.on('add', function (data) {
-      add(data.uid, data.rid).then(function (name) {
-        console.log(name);
+      add(data.uid, data.rid).then(function (room) {
+        var newRoom = {
+          name: room.name,
+          id: data.rid,
+          custom: true,
+          avatar: room.url
+        };
+        socket.to(data.uid).emit('invite', newRoom);
       })["catch"](function (err) {
         console.log(err);
       });

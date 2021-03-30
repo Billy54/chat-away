@@ -9,10 +9,10 @@
         <h1 class="header user" *ngFor="let name of currentRoom?.unames">{{name}}</h1>
     </div>
     <ng-container *ngIf="currentRoom?.custom">
-        <div class="profile-item">
+        <div class="profile-item" data-toggle="modal" data-target="#exampleModalCenter">
             <i class="fas fa-user-plus"></i>
             <div class="details ">
-                <h1 style="margin: 0;" data-toggle="modal" data-target="#exampleModalCenter" class="header">Add Users
+                <h1 style="margin: 0;" class="header">Add Users
                 </h1>
             </div>
         </div>

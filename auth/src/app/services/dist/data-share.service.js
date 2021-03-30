@@ -13,8 +13,6 @@ var rxjs_2 = require("rxjs");
 var DataShareService = /** @class */ (function () {
     //emit to the subscribers
     function DataShareService() {
-        this.modalSwitch = new rxjs_1.Subject();
-        this.currentMessage = this.modalSwitch.asObservable();
         //change current user info header , buffer size = 1 cache always the last emmit
         this.changeName = new rxjs_2.ReplaySubject(1);
         this.message = this.changeName.asObservable();
@@ -52,9 +50,6 @@ var DataShareService = /** @class */ (function () {
         this.users = new rxjs_1.Subject();
         this.passUsers = this.users.asObservable();
     }
-    DataShareService.prototype.registerModal = function (hidden) {
-        this.modalSwitch.next(hidden);
-    };
     DataShareService.prototype.notifyChange = function (data) {
         this.changeName.next(data);
     };

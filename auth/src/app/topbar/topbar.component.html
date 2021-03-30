@@ -6,10 +6,10 @@
         </div>
     </div>
     <div class="options">
-        <div class="home-wrapper " (click)="navigate()" [class.active]="active">
-            <i class="fas fa-home " [class.active]="active"></i>
+        <div class="home-wrapper" (click)="home()" [class.active]="active">
+            <i class="fas fa-home" [class.active]="active"></i>
         </div>
-        <div class="friends-wrapper" [class.active]="!active" (click)="navigate()">
+        <div class="friends-wrapper" [class.active]="!active" (click)="users()">
             <i class="fas fa-user-friends" [class.active]="!active"></i>
         </div>
     </div>
@@ -33,47 +33,7 @@
                 </div>
             </div>
         </div>
-        <div class="dropdown">
-            <div class="profile-wrapper ts-profile" (click)="profileCheck()" [class.active-option]="!profile">
-                <i class="fas fa-sort-down ts-profile"></i>
-            </div>
-            <div class="profile-dropdown hidden js-drop" [style.maxHeight]="expHeight" [class.hidden]="profile">
-                <div class="slide2" [style.transform]="exp">
-                    <div class="profile-item js-avatar" (click)="changeAvatar()">
-                        <img [src]="url" class="user-avatar">
-                        <div class="details">
-                            <h1 style="font-size: 25px; margin-bottom:-8px;">{{name}}</h1>
-                            <small>Change Avatar</small>
-                        </div>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="log-out" (click)="logout()">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <h1 style="font-size: 25px;">Log Out</h1>
-                    </div>
-                </div>
-                <div class="slide1" [style.transform]="exp">
-                    <i class="fas fa-times ts-close" (click)="slide()"></i>
-                    <h1 style="font-size: 20px; margin-bottom:2px; margin-top:8px;">Choose a photo</h1>
-                    <div class="container">
-                        <div class="avatar-upload">
-                            <form class="avatar-edit">
-                                <input name="file" (change)="previewAvatar()" #input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
-                                <label for="imageUpload"></label>
-                            </form>
-                            <div class="avatar-preview">
-                                <div [class.fadeout]="fadeIn" #imagePreview [style.backgroundImage]="'url('+url+')'">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="log-out ts-up" (click)="upload()">
-                        <i class="fas fa-upload"></i>
-                        <h1 style="font-size: 25px;">Upload</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <app-profile (signout)="logout()" (ovCheck)="ovSwap($event)" (notCheck)="notSwap($event)" [prof]="profile">
+        </app-profile>
     </div>
 </div>

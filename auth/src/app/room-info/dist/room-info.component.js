@@ -56,6 +56,7 @@ var RoomInfoComponent = /** @class */ (function () {
     RoomInfoComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.observers.push(this.dataShare.message.subscribe(function (data) {
+            console.log(data);
             _this.displayInfo(data);
         }));
     };

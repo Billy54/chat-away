@@ -13,9 +13,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit, OnDestroy {
-  private observers: Subscription[] = [];
   public password: string = '';
-  public isActive: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -23,19 +21,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private dataShare: DataShareService
   ) {}
 
-  ngOnInit(): void {
-    this.observers.push(
-      this.dataShare.currentMessage.subscribe((message: string) => {
-        this.toggleModal();
-      })
-    );
-  }
+  ngOnInit(): void {}
 
-  ngOnDestroy() {
-    this.observers.forEach((observer) => {
-      observer.unsubscribe();
-    });
-  }
+  ngOnDestroy() {}
 
   registerForm = new FormGroup({
     name: new FormControl('', [Validators.minLength(3), Validators.required]),
@@ -93,9 +81,5 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   onChange() {
     localStorage.setItem('pass', this.password);
-  }
-
-  public toggleModal() {
-    this.isActive = !this.isActive;
   }
 }

@@ -77,23 +77,26 @@ module.exports = {
         });
     },
     add: async function(uid, rid) {
-        await User.findOneAndUpdate({
+        return await User.findOneAndUpdate({
             _id: uid
         }, {
             $push: {
                 rooms: rid
             }
         }).then(async(user) => {
-            await Room.findOneAndUpdate({
+            return await Room.findOneAndUpdate({
                 _id: rid
             }, {
                 $push: {
                     members: uid
                 }
             }).then((room) => {
-                return room.name
+                return {
+                    name: room.name,
+                    url: room.url
+                };
             }).catch(err => {
-                console.log(err);
+                consloe.log(err);
             });
         }).catch(err => {
             console.log(err);

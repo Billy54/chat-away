@@ -13,12 +13,10 @@ import { DataShareService } from '../services/data-share.service';
 export class LoginComponent implements OnInit {
   private authService: AuthService;
   private router: Router;
-  private dataShare: DataShareService;
 
-  constructor(a: AuthService, r: Router, d: DataShareService) {
+  constructor(a: AuthService, r: Router) {
     this.authService = a;
     this.router = r;
-    this.dataShare = d;
   }
 
   //login validators
@@ -79,10 +77,5 @@ export class LoginComponent implements OnInit {
   get password() {
     return this.loginForm.get('password');
   }
-
-  toggleModal() {
-    this.dataShare.registerModal('changed');
-  }
-
   ngOnInit(): void {}
 }

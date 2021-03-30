@@ -1,10 +1,10 @@
-<!-- Modal *ngIf="!currentRoom?.ids?.includes(user?.details?.id)"-->
+<!-- Modal-->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered fixed-width" role="document">
         <div class="modal-content content">
             <div class="modal-header">
                 <h5 style="font-size: 24px;" class="modal-title" id="exampleModalLongTitle">Select Users</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" style="outline: none;" #close class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

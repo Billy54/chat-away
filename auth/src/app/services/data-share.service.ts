@@ -11,12 +11,6 @@ export class DataShareService {
   //emit to the subscribers
 
   constructor() {}
-  private modalSwitch = new Subject<string>();
-  currentMessage = this.modalSwitch.asObservable();
-  public registerModal(hidden: string) {
-    this.modalSwitch.next(hidden);
-  }
-
   //change current user info header , buffer size = 1 cache always the last emmit
   private changeName = new ReplaySubject<Object>(1);
   message = this.changeName.asObservable();

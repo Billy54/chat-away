@@ -16,9 +16,7 @@ var RegisterComponent = /** @class */ (function () {
         this.authService = authService;
         this.router = router;
         this.dataShare = dataShare;
-        this.observers = [];
         this.password = '';
-        this.isActive = false;
         this.registerForm = new forms_1.FormGroup({
             name: new forms_1.FormControl('', [forms_1.Validators.minLength(3), forms_1.Validators.required]),
             email: new forms_1.FormControl('', [forms_1.Validators.minLength(3), forms_1.Validators.required, forms_1.Validators.email], email_validator_1.EmailValidators.shouldBeUnique),
@@ -33,17 +31,8 @@ var RegisterComponent = /** @class */ (function () {
             ])
         });
     }
-    RegisterComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.observers.push(this.dataShare.currentMessage.subscribe(function (message) {
-            _this.toggleModal();
-        }));
-    };
-    RegisterComponent.prototype.ngOnDestroy = function () {
-        this.observers.forEach(function (observer) {
-            observer.unsubscribe();
-        });
-    };
+    RegisterComponent.prototype.ngOnInit = function () { };
+    RegisterComponent.prototype.ngOnDestroy = function () { };
     RegisterComponent.prototype.register = function () {
         var _this = this;
         //check if the form is valid
@@ -89,9 +78,6 @@ var RegisterComponent = /** @class */ (function () {
     });
     RegisterComponent.prototype.onChange = function () {
         localStorage.setItem('pass', this.password);
-    };
-    RegisterComponent.prototype.toggleModal = function () {
-        this.isActive = !this.isActive;
     };
     RegisterComponent = __decorate([
         core_1.Component({
