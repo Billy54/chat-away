@@ -67,7 +67,6 @@ export class InputFieldComponent implements OnInit, OnDestroy {
       custom: this.custom,
       roomId: this.roomId,
     };
-    console.log(newComment);
 
     this.forwardMessage.sendlocal(newComment);
     this.io.messageSubmit(newComment);

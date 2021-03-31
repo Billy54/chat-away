@@ -12,18 +12,10 @@ import { Subscription } from 'rxjs';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
-export class RegisterComponent implements OnInit, OnDestroy {
+export class RegisterComponent {
   public password: string = '';
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private dataShare: DataShareService
-  ) {}
-
-  ngOnInit(): void {}
-
-  ngOnDestroy() {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   registerForm = new FormGroup({
     name: new FormControl('', [Validators.minLength(3), Validators.required]),

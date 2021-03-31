@@ -7,6 +7,7 @@ export class Notification {
   public url: string = '';
   public receiver: string = '';
   public sender: string = '';
+  public text: string = '';
 
   constructor(data: any) {
     this.date = formatDate(
@@ -20,6 +21,7 @@ export class Notification {
     this.receiver = data.receiver;
     this.url = data.url;
     this.custom = data.custom;
+    this.text = data.text;
   }
 
   getRoom() {

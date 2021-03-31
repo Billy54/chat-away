@@ -30,16 +30,16 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
   private activeRoom: any;
   private previousId: string = '';
   private observers: Subscription[] = [];
-  private factory: CommentFactory;
+  private factory: CommentFactory = new CommentFactory(
+    this.auth.getUserInfo().id
+  );
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
     private fetchData: DataShareService,
     private commentsService: CommentsService,
     private auth: AuthService
-  ) {
-    this.factory = new CommentFactory(this.auth.getUserInfo().id);
-  }
+  ) {}
 
   ngOnDestroy() {
     this.observers.forEach((observer) => {
@@ -103,6 +103,31 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
     this.fetchData.sendroomId(rid);
   }
 
+  getRoom() {
+    for (let room of this.rooms) {
+      if (room.getSender() == this.activeRoom) {
+        this.renderer(room.getComments(), room.id);
+        return;
+      }
+    }
+    this.fetchFromServer();
+  }
+
+  fetchFromServer() {
+    this.observers.push(
+      this.commentsService
+        .getComments('room', {
+          receiver: this.activeRoom,
+          sender: this.auth.getUserInfo().id,
+        })
+        .subscribe((response: any = []) => {
+          let room = new Room(response.comments, this.activeRoom, response.rid);
+          this.rooms.push(room);
+          this.renderer(response.comments, room.id);
+        })
+    );
+  }
+
   //create a comment instance for each comment
   commentSectionInit(data: any) {
     this.vc = this.appChat.viewContainerRef;
@@ -115,28 +140,5 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
     let newComment = this.factory.newComment(this.previousId, data);
     (<CommentComponent>componentRef.instance).data = newComment;
     this.previousId = data.sender;
-  }
-
-  getRoom() {
-    for (let room of this.rooms) {
-      if (room.getSender() == this.activeRoom) {
-        this.renderer(room.getComments(), room.id);
-        return;
-      }
-    }
-    this.fetchFromServer();
-  }
-
-  fetchFromServer() {
-    this.commentsService
-      .getComments('room', {
-        receiver: this.activeRoom,
-        sender: this.auth.getUserInfo().id,
-      })
-      .subscribe((response: any = []) => {
-        let room = new Room(response.comments, this.activeRoom, response.rid);
-        this.rooms.push(room);
-        this.renderer(response.comments, room.id);
-      });
   }
 }

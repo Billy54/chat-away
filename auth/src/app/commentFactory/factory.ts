@@ -1,6 +1,6 @@
-import { Comment } from './comment';
 import { SentComment } from './sentComment';
 import { ReceivedComment } from './receivedComment';
+import { commentInt } from './commentInt';
 
 export class CommentFactory {
   private userId: string = '';
@@ -8,7 +8,7 @@ export class CommentFactory {
     this.userId = uid;
   }
 
-  public newComment(previous: string, data: any): Comment {
+  public newComment(previous: string, data: any): commentInt {
     if (data.sender == this.userId) {
       return new SentComment(data);
     } else {

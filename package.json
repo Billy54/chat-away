@@ -7,5 +7,10 @@
         "test": "cd ./backend/ && npm run dev"
     },
     "author": "",
-    "license": "ISC"
+    "license": "ISC",
+    "dependencies": {
+        "connect-mongo": "^4.4.1",
+        "connect-mongodb-session": "^2.4.1",
+        "express-session": "^1.17.1"
+    }
 }

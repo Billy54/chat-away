@@ -12,10 +12,9 @@ var forms_1 = require("@angular/forms");
 var email_validator_1 = require("./email.validator");
 var password_validators_1 = require("./password.validators");
 var RegisterComponent = /** @class */ (function () {
-    function RegisterComponent(authService, router, dataShare) {
+    function RegisterComponent(authService, router) {
         this.authService = authService;
         this.router = router;
-        this.dataShare = dataShare;
         this.password = '';
         this.registerForm = new forms_1.FormGroup({
             name: new forms_1.FormControl('', [forms_1.Validators.minLength(3), forms_1.Validators.required]),
@@ -31,8 +30,6 @@ var RegisterComponent = /** @class */ (function () {
             ])
         });
     }
-    RegisterComponent.prototype.ngOnInit = function () { };
-    RegisterComponent.prototype.ngOnDestroy = function () { };
     RegisterComponent.prototype.register = function () {
         var _this = this;
         //check if the form is valid

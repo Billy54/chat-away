@@ -1,77 +1,3 @@
-.top-navbar {
-    background-color: rgb(255, 255, 255);
-    position: fixed;
-    top: 0px;
-    z-index: 6;
-    height: 3.2rem;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    box-shadow: rgba(32, 33, 36, 0.28) 0px 1px 6px 0px;
-}
-
-.details {
-    margin-left: 10px;
-}
-
-.options {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.home-wrapper,
-.friends-wrapper {
-    height: 45px;
-    width: 93px;
-    border-radius: 7px;
-    cursor: pointer;
-    display: flex;
-    margin-left: 8px;
-    justify-content: center;
-    align-items: center;
-}
-
-.fa-facebook-messenger {
-    font-size: 38px;
-    color: rgb(66, 66, 250);
-}
-
-.fa-home {
-    font-size: 25px;
-    color: grey;
-}
-
-.fa-user-friends {
-    font-size: 25px;
-    color: grey;
-}
-
-.home-wrapper:hover {
-    background-color: rgb(234, 233, 233);
-}
-
-.friends-wrapper:hover {
-    background-color: rgb(233, 231, 231);
-}
-
-.home-wrapper:active {
-    background-color: rgb(203, 203, 203) !important;
-}
-
-.friends-wrapper:active {
-    background-color: rgb(202, 202, 202) !important;
-}
-
-.active {
-    color: rgb(56, 56, 255) !important;
-    border-bottom: solid 5px rgb(56, 56, 255);
-}
-
 .active>i {
     border: none;
 }
@@ -83,18 +9,6 @@
 .fa-sort-down {
     margin-bottom: 10px;
     font-size: 30px;
-}
-
-.bell-wrapper {
-    height: 45px;
-    width: 45px;
-    border-radius: 100%;
-    cursor: pointer;
-    display: flex;
-    margin-left: 8px;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(233, 231, 231);
 }
 
 .profile-wrapper {
@@ -149,25 +63,6 @@
     padding-bottom: 9px;
     border: 1px solid rgb(227, 227, 227);
     max-height: 190px;
-    transition-property: height;
-    transition-duration: .3s;
-    border-radius: 9px;
-    background-color: rgb(255, 255, 255);
-    top: 3rem;
-}
-
-.notification-dropdown {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    overflow: hidden;
-    right: 10px;
-    width: 300px;
-    min-height: 150px;
-    padding-bottom: 9px;
-    border: 1px solid rgb(227, 227, 227);
-    max-height: 230px;
     transition-property: height;
     transition-duration: .3s;
     border-radius: 9px;
@@ -247,15 +142,6 @@
 
 .hidden {
     display: none !important;
-}
-
-.overlay {
-    position: fixed;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 5 !important;
 }
 
 .active-option {
@@ -377,19 +263,6 @@ h1 small {
     align-items: center;
     transition-property: transform;
     transition-duration: .2s;
-}
-
-.notification {
-    font-size: 10px;
-    color: red;
-    position: absolute;
-    right: 10px;
-    top: 11px;
-}
-
-.small-date {
-    font-size: 13px;
-    margin-top: -4px;
 }
 
 .fadeout {

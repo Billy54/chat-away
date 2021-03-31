@@ -36,7 +36,7 @@
     align-items: center;
 }
 
-.fa-facebook-messenger {
+.fa-comments {
     font-size: 38px;
     color: rgb(66, 66, 250);
 }
@@ -204,7 +204,10 @@
     font-size: 20px;
     border-radius: 7px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .log-out {
@@ -267,4 +270,21 @@
 body {
     background: whitesmoke;
     font-family: "Open Sans", sans-serif;
+}
+
+.notification {
+    font-size: 10px;
+    color: red;
+    position: absolute;
+    right: 10px;
+    top: 11px;
+}
+
+.small-date {
+    font-size: 13px;
+    margin-top: -4px;
+}
+
+.message {
+    margin-bottom: -11px;
 }

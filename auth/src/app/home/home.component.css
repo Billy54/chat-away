@@ -40,12 +40,12 @@
 }
 
 .content-wrapper {
-    left: 328px;
+    left: 285px;
     top: 50px;
     height: calc(100vh - 50px);
     display: flex;
     flex-direction: column;
-    width: calc(100% - 328px);
+    width: calc(100% - 285px);
     transition-property: width;
     transition-duration: .1s;
     margin-right: 5px;
@@ -53,7 +53,7 @@
 }
 
 .shorter {
-    width: calc(100% - 573px) !important;
+    width: calc(100% - 530px) !important;
 }
 
 .chat-area {
@@ -66,13 +66,13 @@
     padding: 10px;
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 800px) {
     .content-wrapper {
-        left: 115px;
-        width: calc(100% - 115px);
+        left: 112px;
+        width: calc(100% - 112px);
     }
     .shorter {
-        width: calc(100% - 360px) !important;
+        width: calc(100% - 267px) !important;
     }
 }
 

@@ -103,3 +103,9 @@
 .hidden {
     display: none;
 }
+
+@media only screen and (max-width: 410px) {
+    .js-info {
+        display: none;
+    }
+}

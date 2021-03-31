@@ -1,11 +1,11 @@
 "use strict";
-
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const express = require('express');
 const passport = require('passport');
 const app = express();
 const http = require('http').Server(app);
 const flash = require('express-flash');
-const session = require('express-session');
 const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
@@ -18,6 +18,7 @@ const initializePassport = require('./utils/passport-intialize');
 const fileUpload = require('express-fileupload');
 const router = require('./routes/index');
 const socketIO = require('./socketIO/socket');
+
 
 require('dotenv/config');
 //make our public folder static
@@ -52,13 +53,17 @@ app.set('view engine', 'ejs');
 
 //enable flash
 app.use(flash());
+
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     httpOnly: false,
+    store: MongoStore.create({
+        mongoUrl: process.env.DB_CONNECTION
+    }),
     cookie: {
-        secure: false, //will change this when i will deplaoy
+        secure: false, //will change this when i will deploy
     }
 }));
 

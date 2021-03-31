@@ -18,7 +18,7 @@
 }
 
 .active {
-    background-color: rgb(209 255 209) !important;
+    background-color: #2A3840 !important;
 }
 
 .alive {
@@ -53,8 +53,8 @@
 
 .user-avatar {
     border-radius: 50%;
-    height: 60px;
-    width: 60px;
+    height: 45px;
+    width: 45px;
 }
 
 .inner-content {
@@ -62,42 +62,30 @@
     flex-direction: row;
     align-items: center;
     width: 100%;
-    border-radius: 14px;
-    background-color: rgb(241 241 241);
+    border-radius: 7px;
+    background-color: #1c2126;
     cursor: pointer;
     padding: 6px;
     position: relative;
 }
 
 .inner-content:hover {
-    background-color: rgb(233, 233, 233);
-}
-
-@media only screen and (max-width: 700px) {
-    .sidenav {
-        width: 115px;
-    }
-    .visible {
-        display: none;
-    }
+    background-color: #314149;
 }
 
 .sidenav {
     height: 100%;
-    width: 330px;
+    width: 285px;
     position: fixed;
     z-index: 1;
     top: 3.2rem;
     left: 0px;
-    background-color: rgb(255, 255, 255);
-    border-right: 1.7px solid rgb(192, 192, 192);
+    background-color: #1c2126;
+    border-right: 1.7px solid #314149;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-}
-
-.sidenav a:hover {
-    color: rgb(241, 241, 241);
+    color: white;
 }
 
 .chat-header {
@@ -158,12 +146,12 @@
 }
 
 .side-top {
-    border-bottom: 1px solid rgb(234, 234, 234);
+    border-bottom: 1px solid #314149;
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 800px) {
     .sidenav {
-        width: 115px;
+        width: 112px;
     }
     .search-field>input {
         width: 50%;
@@ -171,10 +159,6 @@
     .search-field {
         width: 97px;
         margin-left: 8px;
-    }
-    .content-wrapper {
-        left: 115px;
-        width: calc(100% - 115px);
     }
     .message>input {
         width: 80%;
@@ -185,7 +169,7 @@
     .ts-name {
         display: none;
     }
-    .new-room {
+    #ts-chat {
         display: none !important;
     }
 }

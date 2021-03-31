@@ -2,8 +2,8 @@
     <img [src]="url" *ngIf="!open" class="user-avatar">
     <form class="user-details ">
         <input *ngIf="open" [(ngModel)]="name" name="name" class="custom" (keyup.enter)="submit()" type="text" placeholder="name your room" autofocus>
-        <h1 *ngIf="!open">{{infoName}}</h1>
-        <small *ngIf="!open">{{info}}</small>
+        <h1 class="js-info" *ngIf="!open">{{infoName}}</h1>
+        <small class="js-info" *ngIf="!open">{{info}}</small>
     </form>
     <div *ngIf="open" class="notification-dropdown">
         <div class="profile-item" *ngFor="let user of usersList; let i=index " [class.tik]="user.active" (click)="select(i)">

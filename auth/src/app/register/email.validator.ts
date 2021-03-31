@@ -1,4 +1,3 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 export class EmailValidators {
@@ -19,7 +18,7 @@ export class EmailValidators {
         })
         .then((res: any = []) => {
           if (res.found) {
-            resolve({ shouldBeUnique: false });
+            resolve({ shouldBeUnique: false }); //i am resolving promise to be returned
           } else {
             resolve(null);
           }

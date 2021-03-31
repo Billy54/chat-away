@@ -2,7 +2,7 @@
 <div class="top-navbar">
     <div class="options">
         <div class="messenger-wrapper">
-            <i class="fab fa-facebook-messenger"></i>
+            <i class="fas fa-comments"></i>
         </div>
     </div>
     <div class="options">
@@ -24,10 +24,11 @@
                 <div class="divider div-profile"></div>
                 <div class="inner-wrapper">
                     <div class="profile-item item-margin" *ngFor="let notification of notificationList; let i=index" (click)="browse(i)">
-                        <img [src]="notification.url" class=" avatar " style="margin-top: 0px;">
+                        <img [src]="notification.url" class=" avatar " style="margin-top: 4px;">
                         <div class="details ">
-                            <div class="message">{{notification.name}} send a message!</div>
-                            <div class="small-date">{{ notification.date}}</div>
+                            <div class="message">{{notification.name}} send a message:</div>
+                            <small>{{notification.text}}</small>
+                            <div class="small-date">at: {{ notification.date}}</div>
                         </div>
                     </div>
                 </div>

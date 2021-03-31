@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.TopbarComponent = void 0;
 var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 var notification_1 = require("../Models/notification");
 var TopbarComponent = /** @class */ (function () {
     function TopbarComponent(router, dataShareService, io, authService) {
@@ -42,6 +43,17 @@ var TopbarComponent = /** @class */ (function () {
                 _this.newmsg = true;
             }
         }));
+        //keep track of our current url
+        this.router.events.subscribe(function (event) {
+            if (event instanceof router_1.NavigationStart) {
+                if (event.url.startsWith('/users')) {
+                    _this.active = false;
+                }
+                else {
+                    _this.active = true;
+                }
+            }
+        });
     };
     TopbarComponent.prototype.overlayCheck = function () {
         this.profile = true;

@@ -1,7 +1,7 @@
 <div class="sidenav ">
     <div class="side-top ">
         <div class="chat-header ">
-            <span>
+            <span id="ts-chat">
                 <b>Chats</b>
             </span>
             <div class="new-room" [class.active]="active" (click)="toggle()">
@@ -19,9 +19,6 @@
                 <img [src]="user.details.avatar" class="user-avatar ">
                 <div class="last-msg ">
                     <h1 class="ts-name" style="margin-bottom:0px; font-size: 15px; ">{{user.details.name}}</h1>
-                    <small class="visible ">
-                        {{user.lastComment}}
-                    </small>
                 </div>
                 <div class="status " [class.alive]="user.status ">
                     <i class="fas fa-circle "></i>

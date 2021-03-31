@@ -1,1 +1,14 @@
-<p>users works!</p>
+<div class="user-wrapper">
+    <ng-container *ngFor="let user of all">
+        <div class="user-item" *ngIf="!user.custom">
+            <div class="avatar-info">
+                <img [src]="user.avatar" class="user-avatar">
+                <i class="fas fa-circle" *ngIf="user.alive"></i>
+                <i class="fas fa-circle " style="color:grey" *ngIf="!user.alive"></i>
+            </div>
+            <div class="user-details">
+                <h1 style="font-size:20px;">{{user.name}}</h1>
+            </div>
+        </div>
+    </ng-container>
+</div>

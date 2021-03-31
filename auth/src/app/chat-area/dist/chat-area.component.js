@@ -77,15 +77,6 @@ var ChatAreaComponent = /** @class */ (function () {
         this.fetchData.stopLoading();
         this.fetchData.sendroomId(rid);
     };
-    //create a comment instance for each comment
-    ChatAreaComponent.prototype.commentSectionInit = function (data) {
-        this.vc = this.appChat.viewContainerRef;
-        var componentFactory = this.componentFactoryResolver.resolveComponentFactory(comment_component_1.CommentComponent);
-        var componentRef = this.vc.createComponent(componentFactory);
-        var newComment = this.factory.newComment(this.previousId, data);
-        componentRef.instance.data = newComment;
-        this.previousId = data.sender;
-    };
     ChatAreaComponent.prototype.getRoom = function () {
         for (var _i = 0, _a = this.rooms; _i < _a.length; _i++) {
             var room = _a[_i];
@@ -98,7 +89,7 @@ var ChatAreaComponent = /** @class */ (function () {
     };
     ChatAreaComponent.prototype.fetchFromServer = function () {
         var _this = this;
-        this.commentsService
+        this.observers.push(this.commentsService
             .getComments('room', {
             receiver: this.activeRoom,
             sender: this.auth.getUserInfo().id
@@ -108,7 +99,16 @@ var ChatAreaComponent = /** @class */ (function () {
             var room = new room_1.Room(response.comments, _this.activeRoom, response.rid);
             _this.rooms.push(room);
             _this.renderer(response.comments, room.id);
-        });
+        }));
+    };
+    //create a comment instance for each comment
+    ChatAreaComponent.prototype.commentSectionInit = function (data) {
+        this.vc = this.appChat.viewContainerRef;
+        var componentFactory = this.componentFactoryResolver.resolveComponentFactory(comment_component_1.CommentComponent);
+        var componentRef = this.vc.createComponent(componentFactory);
+        var newComment = this.factory.newComment(this.previousId, data);
+        componentRef.instance.data = newComment;
+        this.previousId = data.sender;
     };
     __decorate([
         core_1.ViewChild(chat_directive_1.ChatDirective, { static: true })

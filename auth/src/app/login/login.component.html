@@ -1,33 +1,35 @@
-<div class="login-overlay"></div>
-<div class="container-fluid dark-color position">
-    <div class="login-wrapper">
-        <div class="secondary-wrapper">
-            <div class="welcome-message">
-                <h1 style="margin-bottom: -5px; color:#1877f2">Welcome to chat away</h1>
-                <small>make an account and start chatting!!</small>
-            </div>
-            <div class="avatar-wrapper">
-                <div class="login-avatar-holder">
-                    <img class="img" src="assets/blank.png">
-                    <div class="name-tab">
-                        <div>Demo User</div>
-                    </div>
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
+            <form class="login100-form validate-form" [formGroup]="loginForm" (ngSubmit)="login()">
+                <span class="login100-form-title p-b-33">
+                    Account Login
+                </span>
+
+                <div class="wrap-input100 validate-input" [class.input-outline]="name!.touched && !name!.invalid" [class.error-outline]="name!.invalid && name!.touched">
+                    <input class="input100" formControlName="email" name="email" type="text" name="email" placeholder="Email">
+                    <span class="focus-input100-1"></span>
+                    <span class="focus-input100-2"></span>
                 </div>
-            </div>
-        </div>
-        <div class="login-card">
-            <form [formGroup]="loginForm" (ngSubmit)="login()">
-                <div class="input-wrapper-email" [class.input-outline]="name!.touched && !name!.invalid" [class.error-outline]="name!.invalid && name!.touched">
-                    <input formControlName="email" name="email" class="custom-input" type="text" placeholder="Email">
+
+                <div class="wrap-input100 rs1 validate-input" [class.input-outline]="password!.touched && !password!.invalid" [class.error-outline]="password!.invalid && password!.touched">
+                    <input class="input100" formControlName="password" name="password" type="password" placeholder="Password">
+                    <span class="focus-input100-1"></span>
+                    <span class="focus-input100-2"></span>
                 </div>
-                <div class="input-wrapper-password" [class.input-outline]="password!.touched && !password!.invalid" [class.error-outline]="password!.invalid && password!.touched">
-                    <input formControlName="password" name="password" class="custom-input" type="text" placeholder=" Password ">
+
+                <div class="container-login100-form-btn m-t-20">
+                    <button type="submit" name="login " class="login100-form-btn">
+                        Sign in
+                    </button>
                 </div>
-                <button name="login " class="my-button " id="js-login " type="submit ">Log In</button>
-                <div class="divider "></div>
+                <div class="text-center" style="margin-top: 10px;">
+                    <span class="txt1">
+                        Create an account?
+                    </span>
+                    <button data-toggle="modal" type="button" data-target="#exampleModalCenter" class="button">Register</button>
+                </div>
             </form>
-            <button class="my-register-button " data-toggle="modal" data-target="#exampleModalCenter" id="js-modal ">Create New
-                Account</button>
         </div>
     </div>
 </div>

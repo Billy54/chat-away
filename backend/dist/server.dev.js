@@ -1,5 +1,9 @@
 "use strict";
 
+var session = require('express-session');
+
+var MongoStore = require('connect-mongo');
+
 var express = require('express');
 
 var passport = require('passport');
@@ -9,8 +13,6 @@ var app = express();
 var http = require('http').Server(app);
 
 var flash = require('express-flash');
-
-var session = require('express-session');
 
 var mongoose = require('mongoose');
 
@@ -70,8 +72,11 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   httpOnly: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.DB_CONNECTION
+  }),
   cookie: {
-    secure: false //will change this when i will deplaoy
+    secure: false //will change this when i will deploy
 
   }
 })); //file upload
