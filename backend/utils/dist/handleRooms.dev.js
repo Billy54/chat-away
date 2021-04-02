@@ -10,7 +10,6 @@ var addUser = function addUser(id) {
   }
 
   rooms.push(String(id));
-  console.log(rooms);
 };
 
 var deleteUser = function deleteUser(id) {

@@ -40,7 +40,17 @@ var AuthService = /** @class */ (function () {
     AuthService.prototype.getUserInfo = function () {
         var token = localStorage.getItem('token');
         var dec = jwt_decode_1["default"](token);
-        return { name: dec.name, email: dec.email, id: dec.id, avatar: dec.avatar };
+        return {
+            name: dec.name,
+            email: dec.email,
+            id: dec.id,
+            avatar: dec.avatar,
+            demo: dec.demo
+        };
+    };
+    //check demo
+    AuthService.prototype.isDemo = function () {
+        return this.getUserInfo().demo;
     };
     //store user info into the local storage
     AuthService.prototype.setUserInfo = function (token) {
@@ -52,23 +62,37 @@ var AuthService = /** @class */ (function () {
     };
     //call the server to validate
     AuthService.prototype.validate = function (email, password, uri) {
-        return this.http.post(this.URL + uri, { email: email, password: password }, this.options);
+        var _this = this;
+        return this.http
+            .post(this.URL + uri, { email: email, password: password }, this.options)
+            .pipe(operators_1.map(function (res) {
+            if (res === void 0) { res = []; }
+            _this.setUserInfo(res.user);
+            console.log(res);
+            return res;
+        }), operators_1.catchError(this.errorHandler.handleError));
     };
     //logout
     AuthService.prototype.logout = function (uri) {
         if (this.isAuthenticated()) {
             this.removeUserInfo();
-            return this.http
-                .get(this.URL + uri, this.options)
-                .pipe(operators_1.catchError(this.errorHandler.handleError));
+            return this.http.get(this.URL + uri, this.options).pipe(operators_1.map(function (res) {
+                if (res === void 0) { res = []; }
+                return res;
+            }), operators_1.catchError(this.errorHandler.handleError));
         }
         return rxjs_1.throwError('Something bad happened; please try again later.');
     };
     //register
     AuthService.prototype.register = function (name, email, password, uri) {
+        var _this = this;
         return this.http
             .post(this.URL + uri, { name: name, email: email, password: password }, this.options)
-            .pipe(operators_1.catchError(this.errorHandler.handleError));
+            .pipe(operators_1.map(function (res) {
+            if (res === void 0) { res = []; }
+            _this.setUserInfo(res.user);
+            return res;
+        }), operators_1.catchError(this.errorHandler.handleError));
     };
     AuthService = __decorate([
         core_1.Injectable({

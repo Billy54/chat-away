@@ -1,8 +1,10 @@
 import {
   Component,
   ComponentFactoryResolver,
+  EventEmitter,
   OnDestroy,
   OnInit,
+  Output,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -70,6 +72,7 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
     //received comment
     this.observers.push(
       this.fetchData.remote.subscribe((data: any) => {
+        console.log('data');
         if (data.custom) {
           this.saveLocal(data.receiver, data);
           if (data.receiver == this.activeRoom) {
@@ -120,7 +123,7 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
           receiver: this.activeRoom,
           sender: this.auth.getUserInfo().id,
         })
-        .subscribe((response: any = []) => {
+        .subscribe((response) => {
           let room = new Room(response.comments, this.activeRoom, response.rid);
           this.rooms.push(room);
           this.renderer(response.comments, room.id);
@@ -137,7 +140,7 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
     const componentRef = this.vc.createComponent<CommentComponent>(
       componentFactory
     );
-    let newComment = this.factory.newComment(this.previousId, data);
+    const newComment = this.factory.newComment(this.previousId, data);
     (<CommentComponent>componentRef.instance).data = newComment;
     this.previousId = data.sender;
   }

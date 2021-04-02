@@ -13,6 +13,7 @@ const loginRoute = require("./routes/login");
 const userRoute = require("./routes/users");
 const roomRoote = require("./routes/rooms");
 const avatarRoute = require("./routes/avatar");
+const demoRoute = require("./routes/demo");
 const expressLayouts = require('express-ejs-layouts');
 const initializePassport = require('./utils/passport-intialize');
 const fileUpload = require('express-fileupload');
@@ -80,6 +81,7 @@ app.use("/", loginRoute);
 app.use("/", userRoute);
 app.use("/", roomRoote);
 app.use("/", avatarRoute);
+app.use("/", demoRoute);
 //catch any undefined routes
 app.use("/*", (req, res) => {
     res.sendFile(__dirname + '/public/index.html');

@@ -3,7 +3,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { DataShareService } from '../services/data-share.service';
 
 @Component({
   selector: 'app-login',
@@ -45,20 +44,20 @@ export class LoginComponent implements OnInit {
         'login'
       )
       .subscribe(
-        (response: any = []) => {
-          console.log(response);
-          this.authService.setUserInfo(response.user);
+        (response) => {
           localStorage.removeItem('pass');
           this.router.navigate(['']);
         },
         //handle the error locally so we can display detailed messages to the user
-        (error: any) => {
-          if (error instanceof HttpErrorResponse && error && error.error) {
+        (error: any = []) => {
+          console.log(error);
+          if (error instanceof HttpErrorResponse) {
             if (error.error.message[0] == 'Incorrect password') {
               console.log(error.error.message[0]);
               this.loginForm.controls['password'].setErrors({ invalid: true });
             } else if (error.error.message[0] == 'Not Registered') {
               console.log(error.error.message[0]);
+              this.loginForm.controls['email'].setErrors({ invalid: true });
             } else {
               console.log(error.error.message[0]);
             }

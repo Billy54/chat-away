@@ -8,15 +8,34 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.AppComponent = void 0;
 var core_1 = require("@angular/core");
+var rxjs_1 = require("rxjs");
 var AppComponent = /** @class */ (function () {
-    function AppComponent(a) {
+    function AppComponent(a, router) {
+        this.router = router;
         this.title = 'Angular';
         this.authService = a;
     }
-    AppComponent.prototype.ngOnInit = function () { };
-    AppComponent.prototype.navBar = function () {
-        return this.authService.isAuthenticated();
+    AppComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.authObserver = new rxjs_1.Observable(function (observer) {
+            setInterval(function () {
+                if (!_this.navBar) {
+                    observer.next(true);
+                }
+            }, 300);
+        });
+        this.authObserver.subscribe(function (val) {
+            _this.authService.logout('logout');
+            _this.router.navigateByUrl('login');
+        });
     };
+    Object.defineProperty(AppComponent.prototype, "navBar", {
+        get: function () {
+            return this.authService.isAuthenticated();
+        },
+        enumerable: false,
+        configurable: true
+    });
     AppComponent = __decorate([
         core_1.Component({
             selector: 'app-root',

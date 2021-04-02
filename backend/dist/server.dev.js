@@ -28,6 +28,8 @@ var roomRoote = require("./routes/rooms");
 
 var avatarRoute = require("./routes/avatar");
 
+var demoRoute = require("./routes/demo");
+
 var expressLayouts = require('express-ejs-layouts');
 
 var initializePassport = require('./utils/passport-intialize');
@@ -90,7 +92,8 @@ app.use(passport.session()); //Defining the routes
 app.use("/", loginRoute);
 app.use("/", userRoute);
 app.use("/", roomRoote);
-app.use("/", avatarRoute); //catch any undefined routes
+app.use("/", avatarRoute);
+app.use("/", demoRoute); //catch any undefined routes
 
 app.use("/*", function (req, res) {
   res.sendFile(__dirname + '/public/index.html');

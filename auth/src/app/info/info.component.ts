@@ -68,7 +68,7 @@ export class InfoComponent implements OnInit, OnDestroy {
       })
     );
 
-    //status check on swap
+    //get current
     this.observers.push(
       this.dataShare.message.subscribe((message: any = []) => {
         this.infoName = message.name;

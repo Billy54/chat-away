@@ -12,7 +12,8 @@ module.exports = {
             name: data.name,
             email: data.email,
             id: data._id,
-            avatar: data.avatar
+            avatar: data.avatar,
+            demo: data.demo
         }, process.env.SESSION_SECRET, {
             expiresIn: '3600s'
         });
@@ -26,11 +27,10 @@ module.exports = {
             roomId: msg.roomId,
             senderName: msg.senderName
         });
-        await newMessage.save().then(message => {
-            return message;
-        }).catch((err) => {
-            return err;
-        });
+        await newMessage.save()
+            .catch((err) => {
+                return err;
+            });
 
     }, //update user avatar as well as all the comments
     updateAvatar: async function(url, uid) {
@@ -101,6 +101,29 @@ module.exports = {
         }).catch(err => {
             console.log(err);
         });
+    },
+    deleteUser: async function(id) {
+        await User.findOneAndDelete({
+            _id: id
+        }).then(async() => {
+            await Room.deleteMany({
+                $and: [{
+                    members: {
+                        $all: [String(id)]
+                    },
+                }, {
+                    custom: false
+                }]
+            }).then(async() => {
+                await Message.deleteMany({
+                    $or: [{
+                        sender: id
+                    }, {
+                        receiver: id
+                    }]
+                }).catch(err => console.log(err))
+            }).catch(err => console.log(err));
+        }).catch(err => console.log(err));
     }
 }
 

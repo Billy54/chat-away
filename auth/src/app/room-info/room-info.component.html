@@ -8,7 +8,7 @@
         <h1 class="header">Chat members</h1>
         <h1 class="header user" *ngFor="let name of currentRoom?.unames">{{name}}</h1>
     </div>
-    <ng-container *ngIf="currentRoom?.custom">
+    <ng-container *ngIf="currentRoom?.custom && !isDemo">
         <div class="profile-item" data-toggle="modal" data-target="#exampleModalCenter">
             <i class="fas fa-user-plus"></i>
             <div class="details ">

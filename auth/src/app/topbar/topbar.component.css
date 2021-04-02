@@ -1,5 +1,5 @@
 .top-navbar {
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(0, 0, 0);
     position: fixed;
     top: 0px;
     z-index: 6;
@@ -8,9 +8,9 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding-left: 1.5rem;
+    padding-left: 2rem;
     padding-right: 1.5rem;
-    box-shadow: rgba(32, 33, 36, 0.28) 0px 1px 6px 0px;
+    /*box-shadow: rgba(32, 33, 36, 0.28) 0px 1px 6px 0px;b*/
 }
 
 .details {
@@ -52,25 +52,17 @@
 }
 
 .home-wrapper:hover {
-    background-color: rgb(219, 219, 219);
+    background-color: #151c20;
 }
 
 .friends-wrapper:hover {
-    background-color: rgb(219, 219, 219);
-}
-
-.home-wrapper:active {
-    background-color: rgb(203, 203, 203) !important;
-}
-
-.friends-wrapper:active {
-    background-color: rgb(202, 202, 202) !important;
+    background-color: #151c20;
 }
 
 .active {
     color: rgb(56, 56, 255) !important;
     border-bottom: solid 5px rgb(56, 56, 255);
-    background-color: rgb(236, 236, 236);
+    background-color: #151c20;
 }
 
 .active>i {
@@ -95,21 +87,7 @@
     margin-left: 8px;
     justify-content: center;
     align-items: center;
-    background-color: rgb(233, 231, 231);
-}
-
-.profile-wrapper {
-    background-color: rgb(233, 231, 231);
-    height: 45px;
-    width: 45px;
-    position: relative;
-    z-index: 1;
-    border-radius: 100%;
-    cursor: pointer;
-    display: flex;
-    margin-left: 8px;
-    justify-content: center;
-    align-items: center;
+    color: gray;
 }
 
 .profile-wrapper:hover {
@@ -117,17 +95,17 @@
 }
 
 .bell-wrapper:hover {
-    background-color: rgb(198, 198, 198) !important;
+    background-color: #151c20 !important;
 }
 
 .profile-wrapper:active {
     padding-top: 2px;
-    background-color: rgb(202, 202, 202) !important;
+    background-color: #151c20 !important;
 }
 
 .bell-wrapper:active {
     padding-top: 2px;
-    background-color: rgb(202, 202, 202) !important;
+    background-color: #151c20 !important;
 }
 
 .dropdown {
@@ -136,25 +114,6 @@
 
 .item-margin {
     margin: 3px !important;
-}
-
-.profile-dropdown {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    position: absolute;
-    overflow: hidden;
-    right: 10px;
-    width: 300px;
-    min-height: 150px;
-    padding-bottom: 9px;
-    border: 1px solid rgb(227, 227, 227);
-    max-height: 190px;
-    transition-property: height;
-    transition-duration: .3s;
-    border-radius: 9px;
-    background-color: rgb(255, 255, 255);
-    top: 3rem;
 }
 
 .notification-dropdown {
@@ -167,12 +126,13 @@
     width: 300px;
     min-height: 150px;
     padding-bottom: 9px;
-    border: 1px solid rgb(227, 227, 227);
+    border: 1px solid rgb(0, 0, 0);
     max-height: 230px;
     transition-property: height;
     transition-duration: .3s;
-    border-radius: 9px;
-    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    color: rgb(227, 227, 227);
+    background-color: #2a2a2a;
     top: 3rem;
 }
 
@@ -188,7 +148,7 @@
     width: 90%;
     margin-bottom: 5px;
     margin-top: 2px;
-    border-bottom: 1px solid rgba(190, 190, 190, 0.89);
+    border-bottom: 1px solid rgba(49, 49, 49, 0.89);
 }
 
 .lower {
@@ -202,7 +162,7 @@
     max-height: 120px;
     padding: 7px;
     font-size: 20px;
-    border-radius: 7px;
+    border-radius: 5px;
     display: flex;
     align-items: flex-start;
     white-space: nowrap;
@@ -221,17 +181,8 @@
     cursor: pointer;
 }
 
-.log-out>i {
-    font-size: 20px;
-    margin-right: 10px;
-}
-
-.log-out:hover {
-    background-color: rgba(210, 210, 210, 0.51);
-}
-
 .profile-item:hover {
-    background-color: rgba(212, 212, 212, 0.51);
+    background-color: #343b3e;
     cursor: pointer;
 }
 
@@ -264,7 +215,7 @@
 
 .active-option {
     color: blue;
-    background-color: rgb(186, 186, 186);
+    background-color: #151c20;
 }
 
 body {

@@ -17,7 +17,8 @@ var _require = require("../utils/authentication"),
     ensureAuthenticated = _require.ensureAuthenticated;
 
 var _require2 = require('../utils/helpers'),
-    encodeData = _require2.encodeData;
+    encodeData = _require2.encodeData,
+    deleteUser = _require2.deleteUser;
 
 var _require3 = require('../utils/customRooms'),
     put = _require3.put;
@@ -56,10 +57,21 @@ router.post('/login', function (req, res, next) {
 }); //logout
 
 router.get('/logout', ensureAuthenticated, function (req, res) {
+  var id = req.user._id;
+  var demo = req.user.demo;
   req.logout();
-  res.status(200).json({
-    msg: 'log out succesfull'
-  });
+
+  if (demo) {
+    deleteUser(id).then(function () {
+      res.status(200).json({
+        msg: 'log out succesfull'
+      });
+    });
+  } else {
+    res.status(200).json({
+      msg: 'log out succesfull'
+    });
+  }
 }); //check if the user email is already registered
 
 router.post('/validateEmail', forwardAuthenticated, function (req, res) {

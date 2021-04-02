@@ -12,7 +12,6 @@
 }
 
 .profile-wrapper {
-    background-color: rgb(233, 231, 231);
     height: 45px;
     width: 45px;
     position: relative;
@@ -23,24 +22,16 @@
     margin-left: 8px;
     justify-content: center;
     align-items: center;
+    color: gray;
 }
 
 .profile-wrapper:hover {
-    background-color: rgb(198, 198, 198) !important;
-}
-
-.bell-wrapper:hover {
-    background-color: rgb(198, 198, 198) !important;
+    background-color: #151c20 !important;
 }
 
 .profile-wrapper:active {
     padding-top: 2px;
-    background-color: rgb(202, 202, 202) !important;
-}
-
-.bell-wrapper:active {
-    padding-top: 2px;
-    background-color: rgb(202, 202, 202) !important;
+    background-color: #151c20 !important;
 }
 
 .dropdown {
@@ -61,13 +52,18 @@
     width: 300px;
     min-height: 150px;
     padding-bottom: 9px;
-    border: 1px solid rgb(227, 227, 227);
+    border: 1px solid rgb(0, 0, 0);
     max-height: 190px;
     transition-property: height;
     transition-duration: .3s;
-    border-radius: 9px;
-    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    color: rgb(215, 215, 215);
+    background-color: #2a2a2a;
     top: 3rem;
+}
+
+.details {
+    margin-left: 8px;
 }
 
 .inner-wrapper {
@@ -82,7 +78,7 @@
     width: 90%;
     margin-bottom: 5px;
     margin-top: 2px;
-    border-bottom: 1px solid rgba(190, 190, 190, 0.89);
+    border-bottom: 1px solid rgba(58, 58, 58, 0.89);
 }
 
 .lower {
@@ -96,7 +92,7 @@
     max-height: 120px;
     padding: 7px;
     font-size: 20px;
-    border-radius: 7px;
+    border-radius: 5px;
     display: flex;
     align-items: center;
 }
@@ -106,7 +102,7 @@
     margin: 10px;
     height: 50px;
     padding: 7px;
-    border-radius: 10px;
+    border-radius: 5px;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -118,11 +114,11 @@
 }
 
 .log-out:hover {
-    background-color: rgba(210, 210, 210, 0.51);
+    background-color: #343b3e !important;
 }
 
 .profile-item:hover {
-    background-color: rgba(212, 212, 212, 0.51);
+    background-color: #343b3e !important;
     cursor: pointer;
 }
 
@@ -146,7 +142,7 @@
 
 .active-option {
     color: blue;
-    background-color: rgb(186, 186, 186);
+    background-color: #151c20;
 }
 
 body {
@@ -241,6 +237,10 @@ h1 small {
     justify-content: center;
 }
 
+.fa-user {
+    font-size: 22px;
+}
+
 .ts-close {
     position: absolute;
     right: 10px;
@@ -276,4 +276,8 @@ h1 small {
     to {
         opacity: 1;
     }
+}
+
+.name {
+    margin-bottom: -8px;
 }

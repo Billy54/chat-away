@@ -9,36 +9,35 @@ exports.__esModule = true;
 exports.DataShareService = void 0;
 var core_1 = require("@angular/core");
 var rxjs_1 = require("rxjs");
-var rxjs_2 = require("rxjs");
 var DataShareService = /** @class */ (function () {
     //emit to the subscribers
     function DataShareService() {
         //change current user info header , buffer size = 1 cache always the last emmit
-        this.changeName = new rxjs_2.ReplaySubject(1);
+        this.changeName = new rxjs_1.ReplaySubject();
         this.message = this.changeName.asObservable();
         //pass comment data to chatArea for new comments!!!
-        this.commentData = new rxjs_2.ReplaySubject(1);
+        this.commentData = new rxjs_1.Subject();
         this.remote = this.commentData.asObservable();
         //pass comment data to chatArea for new comments!!!
-        this.localData = new rxjs_2.ReplaySubject(1);
+        this.localData = new rxjs_1.Subject();
         this.local = this.localData.asObservable();
         //potentially some one made a new account so we need to render them on the list
         this.refreshRooms = new rxjs_1.Subject();
         this.refresh = this.refreshRooms.asObservable();
         //update status
-        this.userStatus = new rxjs_2.ReplaySubject(1);
+        this.userStatus = new rxjs_1.ReplaySubject();
         this.status = this.userStatus.asObservable();
         //send new url to chat room
-        this.updateUrl = new rxjs_2.ReplaySubject(1);
+        this.updateUrl = new rxjs_1.ReplaySubject();
         this.changeUrl = this.updateUrl.asObservable();
         //swap current room
-        this.swap = new rxjs_2.ReplaySubject(1);
+        this.swap = new rxjs_1.ReplaySubject();
         this.swapRoom = this.swap.asObservable();
         //room loader
-        this.load = new rxjs_2.ReplaySubject(1);
+        this.load = new rxjs_1.ReplaySubject();
         this.loader = this.load.asObservable();
         //invited to custom room
-        this.room = new rxjs_2.ReplaySubject(1);
+        this.room = new rxjs_1.ReplaySubject();
         this.newRoom = this.room.asObservable();
         //in which room we will be saving the comments
         this.roomId = new rxjs_1.Subject();

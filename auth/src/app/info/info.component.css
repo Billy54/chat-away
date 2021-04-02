@@ -1,14 +1,24 @@
 .chat-info {
     min-height: 70px;
     max-height: 70px;
-    border-bottom: 1px solid rgb(210, 210, 210);
-    border-right: 1px solid rgb(210, 210, 210);
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
     padding: 12px;
     position: relative;
+    color: white;
+    position: relative;
+}
+
+.chat-info:after {
+    content: "";
+    background: #383838;
+    position: absolute;
+    bottom: 0;
+    left: 1.5%;
+    height: 2px;
+    width: 97%;
 }
 
 .user-avatar {
@@ -41,10 +51,10 @@
     min-height: 118px;
     padding-bottom: 9px;
     padding-top: 9px;
-    border: 1px solid rgb(227, 227, 227);
+    border: 1px solid rgb(0, 0, 0);
     max-height: 230px;
     border-radius: 9px;
-    background-color: rgb(255, 255, 255);
+    background-color: #2a2a2a;
     top: 4rem;
     box-shadow: 0px 0px 7px -1px rgba(0, 0, 0, 0.75);
 }
@@ -55,7 +65,7 @@
     max-height: 120px;
     padding: 7px;
     font-size: 20px;
-    border-radius: 7px;
+    border-radius: 5px;
     display: flex;
     align-items: center;
     margin-left: 3px;
@@ -76,25 +86,30 @@
 
 .profile-item:hover {
     cursor: pointer;
-    background-color: rgb(241 241 241);
+    background-color: #343b3e;
 }
 
 .tik {
-    background-color: rgb(209 255 209)
+    background-color: #343b3e !important;
+}
+
+.fa-check {
+    margin-left: auto;
 }
 
 .custom {
     outline: none;
     border: none;
-    caret-color: blue;
-    width: 260px;
+    color: white;
+    width: 320px;
     font-size: 20px;
+    background: #18191a !important;
 }
 
 .info {
     right: 10px;
     font-size: 27px;
-    color: rgb(0, 132, 255) !important;
+    color: rgb(56, 56, 255);
     cursor: pointer;
     margin-left: auto;
     margin-right: 20px;

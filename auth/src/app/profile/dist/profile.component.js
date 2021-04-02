@@ -31,6 +31,9 @@ var ProfileComponent = /** @class */ (function () {
         this.dataShare.sendUrl(this.url);
     };
     ProfileComponent.prototype.changeAvatar = function () {
+        if (this.isDemo) {
+            return;
+        }
         this.exp = 'translateX(-297px)';
         this.expHeight = '400px';
     };
@@ -69,8 +72,7 @@ var ProfileComponent = /** @class */ (function () {
                 _this.url = response.path;
                 _this.slide();
                 _this.dataShare.sendUrl(_this.url);
-            })
-                .unsubscribe();
+            });
         }
     };
     ProfileComponent.prototype.logout = function () {
@@ -80,6 +82,13 @@ var ProfileComponent = /** @class */ (function () {
         this.notCheck.emit(true);
         this.ovCheck.emit(!this.prof);
     };
+    Object.defineProperty(ProfileComponent.prototype, "isDemo", {
+        get: function () {
+            return this.authService.isDemo();
+        },
+        enumerable: false,
+        configurable: true
+    });
     __decorate([
         core_1.ViewChild('imagePreview')
     ], ProfileComponent.prototype, "preview");

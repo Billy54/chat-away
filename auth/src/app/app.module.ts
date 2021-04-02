@@ -34,6 +34,7 @@ import { AuthService } from './services/auth.service';
 import { UsersComponent } from './users/users.component';
 import { PopUpComponent } from './pop-up/pop-up.component';
 import { ProfileComponent } from './profile/profile.component';
+import { DemoComponent } from './demo/demo.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { ProfileComponent } from './profile/profile.component';
     UsersComponent,
     PopUpComponent,
     ProfileComponent,
+    DemoComponent,
   ],
   imports: [
     ReactiveFormsModule,

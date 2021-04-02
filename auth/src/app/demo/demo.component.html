@@ -1,0 +1,19 @@
+<div class="modal fade" id="demo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content content register-card ">
+            <div class="modal-body ">
+                <span class="login100-form-title p-b-33">
+                    Give a name
+                </span>
+                <div class="divider register-divider "></div>
+                <form [formGroup]="demoForm" (ngSubmit)="loginDemo()" class="my-form input-outline">
+                    <div class="register-field " [class.input-outline]="name!.touched && !name!.invalid" [class.error-outline]="name!.invalid && name!.touched">
+                        <input name="name" formControlName="name" class="custom-input " type="text " placeholder="name... ">
+                    </div>
+                    <button class="my-button sign-up-btn " id="js-register " type="submit ">Sign Up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<button hidden id="close" data-toggle="modal" type="button" data-target="#demo"></button>

@@ -4,13 +4,13 @@
             <span id="ts-chat">
                 <b>Chats</b>
             </span>
-            <div class="new-room" [class.active]="active" (click)="toggle()">
+            <div *ngIf="!isDemo" class="new-room" [class.active]="active" (click)="toggle()">
                 <i class="fas fa-edit plus"></i>
             </div>
         </div>
         <form class="search-chat search-field ">
             <i class="fas fa-search "></i>
-            <input name="userName" [(ngModel)]="userName" (keyup)="searchUser() " class="my-input " placeholder="Search users ">
+            <input name="userName" [(ngModel)]="userName" (keyup)="searchUser() " class="my-input " placeholder="search people or rooms ">
         </form>
     </div>
     <ul class="user-list">

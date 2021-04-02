@@ -46,6 +46,7 @@ var ChatAreaComponent = /** @class */ (function () {
         }));
         //received comment
         this.observers.push(this.fetchData.remote.subscribe(function (data) {
+            console.log('data');
             if (data.custom) {
                 _this.saveLocal(data.receiver, data);
                 if (data.receiver == _this.activeRoom) {
@@ -95,7 +96,6 @@ var ChatAreaComponent = /** @class */ (function () {
             sender: this.auth.getUserInfo().id
         })
             .subscribe(function (response) {
-            if (response === void 0) { response = []; }
             var room = new room_1.Room(response.comments, _this.activeRoom, response.rid);
             _this.rooms.push(room);
             _this.renderer(response.comments, room.id);

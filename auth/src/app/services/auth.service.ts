@@ -2,10 +2,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { ErrorHandlerService } from './error-handler.service';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import jwt_decode from 'jwt-decode';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { SocketioService } from './socketio.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -44,7 +44,18 @@ export class AuthService {
   public getUserInfo() {
     let token = localStorage.getItem('token') as string;
     let dec: any = jwt_decode(token);
-    return { name: dec.name, email: dec.email, id: dec.id, avatar: dec.avatar };
+    return {
+      name: dec.name,
+      email: dec.email,
+      id: dec.id,
+      avatar: dec.avatar,
+      demo: dec.demo,
+    };
+  }
+
+  //check demo
+  public isDemo() {
+    return this.getUserInfo().demo;
   }
 
   //store user info into the local storage
@@ -63,20 +74,28 @@ export class AuthService {
     password: String,
     uri: String
   ): Observable<any> {
-    return this.http.post(
-      this.URL + uri,
-      { email: email, password: password },
-      this.options
-    );
+    return this.http
+      .post(this.URL + uri, { email: email, password: password }, this.options)
+      .pipe(
+        map((res: any = []) => {
+          this.setUserInfo(res.user);
+          console.log(res);
+          return res;
+        }),
+        catchError(this.errorHandler.handleError)
+      );
   }
 
   //logout
   public logout(uri: String): Observable<any> {
     if (this.isAuthenticated()) {
       this.removeUserInfo();
-      return this.http
-        .get(this.URL + uri, this.options)
-        .pipe(catchError(this.errorHandler.handleError));
+      return this.http.get(this.URL + uri, this.options).pipe(
+        map((res: any = []) => {
+          return res;
+        }),
+        catchError(this.errorHandler.handleError)
+      );
     }
     return throwError('Something bad happened; please try again later.');
   }
@@ -94,6 +113,12 @@ export class AuthService {
         { name: name, email: email, password: password },
         this.options
       )
-      .pipe(catchError(this.errorHandler.handleError));
+      .pipe(
+        map((res: any = []) => {
+          this.setUserInfo(res.user);
+          return res;
+        }),
+        catchError(this.errorHandler.handleError)
+      );
   }
 }

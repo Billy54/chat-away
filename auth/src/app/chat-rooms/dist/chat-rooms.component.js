@@ -10,10 +10,11 @@ exports.ChatRoomsComponent = void 0;
 var core_1 = require("@angular/core");
 var user_1 = require("../Models/user");
 var ChatRoomsComponent = /** @class */ (function () {
-    function ChatRoomsComponent(r, userService, dataShare) {
+    function ChatRoomsComponent(r, userService, dataShare, authService) {
         this.r = r;
         this.userService = userService;
         this.dataShare = dataShare;
+        this.authService = authService;
         this.users = [];
         this.userName = '';
         this.activeRoom = 0;
@@ -28,7 +29,6 @@ var ChatRoomsComponent = /** @class */ (function () {
     ChatRoomsComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.observers.push(this.userService.getAll('users').subscribe(function (response) {
-            if (response === void 0) { response = []; }
             _this.initUsers(response.users);
         }));
         //refresh users
@@ -123,6 +123,13 @@ var ChatRoomsComponent = /** @class */ (function () {
     Object.defineProperty(ChatRoomsComponent.prototype, "getUsers", {
         get: function () {
             return this.users;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(ChatRoomsComponent.prototype, "isDemo", {
+        get: function () {
+            return this.authService.isDemo();
         },
         enumerable: false,
         configurable: true

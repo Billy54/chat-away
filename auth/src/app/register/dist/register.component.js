@@ -39,9 +39,8 @@ var RegisterComponent = /** @class */ (function () {
         this.authService
             .register(this.registerForm.value.name, this.registerForm.value.email, this.registerForm.value.password, 'register')
             .subscribe(function (response) {
-            if (response === void 0) { response = []; }
-            _this.authService.setUserInfo(response.user);
-            _this.router.navigate(['/']);
+            _this.closeModal();
+            _this.router.navigate(['']);
         });
     };
     Object.defineProperty(RegisterComponent.prototype, "regName", {
@@ -73,6 +72,10 @@ var RegisterComponent = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    RegisterComponent.prototype.closeModal = function () {
+        var btn = document.querySelector('#closereg');
+        btn.click();
+    };
     RegisterComponent.prototype.onChange = function () {
         localStorage.setItem('pass', this.password);
     };

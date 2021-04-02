@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { ErrorHandlerService } from './error-handler.service';
 
 @Injectable({
@@ -22,55 +22,60 @@ export class DataService {
 
   //get all
   getAll(uri: string): Observable<any> {
-    return this.http
-      .get(this.url + uri, this.options)
-      .pipe(catchError(this.errorHandler.handleError));
-  }
-
-  getLastComment(uri: string): Observable<any> {
-    return this.http
-      .get(this.url + uri, this.options)
-      .pipe(catchError(this.errorHandler.handleError));
+    return this.http.get(this.url + uri, this.options).pipe(
+      map((res: any = []) => {
+        return res;
+      }),
+      catchError(this.errorHandler.handleError)
+    );
   }
 
   getComments(uri: string, roomData: any): Observable<any> {
-    return this.http
-      .post(this.url + uri, roomData, this.options)
-      .pipe(catchError(this.errorHandler.handleError));
+    return this.http.post(this.url + uri, roomData, this.options).pipe(
+      map((res: any = []) => {
+        return res;
+      }),
+      catchError(this.errorHandler.handleError)
+    );
   }
 
   //get spesific user
   getUser(uri: string): Observable<any> {
-    return this.http
-      .get(this.url + uri, this.options)
-      .pipe(catchError(this.errorHandler.handleError));
+    return this.http.get(this.url + uri, this.options).pipe(
+      map((res: any = []) => {
+        return res;
+      }),
+      catchError(this.errorHandler.handleError)
+    );
   }
 
   //post avatar
   postAvatar(uri: string, file: any): Observable<any> {
-    return this.http
-      .post(this.url + uri, file, this.options)
-      .pipe(catchError(this.errorHandler.handleError));
+    return this.http.post(this.url + uri, file, this.options).pipe(
+      map((res: any = []) => {
+        return res;
+      }),
+      catchError(this.errorHandler.handleError)
+    );
   }
 
   //get avatar
   getAvatar(uri: string): Observable<any> {
-    return this.http
-      .get(this.url + uri, this.options)
-      .pipe(catchError(this.errorHandler.handleError));
+    return this.http.get(this.url + uri, this.options).pipe(
+      map((res: any = []) => {
+        return res;
+      }),
+      catchError(this.errorHandler.handleError)
+    );
   }
 
   //get current room names
   getNames(uri: string): Observable<any> {
-    return this.http
-      .get(this.url + uri, this.options)
-      .pipe(catchError(this.errorHandler.handleError));
+    return this.http.get(this.url + uri, this.options).pipe(
+      map((res: any = []) => {
+        return res;
+      }),
+      catchError(this.errorHandler.handleError)
+    );
   }
-
-  /*/add user to custom room   will use sockets instead
-  addUser(uri: string, data: any): Observable<any> {
-    return this.http
-      .put(this.url + uri, data, this.options)
-      .pipe(catchError(this.errorHandler.handleError));
-  }*/
 }

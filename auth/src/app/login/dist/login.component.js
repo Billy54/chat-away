@@ -36,21 +36,21 @@ var LoginComponent = /** @class */ (function () {
         this.authService
             .validate(this.loginForm.value.email, this.loginForm.value.password, 'login')
             .subscribe(function (response) {
-            if (response === void 0) { response = []; }
-            console.log(response);
-            _this.authService.setUserInfo(response.user);
             localStorage.removeItem('pass');
             _this.router.navigate(['']);
         }, 
         //handle the error locally so we can display detailed messages to the user
         function (error) {
-            if (error instanceof http_1.HttpErrorResponse && error && error.error) {
+            if (error === void 0) { error = []; }
+            console.log(error);
+            if (error instanceof http_1.HttpErrorResponse) {
                 if (error.error.message[0] == 'Incorrect password') {
                     console.log(error.error.message[0]);
                     _this.loginForm.controls['password'].setErrors({ invalid: true });
                 }
                 else if (error.error.message[0] == 'Not Registered') {
                     console.log(error.error.message[0]);
+                    _this.loginForm.controls['email'].setErrors({ invalid: true });
                 }
                 else {
                     console.log(error.error.message[0]);

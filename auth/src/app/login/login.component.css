@@ -26,14 +26,12 @@ html {
 }
 
 .input-outline {
-    border-color: #1877f2;
-    box-shadow: 0 0 0 2px #e7f3ff;
+    border-color: #1877f2 !important;
     caret-color: #1877f2;
 }
 
 .error-outline {
     border-color: #fb0000 !important;
-    box-shadow: 0 0 0 2px #e7f3ff !important;
 }
 
 
@@ -194,12 +192,12 @@ iframe {
     justify-content: center;
     align-items: center;
     padding: 15px;
-    background: #eeeeee;
+    background: #000000 !important;
 }
 
 .wrap-login100 {
     width: 500px;
-    background: #fff;
+    background: #2a2a2a !important;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
@@ -220,7 +218,7 @@ iframe {
 .login100-form-title {
     display: block;
     font-size: 30px;
-    color: #555555;
+    color: #dedede;
     line-height: 1.2;
     text-align: center;
 }
@@ -232,8 +230,8 @@ iframe {
 .wrap-input100 {
     width: 100%;
     position: relative;
-    background-color: #fff;
-    border: 1px solid #e6e6e6;
+    background-color: black !important;
+    border: 1px solid rgb(26, 26, 26);
 }
 
 .wrap-input100.rs1 {

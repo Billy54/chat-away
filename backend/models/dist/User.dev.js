@@ -34,6 +34,10 @@ var userSchema = new mongoose.Schema({
     type: Array,
     required: true,
     "default": []
+  },
+  demo: {
+    type: Boolean,
+    required: false
   }
 });
 module.exports = mongoose.model('User', userSchema);

@@ -18,7 +18,7 @@
 }
 
 .active {
-    background-color: #2A3840 !important;
+    background-color: #151c20 !important;
 }
 
 .alive {
@@ -31,24 +31,19 @@
     color: rgb(103, 103, 103);
 }
 
-.side-top {
-    border-bottom: 1px solid rgb(234, 234, 234);
-}
-
 .user-list {
     list-style-type: none;
-    overflow: scroll;
     overflow-x: hidden;
-    padding: 3px;
+    padding: 0px;
     margin-top: 0px;
-    height: calc(100% - 11.3rem);
+    margin-bottom: 0px;
+    height: calc(100% - 11rem);
 }
 
 .ts-user {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 1px;
 }
 
 .user-avatar {
@@ -62,15 +57,15 @@
     flex-direction: row;
     align-items: center;
     width: 100%;
-    border-radius: 7px;
-    background-color: #1c2126;
+    border-bottom: 1px solid #343b3e;
+    background-color: #000000;
     cursor: pointer;
-    padding: 6px;
+    padding: 15px;
     position: relative;
 }
 
 .inner-content:hover {
-    background-color: #314149;
+    background-color: #151c20 !important;
 }
 
 .sidenav {
@@ -78,10 +73,10 @@
     width: 285px;
     position: fixed;
     z-index: 1;
-    top: 3.2rem;
+    top: 3.2em;
     left: 0px;
-    background-color: #1c2126;
-    border-right: 1.7px solid #314149;
+    background-color: #000000;
+    border-right: 1px solid #383838;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -91,28 +86,31 @@
 .chat-header {
     font-size: 30px;
     margin: 1rem;
+    margin-top: 0px !important;
+    margin-bottom: 22px !important;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
 .search-chat {
-    margin: 1rem;
-    border-radius: 16px;
+    border-top: 1px solid #313131;
+    border-bottom: 1px solid #313131;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    background-color: rgb(234, 234, 234);
+    background-color: #000000;
 }
 
 .my-input {
     max-width: 83%;
     margin-left: 6px;
-    height: 36px;
+    height: 54px;
     border: none;
-    background-color: rgb(234, 234, 234);
+    background-color: #000000 !important;
     font-size: 18px;
+    color: white;
 }
 
 .my-input:focus {
@@ -123,7 +121,7 @@
     margin-left: 6px;
     height: 36px;
     border: none;
-    background-color: rgb(234, 234, 234);
+    background-color: #3e515c;
     font-size: 18px;
 }
 
@@ -145,10 +143,6 @@
     color: rgb(103, 103, 103);
 }
 
-.side-top {
-    border-bottom: 1px solid #314149;
-}
-
 @media only screen and (max-width: 800px) {
     .sidenav {
         width: 112px;
@@ -157,8 +151,7 @@
         width: 50%;
     }
     .search-field {
-        width: 97px;
-        margin-left: 8px;
+        width: 112px;
     }
     .message>input {
         width: 80%;
@@ -195,10 +188,40 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(234, 234, 234);
+    background-color: #182025;
 }
 
 .new-room:hover {
-    background-color: rgb(221, 221, 221);
+    background-color: #151c20;
     cursor: pointer;
+}
+
+
+/* width */
+
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+
+/* Track */
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: #1c2126;
+}
+
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+    background: #50585e;
+    border-radius: 10px;
+}
+
+
+/* Handle on hover */
+
+::-webkit-scrollbar-thumb:hover {
+    background: #3e515c;
 }

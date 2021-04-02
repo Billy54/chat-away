@@ -48,7 +48,7 @@ var InfoComponent = /** @class */ (function () {
                 _this.info = 'Active now.';
             }
         }));
-        //status check on swap
+        //get current
         this.observers.push(this.dataShare.message.subscribe(function (message) {
             if (message === void 0) { message = []; }
             _this.infoName = message.name;

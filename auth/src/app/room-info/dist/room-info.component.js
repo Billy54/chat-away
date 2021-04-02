@@ -123,6 +123,13 @@ var RoomInfoComponent = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(RoomInfoComponent.prototype, "isDemo", {
+        get: function () {
+            return this.auth.isDemo();
+        },
+        enumerable: false,
+        configurable: true
+    });
     RoomInfoComponent = __decorate([
         core_1.Component({
             selector: 'room-info',

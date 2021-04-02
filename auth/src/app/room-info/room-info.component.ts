@@ -98,4 +98,8 @@ export class RoomInfoComponent implements OnInit, OnDestroy {
   get currentRoom() {
     return this.current;
   }
+
+  get isDemo() {
+    return this.auth.isDemo();
+  }
 }

@@ -19,7 +19,8 @@ module.exports = {
       name: data.name,
       email: data.email,
       id: data._id,
-      avatar: data.avatar
+      avatar: data.avatar,
+      demo: data.demo
     }, process.env.SESSION_SECRET, {
       expiresIn: '3600s'
     });
@@ -39,9 +40,7 @@ module.exports = {
               senderName: msg.senderName
             });
             _context.next = 3;
-            return regeneratorRuntime.awrap(newMessage.save().then(function (message) {
-              return message;
-            })["catch"](function (err) {
+            return regeneratorRuntime.awrap(newMessage.save()["catch"](function (err) {
               return err;
             }));
 
@@ -203,6 +202,71 @@ module.exports = {
           case 3:
           case "end":
             return _context7.stop();
+        }
+      }
+    });
+  },
+  deleteUser: function deleteUser(id) {
+    return regeneratorRuntime.async(function deleteUser$(_context10) {
+      while (1) {
+        switch (_context10.prev = _context10.next) {
+          case 0:
+            _context10.next = 2;
+            return regeneratorRuntime.awrap(User.findOneAndDelete({
+              _id: id
+            }).then(function _callee5() {
+              return regeneratorRuntime.async(function _callee5$(_context9) {
+                while (1) {
+                  switch (_context9.prev = _context9.next) {
+                    case 0:
+                      _context9.next = 2;
+                      return regeneratorRuntime.awrap(Room.deleteMany({
+                        $and: [{
+                          members: {
+                            $all: [String(id)]
+                          }
+                        }, {
+                          custom: false
+                        }]
+                      }).then(function _callee4() {
+                        return regeneratorRuntime.async(function _callee4$(_context8) {
+                          while (1) {
+                            switch (_context8.prev = _context8.next) {
+                              case 0:
+                                _context8.next = 2;
+                                return regeneratorRuntime.awrap(Message.deleteMany({
+                                  $or: [{
+                                    sender: id
+                                  }, {
+                                    receiver: id
+                                  }]
+                                })["catch"](function (err) {
+                                  return console.log(err);
+                                }));
+
+                              case 2:
+                              case "end":
+                                return _context8.stop();
+                            }
+                          }
+                        });
+                      })["catch"](function (err) {
+                        return console.log(err);
+                      }));
+
+                    case 2:
+                    case "end":
+                      return _context9.stop();
+                  }
+                }
+              });
+            })["catch"](function (err) {
+              return console.log(err);
+            }));
+
+          case 2:
+          case "end":
+            return _context10.stop();
         }
       }
     });

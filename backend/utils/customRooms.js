@@ -1,5 +1,5 @@
 "use strict"
-let roomIds = [];
+var roomIds = [];
 
 const get = function() {
     return roomIds;

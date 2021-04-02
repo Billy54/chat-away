@@ -80,7 +80,6 @@ var TopbarComponent = /** @class */ (function () {
     TopbarComponent.prototype.logout = function () {
         this.io.disconnectSocket();
         this.authService.logout('logout').subscribe(function (response) {
-            if (response === void 0) { response = []; }
             console.log(response);
         });
         this.router.navigateByUrl('/login');

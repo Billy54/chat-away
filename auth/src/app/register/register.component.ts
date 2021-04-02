@@ -4,8 +4,6 @@ import { Router } from '@angular/router';
 import { EmailValidators } from './email.validator';
 import { mustMatch } from './password.validators';
 import { AuthService } from '../services/auth.service';
-import { DataShareService } from '../services/data-share.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -48,9 +46,9 @@ export class RegisterComponent {
         this.registerForm.value.password,
         'register'
       )
-      .subscribe((response: any = []) => {
-        this.authService.setUserInfo(response.user);
-        this.router.navigate(['/']);
+      .subscribe((response) => {
+        this.closeModal();
+        this.router.navigate(['']);
       });
   }
 
@@ -69,6 +67,11 @@ export class RegisterComponent {
 
   get regConfirm() {
     return this.registerForm.get('password2');
+  }
+
+  private closeModal() {
+    const btn = document.querySelector('#closereg') as HTMLElement;
+    btn.click();
   }
 
   onChange() {

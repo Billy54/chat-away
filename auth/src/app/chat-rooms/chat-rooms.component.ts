@@ -4,6 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { DataShareService } from '../services/data-share.service';
 import { UsersService } from '../services/users.service';
 import { User } from '../Models/user';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'chat-rooms',
@@ -20,7 +21,8 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
   constructor(
     private r: Router,
     private userService: UsersService,
-    private dataShare: DataShareService
+    private dataShare: DataShareService,
+    private authService: AuthService
   ) {}
 
   ngOnDestroy(): void {
@@ -31,7 +33,7 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.observers.push(
-      this.userService.getAll('users').subscribe((response: any = []) => {
+      this.userService.getAll('users').subscribe((response) => {
         this.initUsers(response.users);
       })
     );
@@ -142,5 +144,9 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
 
   get getUsers() {
     return this.users;
+  }
+
+  get isDemo() {
+    return this.authService.isDemo();
   }
 }

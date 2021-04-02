@@ -12,7 +12,7 @@ import { Notification } from '../Models/notification';
 import { DataShareService } from '../services/data-share.service';
 
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-topbar',
@@ -97,7 +97,7 @@ export class TopbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   logout() {
     this.io.disconnectSocket();
-    this.authService.logout('logout').subscribe((response: any = []) => {
+    this.authService.logout('logout').subscribe((response) => {
       console.log(response);
     });
     this.router.navigateByUrl('/login');

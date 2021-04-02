@@ -24,43 +24,44 @@ var DataService = /** @class */ (function () {
     }
     //get all
     DataService.prototype.getAll = function (uri) {
-        return this.http
-            .get(this.url + uri, this.options)
-            .pipe(operators_1.catchError(this.errorHandler.handleError));
-    };
-    DataService.prototype.getLastComment = function (uri) {
-        return this.http
-            .get(this.url + uri, this.options)
-            .pipe(operators_1.catchError(this.errorHandler.handleError));
+        return this.http.get(this.url + uri, this.options).pipe(operators_1.map(function (res) {
+            if (res === void 0) { res = []; }
+            return res;
+        }), operators_1.catchError(this.errorHandler.handleError));
     };
     DataService.prototype.getComments = function (uri, roomData) {
-        return this.http
-            .post(this.url + uri, roomData, this.options)
-            .pipe(operators_1.catchError(this.errorHandler.handleError));
+        return this.http.post(this.url + uri, roomData, this.options).pipe(operators_1.map(function (res) {
+            if (res === void 0) { res = []; }
+            return res;
+        }), operators_1.catchError(this.errorHandler.handleError));
     };
     //get spesific user
     DataService.prototype.getUser = function (uri) {
-        return this.http
-            .get(this.url + uri, this.options)
-            .pipe(operators_1.catchError(this.errorHandler.handleError));
+        return this.http.get(this.url + uri, this.options).pipe(operators_1.map(function (res) {
+            if (res === void 0) { res = []; }
+            return res;
+        }), operators_1.catchError(this.errorHandler.handleError));
     };
     //post avatar
     DataService.prototype.postAvatar = function (uri, file) {
-        return this.http
-            .post(this.url + uri, file, this.options)
-            .pipe(operators_1.catchError(this.errorHandler.handleError));
+        return this.http.post(this.url + uri, file, this.options).pipe(operators_1.map(function (res) {
+            if (res === void 0) { res = []; }
+            return res;
+        }), operators_1.catchError(this.errorHandler.handleError));
     };
     //get avatar
     DataService.prototype.getAvatar = function (uri) {
-        return this.http
-            .get(this.url + uri, this.options)
-            .pipe(operators_1.catchError(this.errorHandler.handleError));
+        return this.http.get(this.url + uri, this.options).pipe(operators_1.map(function (res) {
+            if (res === void 0) { res = []; }
+            return res;
+        }), operators_1.catchError(this.errorHandler.handleError));
     };
     //get current room names
     DataService.prototype.getNames = function (uri) {
-        return this.http
-            .get(this.url + uri, this.options)
-            .pipe(operators_1.catchError(this.errorHandler.handleError));
+        return this.http.get(this.url + uri, this.options).pipe(operators_1.map(function (res) {
+            if (res === void 0) { res = []; }
+            return res;
+        }), operators_1.catchError(this.errorHandler.handleError));
     };
     DataService = __decorate([
         core_1.Injectable({

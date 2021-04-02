@@ -1,11 +1,13 @@
 <!-- Modal-->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered " role="document">
         <div class="modal-content content register-card ">
             <div class="modal-body ">
-                <h1 class="sign-up ">Sign Up</h1>
+                <span class="login100-form-title p-b-33">
+                    Register
+                </span>
                 <div class="divider register-divider "></div>
-                <form [formGroup]="registerForm" (ngSubmit)="register()" class="my-form ">
+                <form [formGroup]="registerForm" (ngSubmit)="register()" class="my-form " autocomplete="off">
                     <div class="register-field " [class.error-outline]="regName!.invalid && regName!.touched">
                         <input formControlName="name" name="name " class="custom-input " type="text " placeholder="Username ">
                     </div>
@@ -13,10 +15,10 @@
                         <input formControlName="email" name="email " class="custom-input " type="text " placeholder="Email ">
                     </div>
                     <div class="register-field " [class.error-outline]="regPassword!.invalid && regPassword!.touched">
-                        <input formControlName="password" name="password " [(ngModel)]="password" (input)="onChange()" class="custom-input " type="text " placeholder="Password ">
+                        <input formControlName="password" name="password " [(ngModel)]="password" (input)="onChange()" class="custom-input " type="password" placeholder="Password ">
                     </div>
                     <div class="register-field " [class.error-outline]="regConfirm!.invalid && regConfirm!.touched">
-                        <input formControlName="password2" name="password2" class="custom-input " type="text " placeholder="Re enter your Password ">
+                        <input formControlName="password2" name="password2" class="custom-input " type="text " type="password" placeholder="Re enter your Password ">
                     </div>
                     <button class="my-button sign-up-btn " id="js-register " type="submit ">Sign Up</button>
                 </form>
@@ -24,3 +26,4 @@
         </div>
     </div>
 </div>
+<button hidden id="closereg" data-toggle="modal" type="button" data-target="#register"></button>

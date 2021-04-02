@@ -9,7 +9,8 @@ const {
     ensureAuthenticated
 } = require("../utils/authentication");
 const {
-    encodeData
+    encodeData,
+    deleteUser
 } = require('../utils/helpers');
 
 const {
@@ -54,10 +55,21 @@ router.post('/login', (req, res, next) => {
 
 //logout
 router.get('/logout', ensureAuthenticated, (req, res) => {
+
+    const id = req.user._id;
+    const demo = req.user.demo;
     req.logout();
-    res.status(200).json({
-        msg: 'log out succesfull'
-    });
+    if (demo) {
+        deleteUser(id).then(() => {
+            res.status(200).json({
+                msg: 'log out succesfull'
+            });
+        })
+    } else {
+        res.status(200).json({
+            msg: 'log out succesfull'
+        });
+    }
 });
 
 //check if the user email is already registered

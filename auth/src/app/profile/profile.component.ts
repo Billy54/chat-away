@@ -42,6 +42,9 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   }
 
   changeAvatar() {
+    if (this.isDemo) {
+      return;
+    }
     this.exp = 'translateX(-297px)';
     this.expHeight = '400px';
   }
@@ -79,8 +82,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
           this.url = response.path;
           this.slide();
           this.dataShare.sendUrl(this.url);
-        })
-        .unsubscribe();
+        });
     }
   }
 
@@ -91,5 +93,9 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   profileCheck() {
     this.notCheck.emit(true);
     this.ovCheck.emit(!this.prof);
+  }
+
+  get isDemo() {
+    return this.authService.isDemo();
   }
 }
