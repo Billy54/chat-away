@@ -1,4 +1,4 @@
-import { Input, Output, ViewChild } from '@angular/core';
+import { Input, OnDestroy, Output, ViewChild } from '@angular/core';
 import { AfterViewInit, Component, OnInit, EventEmitter } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { DataShareService } from '../services/data-share.service';
@@ -9,7 +9,7 @@ import { FileService } from '../services/file.service';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
 })
-export class ProfileComponent implements OnInit, AfterViewInit {
+export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('imagePreview') preview: any;
   @ViewChild('input') imgInput: any;
   @Output() notCheck: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -38,7 +38,15 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    let url = localStorage.getItem('url');
+    if (url) {
+      this.url = url;
+    }
     this.dataShare.sendUrl(this.url);
+  }
+
+  ngOnDestroy() {
+    localStorage.removeItem('url');
   }
 
   changeAvatar() {
@@ -81,6 +89,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         .subscribe((response: any = []) => {
           this.url = response.path;
           this.slide();
+          localStorage.setItem('url', this.url);
           this.dataShare.sendUrl(this.url);
         });
     }

@@ -28,7 +28,14 @@ var ProfileComponent = /** @class */ (function () {
         this.file = this.imgInput.nativeElement;
     };
     ProfileComponent.prototype.ngOnInit = function () {
+        var url = localStorage.getItem('url');
+        if (url) {
+            this.url = url;
+        }
         this.dataShare.sendUrl(this.url);
+    };
+    ProfileComponent.prototype.ngOnDestroy = function () {
+        localStorage.removeItem('url');
     };
     ProfileComponent.prototype.changeAvatar = function () {
         if (this.isDemo) {
@@ -71,6 +78,7 @@ var ProfileComponent = /** @class */ (function () {
                 if (response === void 0) { response = []; }
                 _this.url = response.path;
                 _this.slide();
+                localStorage.setItem('url', _this.url);
                 _this.dataShare.sendUrl(_this.url);
             });
         }

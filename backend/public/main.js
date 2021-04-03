@@ -1638,7 +1638,14 @@ class ProfileComponent {
         this.file = this.imgInput.nativeElement;
     }
     ngOnInit() {
+        let url = localStorage.getItem('url');
+        if (url) {
+            this.url = url;
+        }
         this.dataShare.sendUrl(this.url);
+    }
+    ngOnDestroy() {
+        localStorage.removeItem('url');
     }
     changeAvatar() {
         if (this.isDemo) {
@@ -1677,6 +1684,7 @@ class ProfileComponent {
                 .subscribe((response = []) => {
                 this.url = response.path;
                 this.slide();
+                localStorage.setItem('url', this.url);
                 this.dataShare.sendUrl(this.url);
             });
         }
