@@ -21,6 +21,8 @@ private messages,
 custom rooms,
 adding users to rooms,
 notifications,
-file upload
+file upload,
+demo feature with user restrictions
 
+Test the app:
 https://chat-app-ang.herokuapp.com
