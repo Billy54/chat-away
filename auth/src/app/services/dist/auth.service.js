@@ -15,7 +15,7 @@ var jwt_decode_1 = require("jwt-decode");
 var angular_jwt_1 = require("@auth0/angular-jwt");
 var AuthService = /** @class */ (function () {
     function AuthService(http, er) {
-        this.URL = 'http://localhost:5000/';
+        this.URL = 'https://chat-app-ang.herokuapp.com/';
         this.http = http;
         this.errorHandler = er;
         this.jwtHelper = new angular_jwt_1.JwtHelperService();
@@ -67,10 +67,10 @@ var AuthService = /** @class */ (function () {
             .post(this.URL + uri, { email: email, password: password }, this.options)
             .pipe(operators_1.map(function (res) {
             if (res === void 0) { res = []; }
+            //we wont be handling the error here
             _this.setUserInfo(res.user);
-            console.log(res);
             return res;
-        }), operators_1.catchError(this.errorHandler.handleError));
+        }));
     };
     //logout
     AuthService.prototype.logout = function (uri) {

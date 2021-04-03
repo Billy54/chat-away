@@ -27,6 +27,7 @@ var ChatAreaComponent = /** @class */ (function () {
         this.observers.forEach(function (observer) {
             observer.unsubscribe();
         });
+        this.rooms = [];
     };
     ChatAreaComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -46,7 +47,6 @@ var ChatAreaComponent = /** @class */ (function () {
         }));
         //received comment
         this.observers.push(this.fetchData.remote.subscribe(function (data) {
-            console.log('data');
             if (data.custom) {
                 _this.saveLocal(data.receiver, data);
                 if (data.receiver == _this.activeRoom) {

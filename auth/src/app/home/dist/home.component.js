@@ -35,7 +35,6 @@ var HomeComponent = /** @class */ (function () {
         this.observers.push(this.dataShare.message.subscribe(function (message) {
             if (message === void 0) { message = []; }
             if (message.id != _this.cId) {
-                console.log('loader');
                 _this.loader = true;
             }
             _this.smoothScrolling();

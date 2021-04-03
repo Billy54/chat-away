@@ -6,6 +6,7 @@ const {
 } = require("../utils/authentication");
 const {
     encodeData,
+    add
 } = require('../utils/helpers');
 require('dotenv/config');
 
@@ -26,21 +27,23 @@ router.post('/demo', forwardAuthenticated, (req, res) => {
         demo: true
     });
 
-    newUser.save().then((user) => {
-            req.login(user, (err) => {
-                if (err) {
-                    throw err;
-                }
-            });
-            res.status(200).json({
-                "user": encodeData(req.user)
-            });
-        })
-        .catch((er) => {
-            res.status(500).json({
-                "message": er,
-            });
+    newUser.save().then(async(user) => {
+        req.login(user, (err) => {
+            if (err) {
+                throw err;
+            }
         });
+        await add(String(user._id), process.env.PUBLIC_ROOM).then(() => {
+                res.status(200).json({
+                    "user": encodeData(req.user)
+                });
+            })
+            .catch((er) => {
+                res.status(500).json({
+                    "message": er,
+                });
+            });
+    })
 });
 
 module.exports = router;

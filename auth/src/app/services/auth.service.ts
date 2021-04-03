@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class AuthService {
   private http: HttpClient;
   private errorHandler: ErrorHandlerService;
-  private readonly URL = 'http://localhost:5000/';
+  private readonly URL = 'https://chat-app-ang.herokuapp.com/';
   private options: any;
   private jwtHelper: any;
 
@@ -78,11 +78,10 @@ export class AuthService {
       .post(this.URL + uri, { email: email, password: password }, this.options)
       .pipe(
         map((res: any = []) => {
+          //we wont be handling the error here
           this.setUserInfo(res.user);
-          console.log(res);
           return res;
-        }),
-        catchError(this.errorHandler.handleError)
+        })
       );
   }
 

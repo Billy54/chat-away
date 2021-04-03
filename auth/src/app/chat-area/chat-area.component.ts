@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ComponentFactoryResolver,
   EventEmitter,
@@ -47,6 +48,7 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
     this.observers.forEach((observer) => {
       observer.unsubscribe();
     });
+    this.rooms = [];
   }
 
   ngOnInit() {
@@ -72,7 +74,6 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
     //received comment
     this.observers.push(
       this.fetchData.remote.subscribe((data: any) => {
-        console.log('data');
         if (data.custom) {
           this.saveLocal(data.receiver, data);
           if (data.receiver == this.activeRoom) {

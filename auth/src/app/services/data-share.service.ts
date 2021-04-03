@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, ReplaySubject } from 'rxjs';
+import { Subject, ReplaySubject, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,7 @@ export class DataShareService {
 
   constructor() {}
   //change current user info header , buffer size = 1 cache always the last emmit
-  private changeName = new ReplaySubject<Object>();
+  private changeName = new BehaviorSubject<Object>('');
   message = this.changeName.asObservable();
   public notifyChange(data: any) {
     this.changeName.next(data);
@@ -65,7 +65,7 @@ export class DataShareService {
   }
 
   //invited to custom room
-  private room = new ReplaySubject<Object>();
+  private room = new Subject<Object>();
   newRoom = this.room.asObservable();
   public sendRoom(room: any) {
     this.room.next(room);

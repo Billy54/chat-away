@@ -156,4 +156,11 @@ updateAvatar: async function(url, email) {
             });
         });
     }
+
+    .then(async() => {
+                await Message.deleteMany({}).catch((err) => {
+                    throw err;
+                });
+            })
+
 */

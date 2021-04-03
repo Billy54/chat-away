@@ -29,6 +29,7 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
     this.observers.forEach((observer) => {
       observer.unsubscribe();
     });
+    this.users = [];
   }
 
   ngOnInit(): void {

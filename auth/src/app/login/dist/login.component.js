@@ -39,10 +39,9 @@ var LoginComponent = /** @class */ (function () {
             localStorage.removeItem('pass');
             _this.router.navigate(['']);
         }, 
-        //handle the error locally so we can display detailed messages to the user
+        //we handle the error locally so we can display detailed messages to the user
         function (error) {
             if (error === void 0) { error = []; }
-            console.log(error);
             if (error instanceof http_1.HttpErrorResponse) {
                 if (error.error.message[0] == 'Incorrect password') {
                     console.log(error.error.message[0]);

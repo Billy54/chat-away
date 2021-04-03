@@ -40,7 +40,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.observers.push(
       this.dataShare.message.subscribe((message: any = []) => {
         if (message.id != this.cId) {
-          console.log('loader');
           this.loader = true;
         }
         this.smoothScrolling();

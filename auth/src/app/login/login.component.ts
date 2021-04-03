@@ -48,9 +48,8 @@ export class LoginComponent implements OnInit {
           localStorage.removeItem('pass');
           this.router.navigate(['']);
         },
-        //handle the error locally so we can display detailed messages to the user
+        //we handle the error locally so we can display detailed messages to the user
         (error: any = []) => {
-          console.log(error);
           if (error instanceof HttpErrorResponse) {
             if (error.error.message[0] == 'Incorrect password') {
               console.log(error.error.message[0]);

@@ -25,6 +25,7 @@ var ChatRoomsComponent = /** @class */ (function () {
         this.observers.forEach(function (observer) {
             observer.unsubscribe();
         });
+        this.users = [];
     };
     ChatRoomsComponent.prototype.ngOnInit = function () {
         var _this = this;

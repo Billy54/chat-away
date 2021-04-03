@@ -20,8 +20,12 @@ var socketIO = function socketIO(io) {
     socket.on('userJoin', function (id) {
       socket.username = id;
       socket.join(id);
-      get().forEach(function (rid) {
-        socket.join(rid);
+      get(id).then(function (rooms) {
+        rooms.forEach(function (room) {
+          socket.join(room);
+        });
+      })["catch"](function (err) {
+        console.log(err);
       });
       console.log('joined');
       getRooms().forEach(function (i) {

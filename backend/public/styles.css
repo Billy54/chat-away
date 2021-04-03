@@ -1,3 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
 
+.main-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: #18191a;
+    z-index: -2;
+}
+
+/* width */
+
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+/* Track */
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: #1c2126;
+}
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+    background: #50585e;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+
+::-webkit-scrollbar-thumb:hover {
+    background: #3e515c;
+}
+
 /*# sourceMappingURL=styles.css.map*/

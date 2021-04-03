@@ -8,6 +8,6 @@ import { ErrorHandlerService } from './error-handler.service';
 })
 export class FileService extends DataService {
   constructor(http: HttpClient, er: ErrorHandlerService) {
-    super(http, er, 'http://localhost:5000/');
+    super(http, er, 'https://chat-app-ang.herokuapp.com/');
   }
 }

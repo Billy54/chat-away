@@ -18,10 +18,8 @@ var _require = require("../utils/authentication"),
 
 var _require2 = require('../utils/helpers'),
     encodeData = _require2.encodeData,
-    deleteUser = _require2.deleteUser;
-
-var _require3 = require('../utils/customRooms'),
-    put = _require3.put;
+    deleteUser = _require2.deleteUser,
+    add = _require2.add;
 
 require('dotenv/config');
 
@@ -32,15 +30,15 @@ router.get('/login', forwardAuthenticated, function (req, res) {
 
 router.post('/login', function (req, res, next) {
   passport.authenticate('local', {}, function (error, user, info) {
-    if (error) res.status(400).json({
-      "statusCode": 200,
-      "message": req.flash('message')
+    if (error) res.status(404).json({
+      "message": req.flash('message'),
+      "err": true
     });
     req.login(user, function (error) {
       if (error) {
-        res.status(404).json({
-          "statusCode": 404,
-          "message": req.flash('message')
+        res.status(400).json({
+          "message": req.flash('message'),
+          "err": true
         });
       } else {
         next();
@@ -48,9 +46,7 @@ router.post('/login', function (req, res, next) {
     });
   })(req, res, next);
 }, function (req, res) {
-  put(req.user.rooms);
   res.status(200).json({
-    "statusCode": 200,
     "message": "Success",
     "user": encodeData(req.user)
   });
@@ -80,20 +76,17 @@ router.post('/validateEmail', forwardAuthenticated, function (req, res) {
   }).then(function (user) {
     if (user) {
       res.status(200).json({
-        "statusCode": 200,
         "message": "Email exists",
         "found": true
       });
     } else {
       res.status(200).json({
-        "statusCode": 200,
         "found": false,
         "message": "Email doesnt exist"
       });
     }
   })["catch"](function (er) {
     res.status(500).json({
-      "statusCode": 400,
       "found": false,
       "message": "Something is broken :("
     });
@@ -114,16 +107,33 @@ router.post('/register', forwardAuthenticated, function (req, res) {
   bcrypt.genSalt(10, function (err, salt) {
     bcrypt.hash(req.body.password, salt, function (err, hash) {
       newUser.password = hash;
-      newUser.save().then(function (user) {
-        req.login(user, function (err) {
-          if (err) {
-            throw err;
+      newUser.save().then(function _callee(user) {
+        return regeneratorRuntime.async(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                req.login(user, function (err) {
+                  if (err) {
+                    throw err;
+                  }
+                });
+                _context.next = 3;
+                return regeneratorRuntime.awrap(add(String(user._id), process.env.PUBLIC_ROOM).then(function () {
+                  res.status(200).json({
+                    "message": "You are registerd",
+                    "user": encodeData(req.user)
+                  });
+                })["catch"](function (er) {
+                  res.status(500).json({
+                    "message": er
+                  });
+                }));
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
           }
-        });
-        res.status(200).json({
-          "statusCode": 200,
-          "message": "You are registerd",
-          "user": encodeData(req.user)
         });
       })["catch"](function (er) {
         res.status(500).json({

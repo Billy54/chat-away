@@ -10,12 +10,9 @@ const {
 } = require("../utils/authentication");
 const {
     encodeData,
-    deleteUser
+    deleteUser,
+    add
 } = require('../utils/helpers');
-
-const {
-    put
-} = require('../utils/customRooms');
 require('dotenv/config');
 
 const reqPath = path.join(__dirname, '../');
@@ -28,16 +25,15 @@ router.get('/login', forwardAuthenticated, (req, res) => {
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {},
         (error, user, info) => {
-            if (error) res.status(400).json({
-                "statusCode": 200,
-                "message": req.flash('message')
+            if (error) res.status(404).json({
+                "message": req.flash('message'),
+                "err": true
             });
-
             req.login(user, (error) => {
                 if (error) {
-                    res.status(404).json({
-                        "statusCode": 404,
-                        "message": req.flash('message')
+                    res.status(400).json({
+                        "message": req.flash('message'),
+                        "err": true
                     });
                 } else {
                     next();
@@ -45,9 +41,7 @@ router.post('/login', (req, res, next) => {
             })
         })(req, res, next)
 }, (req, res) => {
-    put(req.user.rooms);
     res.status(200).json({
-        "statusCode": 200,
         "message": "Success",
         "user": encodeData(req.user),
     });
@@ -79,20 +73,17 @@ router.post('/validateEmail', forwardAuthenticated, (req, res) => {
     }).then((user) => {
         if (user) {
             res.status(200).json({
-                "statusCode": 200,
                 "message": "Email exists",
                 "found": true,
             });
         } else {
             res.status(200).json({
-                "statusCode": 200,
                 "found": false,
                 "message": "Email doesnt exist"
             });
         }
     }).catch((er) => {
         res.status(500).json({
-            "statusCode": 400,
             "found": false,
             "message": "Something is broken :("
         });
@@ -120,16 +111,21 @@ router.post('/register', forwardAuthenticated, (req, res) => {
             newUser.password = hash;
             newUser
                 .save()
-                .then((user) => {
+                .then(async(user) => {
                     req.login(user, (err) => {
                         if (err) {
                             throw err;
                         }
                     });
-                    res.status(200).json({
-                        "statusCode": 200,
-                        "message": "You are registerd",
-                        "user": encodeData(req.user)
+                    await add(String(user._id), process.env.PUBLIC_ROOM).then(() => {
+                        res.status(200).json({
+                            "message": "You are registerd",
+                            "user": encodeData(req.user)
+                        });
+                    }).catch(er => {
+                        res.status(500).json({
+                            "message": er,
+                        });
                     });
                 })
                 .catch((er) => {

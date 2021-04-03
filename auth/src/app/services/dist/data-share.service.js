@@ -13,7 +13,7 @@ var DataShareService = /** @class */ (function () {
     //emit to the subscribers
     function DataShareService() {
         //change current user info header , buffer size = 1 cache always the last emmit
-        this.changeName = new rxjs_1.ReplaySubject();
+        this.changeName = new rxjs_1.BehaviorSubject('');
         this.message = this.changeName.asObservable();
         //pass comment data to chatArea for new comments!!!
         this.commentData = new rxjs_1.Subject();
@@ -37,7 +37,7 @@ var DataShareService = /** @class */ (function () {
         this.load = new rxjs_1.ReplaySubject();
         this.loader = this.load.asObservable();
         //invited to custom room
-        this.room = new rxjs_1.ReplaySubject();
+        this.room = new rxjs_1.Subject();
         this.newRoom = this.room.asObservable();
         //in which room we will be saving the comments
         this.roomId = new rxjs_1.Subject();
