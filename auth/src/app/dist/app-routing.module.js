@@ -31,8 +31,7 @@ var routes = [
     },
     {
         path: 'logout',
-        redirectTo: 'login',
-        canActivate: [auth_guard_service_1.AuthGuardService]
+        redirectTo: 'login'
     },
     { path: 'users', component: users_component_1.UsersComponent, canActivate: [auth_guard_service_1.AuthGuardService] },
     { path: 'login', component: login_component_1.LoginComponent },
