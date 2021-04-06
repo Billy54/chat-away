@@ -8,7 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.AppComponent = void 0;
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
 var rxjs_1 = require("rxjs");
 var AppComponent = /** @class */ (function () {
     function AppComponent(a, router) {
@@ -28,11 +27,6 @@ var AppComponent = /** @class */ (function () {
         this.authObserver.subscribe(function (val) {
             _this.authService.logout('logout');
             _this.router.navigateByUrl('login');
-        });
-        this.router.events.subscribe(function (event) {
-            if (event instanceof router_1.NavigationStart) {
-                _this.router.navigateByUrl(event.url);
-            }
         });
     };
     Object.defineProperty(AppComponent.prototype, "navBar", {

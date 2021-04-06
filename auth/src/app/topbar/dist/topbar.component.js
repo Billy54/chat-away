@@ -10,6 +10,7 @@ exports.TopbarComponent = void 0;
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var notification_1 = require("../Models/notification");
+var operators_1 = require("rxjs/operators");
 var TopbarComponent = /** @class */ (function () {
     function TopbarComponent(router, dataShareService, io, authService) {
         this.router = router;
@@ -44,14 +45,17 @@ var TopbarComponent = /** @class */ (function () {
             }
         }));
         //keep track of our current url
-        this.router.events.subscribe(function (event) {
-            if (event instanceof router_1.NavigationStart) {
-                if (event.url.startsWith('/users')) {
-                    _this.active = false;
-                }
-                else {
-                    _this.active = true;
-                }
+        this.router.events
+            .pipe(operators_1.filter(function (event) { return event instanceof router_1.NavigationEnd; }))
+            .subscribe(function (event) {
+            if (event.url.startsWith('/users')) {
+                _this.active = false;
+            }
+            else if (event.url.startsWith('/logout')) {
+                localStorage.removeItem('token');
+            }
+            else {
+                _this.active = true;
             }
         });
     };

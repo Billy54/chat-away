@@ -29,11 +29,6 @@ export class AppComponent implements OnInit {
       this.authService.logout('logout');
       this.router.navigateByUrl('login');
     });
-    this.router.events.subscribe((event: any) => {
-      if (event instanceof NavigationStart) {
-        this.router.navigateByUrl(event.url);
-      }
-    });
   }
 
   public get navBar() {

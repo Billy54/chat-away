@@ -1,17 +1,11 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  ActivatedRoute,
-  NavigationEnd,
-  NavigationError,
-  NavigationStart,
-  Router,
-} from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { SocketioService } from '../services/socketio.service';
 import { Notification } from '../Models/notification';
 import { DataShareService } from '../services/data-share.service';
 
-import { Subscription } from 'rxjs';
+import { pipe, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 @Component({
@@ -58,15 +52,17 @@ export class TopbarComponent implements OnInit, AfterViewInit, OnDestroy {
     );
 
     //keep track of our current url
-    this.router.events.subscribe((event: any) => {
-      if (event instanceof NavigationStart) {
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
         if (event.url.startsWith('/users')) {
           this.active = false;
+        } else if (event.url.startsWith('/logout')) {
+          localStorage.removeItem('token');
         } else {
           this.active = true;
         }
-      }
-    });
+      });
   }
 
   overlayCheck() {

@@ -21,9 +21,14 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'logout',
+    component: LoginComponent,
+    canActivate: [AuthGuardService],
+  },
   { path: 'users', component: UsersComponent, canActivate: [AuthGuardService] },
   { path: 'login', component: LoginComponent },
-  { path: '**', component: NotFoundComponent },
+  { path: '**', component: NotFoundComponent, redirectTo: '' },
 ];
 
 @NgModule({
