@@ -10,7 +10,6 @@ const {
     saveComment,
     customRoom,
     add,
-    deleteUser
 } = require('../utils/helpers');
 
 const socketIO = function(io) {
