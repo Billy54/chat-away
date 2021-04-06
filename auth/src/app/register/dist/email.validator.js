@@ -62,7 +62,7 @@ var EmailValidators = /** @class */ (function () {
                                 .then(function (res) {
                                 if (res === void 0) { res = []; }
                                 if (res.found) {
-                                    resolve({ shouldBeUnique: false }); //i am resolving promise to be returned
+                                    resolve({ shouldBeUnique: false });
                                 }
                                 else {
                                     resolve(null);

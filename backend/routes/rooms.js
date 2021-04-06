@@ -8,7 +8,7 @@ const {
 require('dotenv/config');
 
 
-//new room get or  //fix here custom
+//new room get or create
 router.post("/room", ensureAuthenticated, async(req, res) => {
 
     let ids = [req.body.sender, req.body.receiver];
@@ -25,7 +25,7 @@ router.post("/room", ensureAuthenticated, async(req, res) => {
                 custom: false
             }]
         }, {
-            _id: ids[1]
+            _id: ids[1] //custom room case
         }]
     }).then(async(room) => {
         //if exists return it
@@ -37,7 +37,7 @@ router.post("/room", ensureAuthenticated, async(req, res) => {
                 roomId: 0
             }).then((messages) => {
                 res.status(200).json({
-                    comments: messages,
+                    comments: messages, //send back the comments
                     rid: room._id
                 });
             }).catch(err => {

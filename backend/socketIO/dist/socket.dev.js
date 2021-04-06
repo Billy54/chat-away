@@ -13,6 +13,8 @@ var _require3 = require('../utils/helpers'),
     customRoom = _require3.customRoom,
     add = _require3.add;
 
+var interval = null;
+
 var socketIO = function socketIO(io) {
   io.on('connection', function (socket) {
     console.log('a user connected'); //a room for each user

@@ -39,6 +39,11 @@ var info_component_1 = require("./info/info.component");
 var file_service_1 = require("./services/file.service");
 var room_info_component_1 = require("./room-info/room-info.component");
 var auth_service_1 = require("./services/auth.service");
+var users_component_1 = require("./users/users.component");
+var pop_up_component_1 = require("./pop-up/pop-up.component");
+var profile_component_1 = require("./profile/profile.component");
+var demo_component_1 = require("./demo/demo.component");
+var demo_service_1 = require("./services/demo.service");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -59,6 +64,10 @@ var AppModule = /** @class */ (function () {
                 input_field_component_1.InputFieldComponent,
                 info_component_1.InfoComponent,
                 room_info_component_1.RoomInfoComponent,
+                users_component_1.UsersComponent,
+                pop_up_component_1.PopUpComponent,
+                profile_component_1.ProfileComponent,
+                demo_component_1.DemoComponent,
             ],
             imports: [
                 forms_1.ReactiveFormsModule,
@@ -81,6 +90,7 @@ var AppModule = /** @class */ (function () {
                 comments_service_1.CommentsService,
                 file_service_1.FileService,
                 auth_service_1.AuthService,
+                demo_service_1.DemoService,
             ],
             bootstrap: [app_component_1.AppComponent],
             exports: [router_1.RouterModule]

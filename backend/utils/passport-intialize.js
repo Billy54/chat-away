@@ -9,7 +9,7 @@ const initialize = function(passport) {
     passport.use(new LocalStrategy({
         usernameField: 'email',
         passReqToCallback: true
-    }, authenticateUser));
+    }, authenticateUser)); //will use this function for authentication
 
     //serialize user into an id for the session
     passport.serializeUser((user, done) => {

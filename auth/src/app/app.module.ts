@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { RouteReuseStrategy, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { AuthGuardService as AuthGuard } from './services/auth-guard.service';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { HomeComponent } from './home/home.component';
@@ -35,6 +35,7 @@ import { UsersComponent } from './users/users.component';
 import { PopUpComponent } from './pop-up/pop-up.component';
 import { ProfileComponent } from './profile/profile.component';
 import { DemoComponent } from './demo/demo.component';
+import { DemoService } from './services/demo.service';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { DemoComponent } from './demo/demo.component';
     CommentsService,
     FileService,
     AuthService,
+    DemoService,
   ],
   bootstrap: [AppComponent],
   exports: [RouterModule],

@@ -32,7 +32,7 @@ router.post("/avatar", ensureAuthenticated, (req, res) => {
     });
 });
 
-//get the url
+//get the url / actually we dont even need this
 router.get("/avatar/:uid", ensureAuthenticated, (req, res) => {
 
     User.findOne({

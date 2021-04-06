@@ -22,7 +22,8 @@ module.exports = {
       avatar: data.avatar,
       demo: data.demo
     }, process.env.SESSION_SECRET, {
-      expiresIn: '3600s'
+      expiresIn: '3600s' //log out the user after an hour
+
     });
   },
   saveComment: function saveComment(msg) {
@@ -221,6 +222,7 @@ module.exports = {
                     case 0:
                       _context9.next = 2;
                       return regeneratorRuntime.awrap(Room.deleteMany({
+                        //delete all private room
                         $and: [{
                           members: {
                             $all: [String(id)]

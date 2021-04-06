@@ -15,7 +15,7 @@ module.exports = {
             avatar: data.avatar,
             demo: data.demo
         }, process.env.SESSION_SECRET, {
-            expiresIn: '3600s'
+            expiresIn: '3600s' //log out the user after an hour
         });
     },
     saveComment: async function(msg) {
@@ -106,7 +106,7 @@ module.exports = {
         await User.findOneAndDelete({
             _id: id
         }).then(async() => {
-            await Room.deleteMany({
+            await Room.deleteMany({ //delete all private room
                 $and: [{
                     members: {
                         $all: [String(id)]

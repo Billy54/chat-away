@@ -65,6 +65,7 @@ app.use(session({
     }),
     cookie: {
         secure: false, //will change this when i will deploy
+        maxAge: 30 * 60 * 1000
     }
 }));
 
@@ -89,7 +90,7 @@ app.use("/*", (req, res) => {
 //start the application
 const PORT = process.env.PORT || 5000;
 http.listen(PORT, () => {
-    console.log("server started on port 5000");
+    console.log("server started on port: " + PORT);
     //connect to db
     mongoose.connect(process.env.DB_CONNECTION, {
         useNewUrlParser: true,

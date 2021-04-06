@@ -78,8 +78,9 @@ app.use(session({
     mongoUrl: process.env.DB_CONNECTION
   }),
   cookie: {
-    secure: false //will change this when i will deploy
-
+    secure: false,
+    //will change this when i will deploy
+    maxAge: 30 * 60 * 1000
   }
 })); //file upload
 
@@ -101,7 +102,7 @@ app.use("/*", function (req, res) {
 
 var PORT = process.env.PORT || 5000;
 http.listen(PORT, function () {
-  console.log("server started on port 5000"); //connect to db
+  console.log("server started on port: " + PORT); //connect to db
 
   mongoose.connect(process.env.DB_CONNECTION, {
     useNewUrlParser: true,

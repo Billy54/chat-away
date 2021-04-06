@@ -18,7 +18,7 @@ export class EmailValidators {
         })
         .then((res: any = []) => {
           if (res.found) {
-            resolve({ shouldBeUnique: false }); //i am resolving promise to be returned
+            resolve({ shouldBeUnique: false });
           } else {
             resolve(null);
           }

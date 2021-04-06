@@ -1,8 +1,7 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './services/auth.service';
-import { SocketioService } from './services/socketio.service';
 
 @Component({
   selector: 'app-root',
@@ -29,6 +28,11 @@ export class AppComponent implements OnInit {
     this.authObserver.subscribe((val) => {
       this.authService.logout('logout');
       this.router.navigateByUrl('login');
+    });
+    this.router.events.subscribe((event: any) => {
+      if (event instanceof NavigationStart) {
+        this.router.navigateByUrl(event.url);
+      }
     });
   }
 

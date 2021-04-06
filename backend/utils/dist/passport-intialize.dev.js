@@ -12,7 +12,8 @@ var initialize = function initialize(passport) {
   passport.use(new LocalStrategy({
     usernameField: 'email',
     passReqToCallback: true
-  }, authenticateUser)); //serialize user into an id for the session
+  }, authenticateUser)); //will use this function for authentication
+  //serialize user into an id for the session
 
   passport.serializeUser(function (user, done) {
     console.log('serialize done');

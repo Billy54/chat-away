@@ -33,7 +33,7 @@ router.post("/avatar", ensureAuthenticated, function (req, res) {
       });
     });
   });
-}); //get the url
+}); //get the url / actually we dont even need this
 
 router.get("/avatar/:uid", ensureAuthenticated, function (req, res) {
   User.findOne({

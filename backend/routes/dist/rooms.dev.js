@@ -11,7 +11,7 @@ var Message = require('../models/Message');
 var _require = require("../utils/authentication"),
     ensureAuthenticated = _require.ensureAuthenticated;
 
-require('dotenv/config'); //new room get or  //fix here custom
+require('dotenv/config'); //new room get or create
 
 
 router.post("/room", ensureAuthenticated, function _callee2(req, res) {
@@ -34,7 +34,8 @@ router.post("/room", ensureAuthenticated, function _callee2(req, res) {
                 custom: false
               }]
             }, {
-              _id: ids[1]
+              _id: ids[1] //custom room case
+
             }]
           }).then(function _callee(room) {
             return regeneratorRuntime.async(function _callee$(_context) {
@@ -55,6 +56,7 @@ router.post("/room", ensureAuthenticated, function _callee2(req, res) {
                     }).then(function (messages) {
                       res.status(200).json({
                         comments: messages,
+                        //send back the comments
                         rid: room._id
                       });
                     })["catch"](function (err) {
