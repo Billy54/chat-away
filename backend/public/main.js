@@ -3176,8 +3176,7 @@ const routes = [
     },
     {
         path: 'logout',
-        component: _login_login_component__WEBPACK_IMPORTED_MODULE_4__["LoginComponent"],
-        canActivate: [_services_auth_guard_service__WEBPACK_IMPORTED_MODULE_6__["AuthGuardService"]],
+        redirectTo: 'login',
     },
     { path: 'users', component: _users_users_component__WEBPACK_IMPORTED_MODULE_7__["UsersComponent"], canActivate: [_services_auth_guard_service__WEBPACK_IMPORTED_MODULE_6__["AuthGuardService"]] },
     { path: 'login', component: _login_login_component__WEBPACK_IMPORTED_MODULE_4__["LoginComponent"] },
