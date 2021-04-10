@@ -10,10 +10,10 @@ exports.AppComponent = void 0;
 var core_1 = require("@angular/core");
 var rxjs_1 = require("rxjs");
 var AppComponent = /** @class */ (function () {
-    function AppComponent(a, router) {
+    function AppComponent(authService, router) {
+        this.authService = authService;
         this.router = router;
         this.title = 'Angular';
-        this.authService = a;
     }
     AppComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -28,6 +28,10 @@ var AppComponent = /** @class */ (function () {
             _this.authService.logout('logout');
             _this.router.navigateByUrl('login');
         });
+    };
+    AppComponent.prototype.ngOnDestroy = function () {
+        //localStorage.removeItem('token');
+        //this.authService.logout('logout');
     };
     Object.defineProperty(AppComponent.prototype, "navBar", {
         get: function () {

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const path = require('path');
 const Room = require('../models/Room');
 const {
     online,
@@ -10,8 +11,14 @@ const {
 } = require("../utils/authentication");
 require('dotenv/config');
 
+const reqPath = path.join(__dirname, '../');
+
+router.get("/users", ensureAuthenticated, (req, res) => {
+    res.sendFile(reqPath + '/public/index.html');
+});
+
 //get all users
-router.get("/users", ensureAuthenticated, async(req, res) => {
+router.get("/usersALL", ensureAuthenticated, async(req, res) => {
     await User.find({}).then(async(users) => {
         let userDto = [];
         let rooms = [];
@@ -56,7 +63,7 @@ router.get("/users", ensureAuthenticated, async(req, res) => {
     });
 });
 
-router.get("/users/:userId", ensureAuthenticated, async(req, res) => {
+router.get("/usersAll/:userId", ensureAuthenticated, async(req, res) => {
 
     await User.findOne({
         _id: req.params.userId

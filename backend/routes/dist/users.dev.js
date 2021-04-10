@@ -6,6 +6,8 @@ var router = express.Router();
 
 var User = require('../models/User');
 
+var path = require('path');
+
 var Room = require('../models/Room');
 
 var _require = require('../utils/handleRooms'),
@@ -14,10 +16,14 @@ var _require = require('../utils/handleRooms'),
 var _require2 = require("../utils/authentication"),
     ensureAuthenticated = _require2.ensureAuthenticated;
 
-require('dotenv/config'); //get all users
+require('dotenv/config');
 
+var reqPath = path.join(__dirname, '../');
+router.get("/users", ensureAuthenticated, function (req, res) {
+  res.sendFile(reqPath + '/public/index.html');
+}); //get all users
 
-router.get("/users", ensureAuthenticated, function _callee2(req, res) {
+router.get("/usersALL", ensureAuthenticated, function _callee2(req, res) {
   return regeneratorRuntime.async(function _callee2$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
@@ -86,7 +92,7 @@ router.get("/users", ensureAuthenticated, function _callee2(req, res) {
     }
   });
 });
-router.get("/users/:userId", ensureAuthenticated, function _callee3(req, res) {
+router.get("/usersAll/:userId", ensureAuthenticated, function _callee3(req, res) {
   return regeneratorRuntime.async(function _callee3$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {

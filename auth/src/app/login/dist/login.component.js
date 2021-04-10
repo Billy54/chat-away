@@ -75,7 +75,9 @@ var LoginComponent = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    LoginComponent.prototype.ngOnInit = function () { };
+    LoginComponent.prototype.ngOnInit = function () {
+        localStorage.removeItem('token');
+    };
     LoginComponent = __decorate([
         core_1.Component({
             selector: 'app-login',

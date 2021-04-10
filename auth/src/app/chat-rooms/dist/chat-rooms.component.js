@@ -29,7 +29,7 @@ var ChatRoomsComponent = /** @class */ (function () {
     };
     ChatRoomsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.observers.push(this.userService.getAll('users').subscribe(function (response) {
+        this.observers.push(this.userService.getAll('usersAll').subscribe(function (response) {
             _this.initUsers(response.users);
         }));
         //refresh users
@@ -65,7 +65,7 @@ var ChatRoomsComponent = /** @class */ (function () {
                 return;
         }
         this.observers.push(this.userService
-            .getUser('users/' + id)
+            .getUser('usersAll/' + id)
             .subscribe(function (response) {
             if (response === void 0) { response = []; }
             _this.users.push(new user_1.User(response.user));

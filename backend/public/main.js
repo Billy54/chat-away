@@ -290,6 +290,7 @@ class TopbarComponent {
         this.observers.forEach((observer) => {
             observer.unsubscribe();
         });
+        this.io.disconnectSocket();
     }
     ngAfterViewInit() {
         this.io.setupSocketConnection();
@@ -310,9 +311,6 @@ class TopbarComponent {
             .subscribe((event) => {
             if (event.url.startsWith('/users')) {
                 this.active = false;
-            }
-            else if (event.url.startsWith('/logout')) {
-                localStorage.removeItem('token');
             }
             else {
                 this.active = true;
@@ -342,7 +340,6 @@ class TopbarComponent {
         this.profile = v;
     }
     logout() {
-        this.io.disconnectSocket();
         this.authService.logout('logout').subscribe((response) => {
             console.log(response);
         });
@@ -446,7 +443,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class UsersService extends _data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"] {
     constructor(http, er) {
-        super(http, er, 'https://chat-app-ang.herokuapp.com/');
+        super(http, er, 'http://localhost:5000/');
     }
 }
 UsersService.ɵfac = function UsersService_Factory(t) { return new (t || UsersService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_error_handler_service__WEBPACK_IMPORTED_MODULE_3__["ErrorHandlerService"])); };
@@ -1111,7 +1108,7 @@ class SocketioService {
     }
     setupSocketConnection() {
         //init , connect and create aprivate room for each user
-        this.socket = Object(socket_io_client__WEBPACK_IMPORTED_MODULE_1__["io"])('https://chat-app-ang.herokuapp.com');
+        this.socket = Object(socket_io_client__WEBPACK_IMPORTED_MODULE_1__["io"])('http://localhost:5000');
         this.socket.emit('userJoin', this.auth.getUserInfo().id);
         //some one joined , possibly a new account
         this.socket.on('joined', (data) => {
@@ -1222,10 +1219,10 @@ function AppComponent_app_topbar_0_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-topbar");
 } }
 class AppComponent {
-    constructor(a, router) {
+    constructor(authService, router) {
+        this.authService = authService;
         this.router = router;
         this.title = 'Angular';
-        this.authService = a;
     }
     ngOnInit() {
         this.authObserver = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Observable"]((observer) => {
@@ -1239,6 +1236,10 @@ class AppComponent {
             this.authService.logout('logout');
             this.router.navigateByUrl('login');
         });
+    }
+    ngOnDestroy() {
+        //localStorage.removeItem('token');
+        //this.authService.logout('logout');
     }
     get navBar() {
         return this.authService.isAuthenticated();
@@ -1284,7 +1285,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class DemoService extends _data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"] {
     constructor(http, er) {
-        super(http, er, 'https://chat-app-ang.herokuapp.com/');
+        super(http, er, 'http://localhost:5000/');
     }
 }
 DemoService.ɵfac = function DemoService_Factory(t) { return new (t || DemoService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_error_handler_service__WEBPACK_IMPORTED_MODULE_3__["ErrorHandlerService"])); };
@@ -1320,7 +1321,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class CommentsService extends _data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"] {
     constructor(http, er) {
-        super(http, er, 'https://chat-app-ang.herokuapp.com/');
+        super(http, er, 'http://localhost:5000/');
     }
 }
 CommentsService.ɵfac = function CommentsService_Factory(t) { return new (t || CommentsService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_error_handler_service__WEBPACK_IMPORTED_MODULE_3__["ErrorHandlerService"])); };
@@ -2356,7 +2357,7 @@ class ChatRoomsComponent {
         this.users = [];
     }
     ngOnInit() {
-        this.observers.push(this.userService.getAll('users').subscribe((response) => {
+        this.observers.push(this.userService.getAll('usersAll').subscribe((response) => {
             this.initUsers(response.users);
         }));
         //refresh users
@@ -2390,7 +2391,7 @@ class ChatRoomsComponent {
                 return;
         }
         this.observers.push(this.userService
-            .getUser('users/' + id)
+            .getUser('usersAll/' + id)
             .subscribe((response = []) => {
             this.users.push(new _Models_user__WEBPACK_IMPORTED_MODULE_1__["User"](response.user));
         }));
@@ -2514,7 +2515,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class FileService extends _data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"] {
     constructor(http, er) {
-        super(http, er, 'https://chat-app-ang.herokuapp.com/');
+        super(http, er, 'http://localhost:5000/');
     }
 }
 FileService.ɵfac = function FileService_Factory(t) { return new (t || FileService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_error_handler_service__WEBPACK_IMPORTED_MODULE_3__["ErrorHandlerService"])); };
@@ -2581,7 +2582,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class AuthService {
     constructor(http, er) {
-        this.URL = 'https://chat-app-ang.herokuapp.com/';
+        this.URL = 'http://localhost:5000/';
         this.http = http;
         this.errorHandler = er;
         this.jwtHelper = new _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_5__["JwtHelperService"]();
@@ -2640,7 +2641,7 @@ class AuthService {
     logout(uri) {
         if (this.isAuthenticated()) {
             this.removeUserInfo();
-            return this.http.get(this.URL + uri, this.options).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])((res = []) => {
+            return this.http.post(this.URL + uri, this.options).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])((res = []) => {
                 return res;
             }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["catchError"])(this.errorHandler.handleError));
         }
@@ -2709,7 +2710,7 @@ class EmailValidators {
     static shouldBeUnique(control) {
         return new Promise((resolve, reject) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             let email = control.value;
-            yield fetch('https://chat-app-ang.herokuapp.com/validateEmail', {
+            yield fetch('http://localhost:5000/validateEmail', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -2840,7 +2841,7 @@ class UsersComponent {
         this.observers = [];
     }
     ngOnInit() {
-        this.observers.push(this.userService.getAll('users').subscribe((res) => {
+        this.observers.push(this.userService.getAll('usersAll').subscribe((res) => {
             this.usersList = res.users;
         }));
     }
@@ -3177,6 +3178,7 @@ const routes = [
     {
         path: 'logout',
         redirectTo: 'login',
+        pathMatch: 'full',
     },
     { path: 'users', component: _users_users_component__WEBPACK_IMPORTED_MODULE_7__["UsersComponent"], canActivate: [_services_auth_guard_service__WEBPACK_IMPORTED_MODULE_6__["AuthGuardService"]] },
     { path: 'login', component: _login_login_component__WEBPACK_IMPORTED_MODULE_4__["LoginComponent"] },
@@ -3279,7 +3281,9 @@ class LoginComponent {
     get password() {
         return this.loginForm.get('password');
     }
-    ngOnInit() { }
+    ngOnInit() {
+        localStorage.removeItem('token');
+    }
 }
 LoginComponent.ɵfac = function LoginComponent_Factory(t) { return new (t || LoginComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_services_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"]), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"])); };
 LoginComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({ type: LoginComponent, selectors: [["app-login"]], decls: 30, vars: 9, consts: [[1, "limiter"], [1, "container-login100"], [1, "wrap-login100", "p-l-55", "p-r-55", "p-t-65", "p-b-50"], ["autocomplete", "off", 1, "login100-form", "validate-form", 3, "formGroup", "ngSubmit"], [1, "login100-form-title", "p-b-33"], [1, "fas", "fa-comments"], [1, "wrap-input100", "validate-input"], ["formControlName", "email", "name", "email", "type", "text", "name", "email", "placeholder", "Email", 1, "input100"], [1, "focus-input100-1"], [1, "focus-input100-2"], [1, "wrap-input100", "rs1", "validate-input"], ["formControlName", "password", "name", "password", "type", "password", "placeholder", "Password", 1, "input100"], [1, "container-login100-form-btn", "m-t-20"], ["type", "submit", "name", "login ", 1, "login100-form-btn"], [1, "text-center", 2, "margin-top", "10px"], [1, "txt1"], ["data-toggle", "modal", "type", "button", "data-target", "#register", 1, "button"], [1, "text-center", 2, "margin-top", "-4px"], ["data-toggle", "modal", "type", "button", "data-target", "#demo", 1, "button"]], template: function LoginComponent_Template(rf, ctx) { if (rf & 1) {
@@ -3562,7 +3566,8 @@ class ErrorHandlerService {
         else {
             // The backend returned an unsuccessful response code.
             // The response body may contain clues as to what went wrong.
-            console.error(`Backend returned code ${error.status}, ` + `body was: ${error.error}`);
+            console.error(`Backend returned code ${error.status}`);
+            console.log(error);
         }
         // Return an observable with a user-facing error message.
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["throwError"])('Something bad happened; please try again later.');

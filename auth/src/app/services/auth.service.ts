@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class AuthService {
   private http: HttpClient;
   private errorHandler: ErrorHandlerService;
-  private readonly URL = 'https://chat-app-ang.herokuapp.com/';
+  private readonly URL = 'http://localhost:5000/';
   private options: any;
   private jwtHelper: any;
 
@@ -89,7 +89,7 @@ export class AuthService {
   public logout(uri: String): Observable<any> {
     if (this.isAuthenticated()) {
       this.removeUserInfo();
-      return this.http.get(this.URL + uri, this.options).pipe(
+      return this.http.post(this.URL + uri, this.options).pipe(
         map((res: any = []) => {
           return res;
         }),

@@ -29,6 +29,7 @@ var TopbarComponent = /** @class */ (function () {
         this.observers.forEach(function (observer) {
             observer.unsubscribe();
         });
+        this.io.disconnectSocket();
     };
     TopbarComponent.prototype.ngAfterViewInit = function () {
         this.io.setupSocketConnection();
@@ -50,9 +51,6 @@ var TopbarComponent = /** @class */ (function () {
             .subscribe(function (event) {
             if (event.url.startsWith('/users')) {
                 _this.active = false;
-            }
-            else if (event.url.startsWith('/logout')) {
-                localStorage.removeItem('token');
             }
             else {
                 _this.active = true;
@@ -82,7 +80,6 @@ var TopbarComponent = /** @class */ (function () {
         this.profile = v;
     };
     TopbarComponent.prototype.logout = function () {
-        this.io.disconnectSocket();
         this.authService.logout('logout').subscribe(function (response) {
             console.log(response);
         });

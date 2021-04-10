@@ -25,7 +25,7 @@ var data_service_1 = require("./data.service");
 var CommentsService = /** @class */ (function (_super) {
     __extends(CommentsService, _super);
     function CommentsService(http, er) {
-        return _super.call(this, http, er, 'https://chat-app-ang.herokuapp.com/') || this;
+        return _super.call(this, http, er, 'http://localhost:5000/') || this;
     }
     CommentsService = __decorate([
         core_1.Injectable({

@@ -75,5 +75,8 @@ export class LoginComponent implements OnInit {
   get password() {
     return this.loginForm.get('password');
   }
-  ngOnInit(): void {}
+
+  ngOnInit(): void {
+    localStorage.removeItem('token');
+  }
 }

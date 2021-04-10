@@ -78,9 +78,8 @@ app.use(session({
     mongoUrl: process.env.DB_CONNECTION
   }),
   cookie: {
-    secure: false,
-    //will change this when i will deploy
-    maxAge: 30 * 60 * 1000
+    secure: false //will change this when i will deploy
+
   }
 })); //file upload
 

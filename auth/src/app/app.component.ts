@@ -1,4 +1,10 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './services/auth.service';
@@ -8,14 +14,11 @@ import { AuthService } from './services/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'Angular';
-  private authService: AuthService;
   private authObserver: Observable<any> | undefined;
 
-  constructor(a: AuthService, private router: Router) {
-    this.authService = a;
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.authObserver = new Observable((observer) => {
@@ -29,6 +32,11 @@ export class AppComponent implements OnInit {
       this.authService.logout('logout');
       this.router.navigateByUrl('login');
     });
+  }
+
+  ngOnDestroy() {
+    //localStorage.removeItem('token');
+    //this.authService.logout('logout');
   }
 
   public get navBar() {

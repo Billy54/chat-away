@@ -16,7 +16,7 @@ var UsersComponent = /** @class */ (function () {
     }
     UsersComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.observers.push(this.userService.getAll('users').subscribe(function (res) {
+        this.observers.push(this.userService.getAll('usersAll').subscribe(function (res) {
             _this.usersList = res.users;
         }));
     };

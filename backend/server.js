@@ -65,7 +65,6 @@ app.use(session({
     }),
     cookie: {
         secure: false, //will change this when i will deploy
-        maxAge: 30 * 60 * 1000
     }
 }));
 

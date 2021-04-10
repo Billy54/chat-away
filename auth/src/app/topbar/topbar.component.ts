@@ -33,6 +33,7 @@ export class TopbarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.observers.forEach((observer) => {
       observer.unsubscribe();
     });
+    this.io.disconnectSocket();
   }
 
   ngAfterViewInit(): void {
@@ -57,8 +58,6 @@ export class TopbarComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((event: any) => {
         if (event.url.startsWith('/users')) {
           this.active = false;
-        } else if (event.url.startsWith('/logout')) {
-          localStorage.removeItem('token');
         } else {
           this.active = true;
         }
@@ -92,7 +91,6 @@ export class TopbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   logout() {
-    this.io.disconnectSocket();
     this.authService.logout('logout').subscribe((response) => {
       console.log(response);
     });

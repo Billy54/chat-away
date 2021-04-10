@@ -34,7 +34,7 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.observers.push(
-      this.userService.getAll('users').subscribe((response) => {
+      this.userService.getAll('usersAll').subscribe((response) => {
         this.initUsers(response.users);
       })
     );
@@ -82,7 +82,7 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
     }
     this.observers.push(
       this.userService
-        .getUser('users/' + id)
+        .getUser('usersAll/' + id)
         .subscribe((response: any = []) => {
           this.users.push(new User(response.user));
         })
