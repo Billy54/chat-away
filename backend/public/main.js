@@ -439,7 +439,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class UsersService extends _data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"] {
     constructor(http, er) {
-        super(http, er, 'http://localhost:5000/');
+        super(http, er, 'https://chat-away-ang.herokuapp.com/');
     }
 }
 UsersService.ɵfac = function UsersService_Factory(t) { return new (t || UsersService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_error_handler_service__WEBPACK_IMPORTED_MODULE_3__["ErrorHandlerService"])); };
@@ -1104,7 +1104,7 @@ class SocketioService {
     }
     setupSocketConnection() {
         //init , connect and create aprivate room for each user
-        this.socket = Object(socket_io_client__WEBPACK_IMPORTED_MODULE_1__["io"])('http://localhost:5000');
+        this.socket = Object(socket_io_client__WEBPACK_IMPORTED_MODULE_1__["io"])('https://chat-away-ang.herokuapp.com');
         this.socket.emit('userJoin', this.auth.getUserInfo().id);
         //some one joined , possibly a new account
         this.socket.on('joined', (data) => {
@@ -1222,10 +1222,6 @@ class AppComponent {
         this.router = router;
         this.title = 'Angular';
     }
-    ngOnDestroy() {
-        //localStorage.removeItem('token');
-        //this.authService.logout('logout');
-    }
     logout(e) {
         this.authService.logout('logout').subscribe(() => {
             this.authService.removeUserInfo();
@@ -1276,7 +1272,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class DemoService extends _data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"] {
     constructor(http, er) {
-        super(http, er, 'http://localhost:5000/');
+        super(http, er, 'https://chat-away-ang.herokuapp.com/');
     }
 }
 DemoService.ɵfac = function DemoService_Factory(t) { return new (t || DemoService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_error_handler_service__WEBPACK_IMPORTED_MODULE_3__["ErrorHandlerService"])); };
@@ -1312,7 +1308,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class CommentsService extends _data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"] {
     constructor(http, er) {
-        super(http, er, 'http://localhost:5000/');
+        super(http, er, 'https://chat-away-ang.herokuapp.com/');
     }
 }
 CommentsService.ɵfac = function CommentsService_Factory(t) { return new (t || CommentsService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_error_handler_service__WEBPACK_IMPORTED_MODULE_3__["ErrorHandlerService"])); };
@@ -1737,7 +1733,7 @@ ProfileComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineC
         let _t;
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵloadQuery"]()) && (ctx.preview = _t.first);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵloadQuery"]()) && (ctx.imgInput = _t.first);
-    } }, inputs: { not: "not", prof: "prof" }, outputs: { notCheck: "notCheck", ovCheck: "ovCheck" }, decls: 35, vars: 19, consts: [[1, "dropdown"], [1, "profile-wrapper", "ts-profile", 3, "click"], [1, "fas", "fa-user", "ts-profile"], [1, "profile-dropdown", "js-drop"], [1, "slide2"], [1, "profile-item", "js-avatar", 3, "click"], [1, "user-avatar", 3, "src"], [1, "details"], [2, "font-size", "25px"], [4, "ngIf"], [1, "divider"], ["href", "http://localhost:5000/logout", 1, "cus-ref"], [1, "log-out"], [1, "fas", "fa-sign-out-alt"], [1, "slide1"], [1, "fas", "fa-times", "ts-close", 3, "click"], [2, "font-size", "20px", "margin-bottom", "2px", "margin-top", "8px"], [1, "container"], [1, "avatar-upload"], [1, "avatar-edit"], ["name", "file", "type", "file", "id", "imageUpload", "accept", ".png, .jpg, .jpeg", 3, "change"], ["input", ""], ["for", "imageUpload"], [1, "avatar-preview"], ["imagePreview", ""], [1, "log-out", "ts-up", 3, "click"], [1, "fas", "fa-upload"]], template: function ProfileComponent_Template(rf, ctx) { if (rf & 1) {
+    } }, inputs: { not: "not", prof: "prof" }, outputs: { notCheck: "notCheck", ovCheck: "ovCheck" }, decls: 35, vars: 19, consts: [[1, "dropdown"], [1, "profile-wrapper", "ts-profile", 3, "click"], [1, "fas", "fa-user", "ts-profile"], [1, "profile-dropdown", "js-drop"], [1, "slide2"], [1, "profile-item", "js-avatar", 3, "click"], [1, "user-avatar", 3, "src"], [1, "details"], [2, "font-size", "25px"], [4, "ngIf"], [1, "divider"], ["href", "https://chat-away-ang.herokuapp.com/logout", 1, "cus-ref"], [1, "log-out"], [1, "fas", "fa-sign-out-alt"], [1, "slide1"], [1, "fas", "fa-times", "ts-close", 3, "click"], [2, "font-size", "20px", "margin-bottom", "2px", "margin-top", "8px"], [1, "container"], [1, "avatar-upload"], [1, "avatar-edit"], ["name", "file", "type", "file", "id", "imageUpload", "accept", ".png, .jpg, .jpeg", 3, "change"], ["input", ""], ["for", "imageUpload"], [1, "avatar-preview"], ["imagePreview", ""], [1, "log-out", "ts-up", 3, "click"], [1, "fas", "fa-upload"]], template: function ProfileComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function ProfileComponent_Template_div_click_1_listener() { return ctx.profileCheck(); });
@@ -2501,7 +2497,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class FileService extends _data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"] {
     constructor(http, er) {
-        super(http, er, 'http://localhost:5000/');
+        super(http, er, 'https://chat-away-ang.herokuapp.com/');
     }
 }
 FileService.ɵfac = function FileService_Factory(t) { return new (t || FileService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_error_handler_service__WEBPACK_IMPORTED_MODULE_3__["ErrorHandlerService"])); };
@@ -2566,7 +2562,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class AuthService {
     constructor(http, er) {
-        this.URL = 'http://localhost:5000/';
+        this.URL = 'https://chat-away-ang.herokuapp.com/';
         this.http = http;
         this.errorHandler = er;
         this.jwtHelper = new _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_4__["JwtHelperService"]();
@@ -2691,7 +2687,7 @@ class EmailValidators {
     static shouldBeUnique(control) {
         return new Promise((resolve, reject) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             let email = control.value;
-            yield fetch('http://localhost:5000/validateEmail', {
+            yield fetch('https://chat-away-ang.herokuapp.com/validateEmail', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
