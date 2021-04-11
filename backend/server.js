@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //////////////////initialize socket io//////////////////////
 const io = require('socket.io')(http, {
     cors: {
-        origins: ['http://localhost:5000', 'https://chat-app-ang.herokuapp.com']
+        origins: ['http://localhost:5000', 'https://chat-away-ang.herokuapp.com']
     }
 });
 socketIO(io);
@@ -37,7 +37,7 @@ socketIO(io);
 //cors to allow request from the front end
 app.use(cors({
     credentials: true,
-    origin: ['http://localhost:5000', 'https://chat-app-ang.herokuapp.com']
+    origin: ['http://localhost:5000', 'https://chat-away-ang.herokuapp.com']
 }));
 app.enable('trust proxy');
 
@@ -63,7 +63,8 @@ app.use(session({
         mongoUrl: process.env.DB_CONNECTION
     }),
     cookie: {
-        secure: false, //will change this when i will deploy
+        secure: true, //will change this when i will deploy
+        maxAge: 24 * 60 * 60 * 1000
     }
 }));
 

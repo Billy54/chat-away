@@ -25,7 +25,7 @@ var data_service_1 = require("./data.service");
 var FileService = /** @class */ (function (_super) {
     __extends(FileService, _super);
     function FileService(http, er) {
-        return _super.call(this, http, er, 'http://localhost:5000/') || this;
+        return _super.call(this, http, er, 'https://chat-away-ang.herokuapp.com/') || this;
     }
     FileService = __decorate([
         core_1.Injectable({

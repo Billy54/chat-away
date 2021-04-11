@@ -17,7 +17,7 @@ var SocketioService = /** @class */ (function () {
     SocketioService.prototype.setupSocketConnection = function () {
         var _this = this;
         //init , connect and create aprivate room for each user
-        this.socket = socket_io_client_1.io('http://localhost:5000');
+        this.socket = socket_io_client_1.io('https://chat-away-ang.herokuapp.com');
         this.socket.emit('userJoin', this.auth.getUserInfo().id);
         //some one joined , possibly a new account
         this.socket.on('joined', function (data) {
