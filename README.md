@@ -1,7 +1,6 @@
 # chat-away
 
-To run the application in development mode : npm run start.
-You also have to change the url endpoints.
+To run the application in development mode : npm run start (after ng build).
 
 Stack:
 
@@ -9,10 +8,13 @@ Angular11
 NodeJs/express
 MongoDB for data and session storage,
 Passport and Jwt for user authentication/authorization,
-SocketIO for real time feature.
+SocketIO for real time communication.
 
 Design Patterns:
-Factory , observer
+Factory, observer.
+
+Tests:
+Currently in development , will add soon
 
 Main Use cases:
 
@@ -25,4 +27,4 @@ file upload,
 demo feature with user restrictions
 
 Test the app:
-https://chat-app-ang.herokuapp.com
+https://chat-away-ang.herokuapp.com
