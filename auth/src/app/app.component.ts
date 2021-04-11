@@ -6,7 +6,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AuthService } from './services/auth.service';
 
 @Component({
@@ -14,29 +14,17 @@ import { AuthService } from './services/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent {
   title = 'Angular';
-  private authObserver: Observable<any> | undefined;
+  //private authObserver: Observable<any> | undefined;
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit() {
-    this.authObserver = new Observable((observer) => {
-      setInterval(() => {
-        if (!this.navBar) {
-          observer.next(true);
-        }
-      }, 300);
+  logout(e: any) {
+    this.authService.logout('logout').subscribe(() => {
+      this.authService.removeUserInfo();
+      this.router.navigateByUrl('/login');
     });
-    this.authObserver.subscribe((val) => {
-      this.authService.logout('logout');
-      this.router.navigateByUrl('login');
-    });
-  }
-
-  ngOnDestroy() {
-    //localStorage.removeItem('token');
-    //this.authService.logout('logout');
   }
 
   public get navBar() {

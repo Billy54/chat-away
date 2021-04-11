@@ -34,7 +34,7 @@ var handleLogout = function handleLogout(req, res, next) {
     deleteUser(id).then(function () {
       return next();
     })["catch"](function (err) {
-      return next(err);
+      res.redirect('/login'); //error page or maybe a flash msg would be nice here
     });
   } else {
     return next();
@@ -44,13 +44,8 @@ var handleLogout = function handleLogout(req, res, next) {
 
 router.get('/login', forwardAuthenticated, function (req, res) {
   res.sendFile(reqPath + '/public/index.html');
-}); //logout just experimenting with hash/path strategy
+}); //logout
 
-router.post('/logout', ensureAuthenticated, handleLogout, function (req, res) {
-  res.status(200).json({
-    msg: 'logout succesfull'
-  });
-});
 router.get('/logout', ensureAuthenticated, handleLogout, function (req, res) {
   res.redirect('/login');
 }); //login post request

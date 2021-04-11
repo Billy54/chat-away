@@ -76,7 +76,7 @@ var LoginComponent = /** @class */ (function () {
         configurable: true
     });
     LoginComponent.prototype.ngOnInit = function () {
-        localStorage.removeItem('token');
+        this.authService.removeUserInfo();
     };
     LoginComponent = __decorate([
         core_1.Component({

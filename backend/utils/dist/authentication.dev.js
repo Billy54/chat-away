@@ -12,39 +12,24 @@ var _require = require('./helpers'),
 module.exports = {
   //passport will authenticate the user using the following strategy 
   authenticateUser: function authenticateUser(req, email, password, done) {
-    return regeneratorRuntime.async(function authenticateUser$(_context2) {
+    return regeneratorRuntime.async(function authenticateUser$(_context) {
       while (1) {
-        switch (_context2.prev = _context2.next) {
+        switch (_context.prev = _context.next) {
           case 0:
-            _context2.next = 2;
+            _context.next = 2;
             return regeneratorRuntime.awrap(User.findOne({
               email: email
-            }).then(function _callee(user) {
-              return regeneratorRuntime.async(function _callee$(_context) {
-                while (1) {
-                  switch (_context.prev = _context.next) {
-                    case 0:
-                      if (user) {
-                        _context.next = 2;
-                        break;
-                      }
+            }).then(function (user) {
+              if (!user) {
+                return done(null, false, req.flash('message', 'Not Registered'));
+              } //Match password
 
-                      return _context.abrupt("return", done(null, false, req.flash('message', 'Not Registered')));
 
-                    case 2:
-                      //Match password
-                      bcrypt.compare(password, user.password, function (err, isMatch) {
-                        if (isMatch) {
-                          return done(null, user);
-                        } else {
-                          return done(null, false, req.flash('message', 'Incorrect password'));
-                        }
-                      });
-
-                    case 3:
-                    case "end":
-                      return _context.stop();
-                  }
+              bcrypt.compare(password, user.password, function (err, isMatch) {
+                if (isMatch) {
+                  return done(null, user);
+                } else {
+                  return done(null, false, req.flash('message', 'Incorrect password'));
                 }
               });
             })["catch"](function (err) {
@@ -54,7 +39,7 @@ module.exports = {
 
           case 2:
           case "end":
-            return _context2.stop();
+            return _context.stop();
         }
       }
     });
@@ -63,7 +48,8 @@ module.exports = {
   ensureAuthenticated: function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
       return next();
-    }
+    } //we could redirect here to a apropriate component
+
 
     res.status(200).json({
       "statusCode": 401,

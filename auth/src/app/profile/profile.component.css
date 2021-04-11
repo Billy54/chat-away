@@ -2,6 +2,16 @@
     border: none;
 }
 
+.cus-ref {
+    text-decoration: none;
+    color: rgb(215, 215, 215);
+}
+
+.cus-ref:hover {
+    text-decoration: none;
+    color: rgb(215, 215, 215);
+}
+
 .fa-bell {
     font-size: 20px;
 }

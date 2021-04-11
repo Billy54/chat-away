@@ -12,10 +12,12 @@
                 </div>
             </div>
             <div class="divider"></div>
-            <div class="log-out" (click)="logout()">
-                <i class="fas fa-sign-out-alt"></i>
-                <h1 style="font-size: 25px;">Log Out</h1>
-            </div>
+            <a class="cus-ref" href="http://localhost:5000/logout">
+                <div class="log-out">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <h1 style="font-size: 25px;">Log Out</h1>
+                </div>
+            </a>
         </div>
         <div class="slide1" [style.transform]="exp">
             <i class="fas fa-times ts-close" (click)="slide()"></i>

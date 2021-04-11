@@ -8,30 +8,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.AppComponent = void 0;
 var core_1 = require("@angular/core");
-var rxjs_1 = require("rxjs");
 var AppComponent = /** @class */ (function () {
+    //private authObserver: Observable<any> | undefined;
     function AppComponent(authService, router) {
         this.authService = authService;
         this.router = router;
         this.title = 'Angular';
     }
-    AppComponent.prototype.ngOnInit = function () {
+    AppComponent.prototype.logout = function (e) {
         var _this = this;
-        this.authObserver = new rxjs_1.Observable(function (observer) {
-            setInterval(function () {
-                if (!_this.navBar) {
-                    observer.next(true);
-                }
-            }, 300);
+        this.authService.logout('logout').subscribe(function () {
+            _this.authService.removeUserInfo();
+            _this.router.navigateByUrl('/login');
         });
-        this.authObserver.subscribe(function (val) {
-            _this.authService.logout('logout');
-            _this.router.navigateByUrl('login');
-        });
-    };
-    AppComponent.prototype.ngOnDestroy = function () {
-        //localStorage.removeItem('token');
-        //this.authService.logout('logout');
     };
     Object.defineProperty(AppComponent.prototype, "navBar", {
         get: function () {

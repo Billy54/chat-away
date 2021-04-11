@@ -25,7 +25,6 @@ require('dotenv/config');
 //make our public folder static
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 //////////////////initialize socket io//////////////////////
 const io = require('socket.io')(http, {
     cors: {

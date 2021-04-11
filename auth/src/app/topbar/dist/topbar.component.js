@@ -11,12 +11,13 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var notification_1 = require("../Models/notification");
 var operators_1 = require("rxjs/operators");
+var core_2 = require("@angular/core");
 var TopbarComponent = /** @class */ (function () {
-    function TopbarComponent(router, dataShareService, io, authService) {
+    function TopbarComponent(router, dataShareService, io) {
         this.router = router;
         this.dataShareService = dataShareService;
         this.io = io;
-        this.authService = authService;
+        this.timeout = new core_2.EventEmitter();
         this.notificationList = [];
         this.observers = [];
         this.notifications = true;
@@ -30,6 +31,7 @@ var TopbarComponent = /** @class */ (function () {
             observer.unsubscribe();
         });
         this.io.disconnectSocket();
+        this.timeout.emit(true);
     };
     TopbarComponent.prototype.ngAfterViewInit = function () {
         this.io.setupSocketConnection();
@@ -79,12 +81,6 @@ var TopbarComponent = /** @class */ (function () {
         this.overlay = v;
         this.profile = v;
     };
-    TopbarComponent.prototype.logout = function () {
-        this.authService.logout('logout').subscribe(function (response) {
-            console.log(response);
-        });
-        this.router.navigateByUrl('/login');
-    };
     TopbarComponent.prototype.browse = function (index) {
         this.dataShareService.swapCurrent(this.notificationList[index].getRoom());
         this.notificationsCheck();
@@ -97,6 +93,9 @@ var TopbarComponent = /** @class */ (function () {
         this.active = true;
         this.router.navigateByUrl('');
     };
+    __decorate([
+        core_1.Output()
+    ], TopbarComponent.prototype, "timeout");
     TopbarComponent = __decorate([
         core_1.Component({
             selector: 'app-topbar',

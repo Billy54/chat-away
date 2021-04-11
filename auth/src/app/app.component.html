@@ -1,3 +1,2 @@
-<app-topbar *ngIf="navBar"></app-topbar>
-
+<app-topbar *ngIf="navBar" (timeout)="logout($event)"></app-topbar>
 <router-outlet></router-outlet>

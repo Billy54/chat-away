@@ -4,14 +4,12 @@ const Post = require('../models/User');
 const path = require('path');
 const {
     ensureAuthenticated,
-    forwardAuthenticated
 } = require('../utils/authentication');
 
 const reqPath = path.join(__dirname, '../');
 
-//index route home
+//index route home this is not activated actually 
 router.get('/', ensureAuthenticated, (req, res) => {
-    console.log('hello');
     res.sendFile(reqPath + '/public/index.html');
 });
 module.exports = router;

@@ -1,12 +1,18 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { SocketioService } from '../services/socketio.service';
 import { Notification } from '../Models/notification';
 import { DataShareService } from '../services/data-share.service';
-
 import { pipe, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-topbar',
@@ -14,6 +20,7 @@ import { filter, map } from 'rxjs/operators';
   styleUrls: ['./topbar.component.css'],
 })
 export class TopbarComponent implements OnInit, AfterViewInit, OnDestroy {
+  @Output() timeout: EventEmitter<boolean> = new EventEmitter<boolean>();
   public notificationList: Notification[] = [];
   private observers: Subscription[] = [];
   public notifications: boolean = true;
@@ -25,8 +32,7 @@ export class TopbarComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private router: Router,
     private dataShareService: DataShareService,
-    private io: SocketioService,
-    private authService: AuthService
+    private io: SocketioService
   ) {}
 
   ngOnDestroy(): void {
@@ -34,6 +40,7 @@ export class TopbarComponent implements OnInit, AfterViewInit, OnDestroy {
       observer.unsubscribe();
     });
     this.io.disconnectSocket();
+    this.timeout.emit(true);
   }
 
   ngAfterViewInit(): void {
@@ -88,13 +95,6 @@ export class TopbarComponent implements OnInit, AfterViewInit, OnDestroy {
   ovSwap(v: any) {
     this.overlay = v;
     this.profile = v;
-  }
-
-  logout() {
-    this.authService.logout('logout').subscribe((response) => {
-      console.log(response);
-    });
-    this.router.navigateByUrl('/login');
   }
 
   browse(index: any) {

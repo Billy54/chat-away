@@ -16,7 +16,6 @@ var ProfileComponent = /** @class */ (function () {
         this.dataShare = dataShare;
         this.notCheck = new core_2.EventEmitter();
         this.ovCheck = new core_2.EventEmitter();
-        this.signout = new core_2.EventEmitter();
         this.exp = 'translateX(0px)';
         this.expHeight = '197px';
         this.url = this.authService.getUserInfo().avatar;
@@ -83,9 +82,6 @@ var ProfileComponent = /** @class */ (function () {
             });
         }
     };
-    ProfileComponent.prototype.logout = function () {
-        this.signout.emit();
-    };
     ProfileComponent.prototype.profileCheck = function () {
         this.notCheck.emit(true);
         this.ovCheck.emit(!this.prof);
@@ -109,9 +105,6 @@ var ProfileComponent = /** @class */ (function () {
     __decorate([
         core_1.Output()
     ], ProfileComponent.prototype, "ovCheck");
-    __decorate([
-        core_1.Output()
-    ], ProfileComponent.prototype, "signout");
     __decorate([
         core_1.Input()
     ], ProfileComponent.prototype, "not");

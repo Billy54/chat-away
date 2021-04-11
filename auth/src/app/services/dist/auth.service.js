@@ -9,7 +9,6 @@ exports.__esModule = true;
 exports.AuthService = void 0;
 var http_1 = require("@angular/common/http");
 var core_1 = require("@angular/core");
-var rxjs_1 = require("rxjs");
 var operators_1 = require("rxjs/operators");
 var jwt_decode_1 = require("jwt-decode");
 var angular_jwt_1 = require("@auth0/angular-jwt");
@@ -72,16 +71,12 @@ var AuthService = /** @class */ (function () {
             return res;
         }));
     };
-    //logout
+    //manual logout
     AuthService.prototype.logout = function (uri) {
-        if (this.isAuthenticated()) {
-            this.removeUserInfo();
-            return this.http.post(this.URL + uri, this.options).pipe(operators_1.map(function (res) {
-                if (res === void 0) { res = []; }
-                return res;
-            }), operators_1.catchError(this.errorHandler.handleError));
-        }
-        return rxjs_1.throwError('Something bad happened; please try again later.');
+        return this.http
+            .get(this.URL + uri, { withCredentials: true, responseType: 'text' })
+            .pipe(operators_1.catchError(this.errorHandler.handleError));
+        //return throwError('Something bad happened; please try again later.');
     };
     //register
     AuthService.prototype.register = function (name, email, password, uri) {

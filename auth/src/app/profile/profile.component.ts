@@ -14,7 +14,6 @@ export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('input') imgInput: any;
   @Output() notCheck: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() ovCheck: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() signout: EventEmitter<any> = new EventEmitter<any>();
   @Input() not: any;
   @Input() prof: any;
 
@@ -93,10 +92,6 @@ export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
           this.dataShare.sendUrl(this.url);
         });
     }
-  }
-
-  logout() {
-    this.signout.emit();
   }
 
   profileCheck() {

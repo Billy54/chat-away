@@ -85,18 +85,12 @@ export class AuthService {
       );
   }
 
-  //logout
+  //manual logout
   public logout(uri: String): Observable<any> {
-    if (this.isAuthenticated()) {
-      this.removeUserInfo();
-      return this.http.post(this.URL + uri, this.options).pipe(
-        map((res: any = []) => {
-          return res;
-        }),
-        catchError(this.errorHandler.handleError)
-      );
-    }
-    return throwError('Something bad happened; please try again later.');
+    return this.http
+      .get(this.URL + uri, { withCredentials: true, responseType: 'text' })
+      .pipe(catchError(this.errorHandler.handleError));
+    //return throwError('Something bad happened; please try again later.');
   }
 
   //register

@@ -11,7 +11,7 @@ module.exports = {
         // Match user
         await User.findOne({
             email: email
-        }).then(async(user) => {
+        }).then((user) => {
             if (!user) {
                 return done(null, false,
                     req.flash('message', 'Not Registered'));
@@ -33,7 +33,7 @@ module.exports = {
     ensureAuthenticated: function(req, res, next) {
         if (req.isAuthenticated()) {
             return next();
-        }
+        } //we could redirect here to a apropriate component
         res.status(200).json({
             "statusCode": 401,
             "message": "Please log in to view that resource."
