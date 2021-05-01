@@ -96,7 +96,7 @@ var ChatAreaComponent = /** @class */ (function () {
             sender: this.auth.getUserInfo().id
         })
             .subscribe(function (response) {
-            var room = new room_1.Room(response.comments, _this.activeRoom, response.rid);
+            var room = new room_1.Room(response.comments, response.room, response.rid);
             _this.rooms.push(room);
             _this.renderer(response.comments, room.id);
         }));

@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class AuthService {
   private http: HttpClient;
   private errorHandler: ErrorHandlerService;
-  private readonly URL = 'https://chat-away-ang.herokuapp.com/';
+  private readonly URL = 'http://localhost:5000/';
   private options: any;
   private jwtHelper: any;
 

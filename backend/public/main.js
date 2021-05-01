@@ -221,26 +221,26 @@ __webpack_require__.r(__webpack_exports__);
 
 function TopbarComponent_div_0_Template(rf, ctx) { if (rf & 1) {
     const _r4 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 15);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 13);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function TopbarComponent_div_0_Template_div_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r4); const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r3.overlayCheck(); });
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
-function TopbarComponent_i_14_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "i", 16);
+function TopbarComponent_i_12_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "i", 14);
 } }
-function TopbarComponent_div_15_div_5_Template(rf, ctx) { if (rf & 1) {
+function TopbarComponent_div_13_div_5_Template(rf, ctx) { if (rf & 1) {
     const _r9 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 22);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function TopbarComponent_div_15_div_5_Template_div_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r9); const i_r7 = ctx.index; const ctx_r8 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2); return ctx_r8.browse(i_r7); });
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](1, "img", 23);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 24);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "div", 25);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 20);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function TopbarComponent_div_13_div_5_Template_div_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r9); const i_r7 = ctx.index; const ctx_r8 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2); return ctx_r8.browse(i_r7); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](1, "img", 21);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 22);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "div", 23);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](4);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "small");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](6);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "div", 26);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "div", 24);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](8);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -256,14 +256,14 @@ function TopbarComponent_div_15_div_5_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("at: ", notification_r6.date, "");
 } }
-function TopbarComponent_div_15_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 17);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h1", 18);
+function TopbarComponent_div_13_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 15);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h1", 16);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2, "Notifications");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](3, "div", 19);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 20);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, TopbarComponent_div_15_div_5_Template, 9, 4, "div", 21);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](3, "div", 17);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 18);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, TopbarComponent_div_13_div_5_Template, 9, 4, "div", 19);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } if (rf & 2) {
@@ -353,7 +353,7 @@ class TopbarComponent {
     }
 }
 TopbarComponent.ɵfac = function TopbarComponent_Factory(t) { return new (t || TopbarComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_data_share_service__WEBPACK_IMPORTED_MODULE_4__["DataShareService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_socketio_service__WEBPACK_IMPORTED_MODULE_5__["SocketioService"])); };
-TopbarComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: TopbarComponent, selectors: [["app-topbar"]], outputs: { timeout: "timeout" }, decls: 17, vars: 14, consts: [["class", "overlay", 3, "click", 4, "ngIf"], [1, "top-navbar"], [1, "options"], [1, "messenger-wrapper"], [1, "fas", "fa-comments"], [1, "home-wrapper", 3, "click"], [1, "fas", "fa-home"], [1, "friends-wrapper", 3, "click"], [1, "fas", "fa-user-friends"], [1, "dropdown"], [1, "bell-wrapper", "ts-notifications", 3, "click"], [1, "fas", "fa-bell", "ts-profile"], ["class", "fas fa-circle notification", 4, "ngIf"], ["class", "notification-dropdown", 4, "ngIf"], [3, "prof", "ovCheck", "notCheck"], [1, "overlay", 3, "click"], [1, "fas", "fa-circle", "notification"], [1, "notification-dropdown"], [2, "font-size", "25px", "margin-bottom", "10px", "margin-top", "5px"], [1, "divider", "div-profile"], [1, "inner-wrapper"], ["class", "profile-item item-margin", 3, "click", 4, "ngFor", "ngForOf"], [1, "profile-item", "item-margin", 3, "click"], [1, "avatar", 2, "margin-top", "4px", 3, "src"], [1, "details"], [1, "message"], [1, "small-date"]], template: function TopbarComponent_Template(rf, ctx) { if (rf & 1) {
+TopbarComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: TopbarComponent, selectors: [["app-topbar"]], outputs: { timeout: "timeout" }, decls: 15, vars: 10, consts: [["class", "overlay", 3, "click", 4, "ngIf"], [1, "top-navbar"], [1, "options"], [1, "messenger-wrapper"], [1, "fas", "fa-comments"], [1, "home-wrapper"], [1, "fas", "fa-home"], [1, "dropdown"], [1, "bell-wrapper", "ts-notifications", 3, "click"], [1, "fas", "fa-bell", "ts-profile"], ["class", "fas fa-circle notification", 4, "ngIf"], ["class", "notification-dropdown", 4, "ngIf"], [3, "prof", "ovCheck", "notCheck"], [1, "overlay", 3, "click"], [1, "fas", "fa-circle", "notification"], [1, "notification-dropdown"], [2, "font-size", "25px", "margin-bottom", "10px", "margin-top", "5px"], [1, "divider", "div-profile"], [1, "inner-wrapper"], ["class", "profile-item item-margin", 3, "click", 4, "ngFor", "ngForOf"], [1, "profile-item", "item-margin", 3, "click"], [1, "avatar", 2, "margin-top", "4px", 3, "src"], [1, "details"], [1, "message"], [1, "small-date"]], template: function TopbarComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](0, TopbarComponent_div_0_Template, 1, 0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 2);
@@ -363,25 +363,20 @@ TopbarComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCo
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "div", 2);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "div", 5);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function TopbarComponent_Template_div_click_6_listener() { return ctx.home(); });
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](7, "i", 6);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](8, "div", 7);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function TopbarComponent_Template_div_click_8_listener() { return ctx.users(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](9, "i", 8);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](8, "div", 2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](9, "div", 7);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](10, "div", 8);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function TopbarComponent_Template_div_click_10_listener() { return ctx.notificationsCheck(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](11, "i", 9);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](12, TopbarComponent_i_12_Template, 1, 0, "i", 10);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](10, "div", 2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](11, "div", 9);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](12, "div", 10);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function TopbarComponent_Template_div_click_12_listener() { return ctx.notificationsCheck(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](13, "i", 11);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](14, TopbarComponent_i_14_Template, 1, 0, "i", 12);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](13, TopbarComponent_div_13_Template, 6, 1, "div", 11);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](15, TopbarComponent_div_15_Template, 6, 1, "div", 13);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](16, "app-profile", 14);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("ovCheck", function TopbarComponent_Template_app_profile_ovCheck_16_listener($event) { return ctx.ovSwap($event); })("notCheck", function TopbarComponent_Template_app_profile_notCheck_16_listener($event) { return ctx.notSwap($event); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](14, "app-profile", 12);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("ovCheck", function TopbarComponent_Template_app_profile_ovCheck_14_listener($event) { return ctx.ovSwap($event); })("notCheck", function TopbarComponent_Template_app_profile_notCheck_14_listener($event) { return ctx.notSwap($event); });
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -391,10 +386,6 @@ TopbarComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCo
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassProp"]("active", ctx.active);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassProp"]("active", ctx.active);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassProp"]("active", !ctx.active);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassProp"]("active", !ctx.active);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassProp"]("active-option", !ctx.notifications);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
@@ -439,7 +430,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class UsersService extends _data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"] {
     constructor(http, er) {
-        super(http, er, 'https://chat-away-ang.herokuapp.com/');
+        super(http, er, 'http://localhost:5000/');
     }
 }
 UsersService.ɵfac = function UsersService_Factory(t) { return new (t || UsersService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_error_handler_service__WEBPACK_IMPORTED_MODULE_3__["ErrorHandlerService"])); };
@@ -1104,7 +1095,7 @@ class SocketioService {
     }
     setupSocketConnection() {
         //init , connect and create aprivate room for each user
-        this.socket = Object(socket_io_client__WEBPACK_IMPORTED_MODULE_1__["io"])('https://chat-away-ang.herokuapp.com');
+        this.socket = Object(socket_io_client__WEBPACK_IMPORTED_MODULE_1__["io"])('http://localhost:5000');
         this.socket.emit('userJoin', this.auth.getUserInfo().id);
         //some one joined , possibly a new account
         this.socket.on('joined', (data) => {
@@ -1272,7 +1263,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class DemoService extends _data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"] {
     constructor(http, er) {
-        super(http, er, 'https://chat-away-ang.herokuapp.com/');
+        super(http, er, 'http://localhost:5000/');
     }
 }
 DemoService.ɵfac = function DemoService_Factory(t) { return new (t || DemoService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_error_handler_service__WEBPACK_IMPORTED_MODULE_3__["ErrorHandlerService"])); };
@@ -1308,7 +1299,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class CommentsService extends _data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"] {
     constructor(http, er) {
-        super(http, er, 'https://chat-away-ang.herokuapp.com/');
+        super(http, er, 'http://localhost:5000/');
     }
 }
 CommentsService.ɵfac = function CommentsService_Factory(t) { return new (t || CommentsService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_error_handler_service__WEBPACK_IMPORTED_MODULE_3__["ErrorHandlerService"])); };
@@ -1578,7 +1569,7 @@ class ChatAreaComponent {
             sender: this.auth.getUserInfo().id,
         })
             .subscribe((response) => {
-            let room = new _Models_room__WEBPACK_IMPORTED_MODULE_3__["Room"](response.comments, this.activeRoom, response.rid);
+            let room = new _Models_room__WEBPACK_IMPORTED_MODULE_3__["Room"](response.comments, response.room, response.rid);
             this.rooms.push(room);
             this.renderer(response.comments, room.id);
         }));
@@ -1733,7 +1724,7 @@ ProfileComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineC
         let _t;
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵloadQuery"]()) && (ctx.preview = _t.first);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵloadQuery"]()) && (ctx.imgInput = _t.first);
-    } }, inputs: { not: "not", prof: "prof" }, outputs: { notCheck: "notCheck", ovCheck: "ovCheck" }, decls: 35, vars: 19, consts: [[1, "dropdown"], [1, "profile-wrapper", "ts-profile", 3, "click"], [1, "fas", "fa-user", "ts-profile"], [1, "profile-dropdown", "js-drop"], [1, "slide2"], [1, "profile-item", "js-avatar", 3, "click"], [1, "user-avatar", 3, "src"], [1, "details"], [2, "font-size", "25px"], [4, "ngIf"], [1, "divider"], ["href", "https://chat-away-ang.herokuapp.com/logout", 1, "cus-ref"], [1, "log-out"], [1, "fas", "fa-sign-out-alt"], [1, "slide1"], [1, "fas", "fa-times", "ts-close", 3, "click"], [2, "font-size", "20px", "margin-bottom", "2px", "margin-top", "8px"], [1, "container"], [1, "avatar-upload"], [1, "avatar-edit"], ["name", "file", "type", "file", "id", "imageUpload", "accept", ".png, .jpg, .jpeg", 3, "change"], ["input", ""], ["for", "imageUpload"], [1, "avatar-preview"], ["imagePreview", ""], [1, "log-out", "ts-up", 3, "click"], [1, "fas", "fa-upload"]], template: function ProfileComponent_Template(rf, ctx) { if (rf & 1) {
+    } }, inputs: { not: "not", prof: "prof" }, outputs: { notCheck: "notCheck", ovCheck: "ovCheck" }, decls: 35, vars: 19, consts: [[1, "dropdown"], [1, "profile-wrapper", "ts-profile", 3, "click"], [1, "fas", "fa-user", "ts-profile"], [1, "profile-dropdown", "js-drop"], [1, "slide2"], [1, "profile-item", "js-avatar", 3, "click"], [1, "user-avatar", 3, "src"], [1, "details"], [2, "font-size", "25px"], [4, "ngIf"], [1, "divider"], ["href", "http://localhost:5000/logout", 1, "cus-ref"], [1, "log-out"], [1, "fas", "fa-sign-out-alt"], [1, "slide1"], [1, "fas", "fa-times", "ts-close", 3, "click"], [2, "font-size", "20px", "margin-bottom", "2px", "margin-top", "8px"], [1, "container"], [1, "avatar-upload"], [1, "avatar-edit"], ["name", "file", "type", "file", "id", "imageUpload", "accept", ".png, .jpg, .jpeg", 3, "change"], ["input", ""], ["for", "imageUpload"], [1, "avatar-preview"], ["imagePreview", ""], [1, "log-out", "ts-up", 3, "click"], [1, "fas", "fa-upload"]], template: function ProfileComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function ProfileComponent_Template_div_click_1_listener() { return ctx.profileCheck(); });
@@ -2497,7 +2488,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class FileService extends _data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"] {
     constructor(http, er) {
-        super(http, er, 'https://chat-away-ang.herokuapp.com/');
+        super(http, er, 'http://localhost:5000/');
     }
 }
 FileService.ɵfac = function FileService_Factory(t) { return new (t || FileService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_error_handler_service__WEBPACK_IMPORTED_MODULE_3__["ErrorHandlerService"])); };
@@ -2562,7 +2553,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class AuthService {
     constructor(http, er) {
-        this.URL = 'https://chat-away-ang.herokuapp.com/';
+        this.URL = 'http://localhost:5000/';
         this.http = http;
         this.errorHandler = er;
         this.jwtHelper = new _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_4__["JwtHelperService"]();
@@ -2687,7 +2678,7 @@ class EmailValidators {
     static shouldBeUnique(control) {
         return new Promise((resolve, reject) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             let email = control.value;
-            yield fetch('https://chat-away-ang.herokuapp.com/validateEmail', {
+            yield fetch('http://localhost:5000/validateEmail', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

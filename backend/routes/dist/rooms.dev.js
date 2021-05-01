@@ -28,7 +28,8 @@ router.post("/room", ensureAuthenticated, function _callee2(req, res) {
           return regeneratorRuntime.awrap(Room.findOne({
             $or: [{
               members: {
-                $all: ids
+                $all: ids //private
+
               },
               $and: [{
                 custom: false
@@ -57,7 +58,8 @@ router.post("/room", ensureAuthenticated, function _callee2(req, res) {
                       res.status(200).json({
                         comments: messages,
                         //send back the comments
-                        rid: room._id
+                        rid: room._id,
+                        room: req.body.receiver
                       });
                     })["catch"](function (err) {
                       res.status(500).json({
@@ -74,7 +76,8 @@ router.post("/room", ensureAuthenticated, function _callee2(req, res) {
                     return regeneratorRuntime.awrap(newRoom.save().then(function (room) {
                       res.status(200).json({
                         comments: [],
-                        rid: room._id
+                        rid: room._id,
+                        room: req.body.receiver
                       });
                     })["catch"](function (err) {
                       console.log(err);

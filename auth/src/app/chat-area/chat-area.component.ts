@@ -125,7 +125,7 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
           sender: this.auth.getUserInfo().id,
         })
         .subscribe((response) => {
-          let room = new Room(response.comments, this.activeRoom, response.rid);
+          let room = new Room(response.comments, response.room, response.rid);
           this.rooms.push(room);
           this.renderer(response.comments, room.id);
         })

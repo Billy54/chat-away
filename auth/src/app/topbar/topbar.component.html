@@ -6,11 +6,8 @@
         </div>
     </div>
     <div class="options">
-        <div class="home-wrapper" (click)="home()" [class.active]="active">
+        <div class="home-wrapper" [class.active]="active">
             <i class="fas fa-home" [class.active]="active"></i>
-        </div>
-        <div class="friends-wrapper" [class.active]="!active" (click)="users()">
-            <i class="fas fa-user-friends" [class.active]="!active"></i>
         </div>
     </div>
     <div class="options">

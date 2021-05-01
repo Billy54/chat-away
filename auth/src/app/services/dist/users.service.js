@@ -25,7 +25,7 @@ var data_service_1 = require("./data.service");
 var UsersService = /** @class */ (function (_super) {
     __extends(UsersService, _super);
     function UsersService(http, er) {
-        return _super.call(this, http, er, 'https://chat-away-ang.herokuapp.com/') || this;
+        return _super.call(this, http, er, 'http://localhost:5000/') || this;
     }
     UsersService = __decorate([
         core_1.Injectable({

@@ -19,7 +19,7 @@ router.post("/room", ensureAuthenticated, async(req, res) => {
     await Room.findOne({
         $or: [{
             members: {
-                $all: ids
+                $all: ids //private
             },
             $and: [{
                 custom: false
@@ -38,7 +38,8 @@ router.post("/room", ensureAuthenticated, async(req, res) => {
             }).then((messages) => {
                 res.status(200).json({
                     comments: messages, //send back the comments
-                    rid: room._id
+                    rid: room._id,
+                    room: req.body.receiver
                 });
             }).catch(err => {
                 res.status(500).json({
@@ -50,7 +51,8 @@ router.post("/room", ensureAuthenticated, async(req, res) => {
             await newRoom.save().then((room) => {
                 res.status(200).json({
                     comments: [],
-                    rid: room._id
+                    rid: room._id,
+                    room: req.body.receiver
                 });
             }).catch(err => {
                 console.log(err);

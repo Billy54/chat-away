@@ -12,10 +12,10 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./chat-rooms.component.css'],
 })
 export class ChatRoomsComponent implements OnInit, OnDestroy {
-  private users: User[] = [];
+  private users: Array<User> = [];
   public userName: string = '';
   private activeRoom: number = 0;
-  private observers: Subscription[] = [];
+  private observers: Array<Subscription> = [];
   public active: boolean = false;
 
   constructor(
