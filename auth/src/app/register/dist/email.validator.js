@@ -48,7 +48,7 @@ var EmailValidators = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         email = control.value;
-                        return [4 /*yield*/, fetch('http://localhost:5000/validateEmail', {
+                        return [4 /*yield*/, fetch('https://chat-away-ang.herokuapp.com/validateEmail', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json'

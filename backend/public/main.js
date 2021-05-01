@@ -430,7 +430,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class UsersService extends _data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"] {
     constructor(http, er) {
-        super(http, er, 'http://localhost:5000/');
+        super(http, er, 'https://chat-away-ang.herokuapp.com/');
     }
 }
 UsersService.ɵfac = function UsersService_Factory(t) { return new (t || UsersService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_error_handler_service__WEBPACK_IMPORTED_MODULE_3__["ErrorHandlerService"])); };
@@ -1095,7 +1095,7 @@ class SocketioService {
     }
     setupSocketConnection() {
         //init , connect and create aprivate room for each user
-        this.socket = Object(socket_io_client__WEBPACK_IMPORTED_MODULE_1__["io"])('http://localhost:5000');
+        this.socket = Object(socket_io_client__WEBPACK_IMPORTED_MODULE_1__["io"])('https://chat-away-ang.herokuapp.com');
         this.socket.emit('userJoin', this.auth.getUserInfo().id);
         //some one joined , possibly a new account
         this.socket.on('joined', (data) => {
@@ -1263,7 +1263,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class DemoService extends _data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"] {
     constructor(http, er) {
-        super(http, er, 'http://localhost:5000/');
+        super(http, er, 'https://chat-away-ang.herokuapp.com/');
     }
 }
 DemoService.ɵfac = function DemoService_Factory(t) { return new (t || DemoService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_error_handler_service__WEBPACK_IMPORTED_MODULE_3__["ErrorHandlerService"])); };
@@ -1299,7 +1299,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class CommentsService extends _data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"] {
     constructor(http, er) {
-        super(http, er, 'http://localhost:5000/');
+        super(http, er, 'https://chat-away-ang.herokuapp.com/');
     }
 }
 CommentsService.ɵfac = function CommentsService_Factory(t) { return new (t || CommentsService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_error_handler_service__WEBPACK_IMPORTED_MODULE_3__["ErrorHandlerService"])); };
@@ -2488,7 +2488,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class FileService extends _data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"] {
     constructor(http, er) {
-        super(http, er, 'http://localhost:5000/');
+        super(http, er, 'https://chat-away-ang.herokuapp.com/');
     }
 }
 FileService.ɵfac = function FileService_Factory(t) { return new (t || FileService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_error_handler_service__WEBPACK_IMPORTED_MODULE_3__["ErrorHandlerService"])); };
@@ -2553,7 +2553,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class AuthService {
     constructor(http, er) {
-        this.URL = 'http://localhost:5000/';
+        this.URL = 'https://chat-away-ang.herokuapp.com/';
         this.http = http;
         this.errorHandler = er;
         this.jwtHelper = new _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_4__["JwtHelperService"]();
@@ -2678,7 +2678,7 @@ class EmailValidators {
     static shouldBeUnique(control) {
         return new Promise((resolve, reject) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             let email = control.value;
-            yield fetch('http://localhost:5000/validateEmail', {
+            yield fetch('https://chat-away-ang.herokuapp.com/validateEmail', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
