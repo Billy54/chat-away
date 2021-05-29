@@ -13,9 +13,6 @@ SocketIO for real time communication.
 Design Patterns:
 Factory, observer.
 
-Tests:
-Currently in development , will add soon
-
 Main Use cases:
 
 user status,
