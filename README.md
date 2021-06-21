@@ -4,24 +4,24 @@ To run the application in development mode : npm run start (after ng build).
 
 Stack:
 
-Angular11
-NodeJs/express
-MongoDB for data and session storage,
-Passport and Jwt for user authentication/authorization,
-SocketIO for real time communication.
+Angular11  
+NodeJs/express  
+MongoDB for data and session storage,  
+Passport and Jwt for user authentication/authorization,  
+SocketIO for real time communication.  
 
 Design Patterns:
 Factory, observer.
 
-Main Use cases:
+Main Use stories:
 
-user status,
-private messages, 
-custom rooms,
-adding users to rooms,
-notifications,
-file upload,
-demo feature with user restrictions
+user status,  
+private messages,   
+custom rooms,  
+adding users to rooms,  
+notifications,  
+file upload,  
+demo feature with user restrictions  
 
 Test the app:
 https://chat-away-ang.herokuapp.com
