@@ -15,7 +15,7 @@ Passport and Jwt for user authentication/authorization,
 SocketIO for real time communication.  
 
 Design Patterns:
-Factory, observer.
+Factory, subscriber, observer.
 
 Main User stories:
 
