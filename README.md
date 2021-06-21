@@ -1,6 +1,6 @@
 # chat-away
 
-Messenger clone built from scratch.  
+Messenger clone built from scratch, with mobile friendly UI.
 Test the app:  
 https://chat-away-ang.herokuapp.com  
 
@@ -26,3 +26,4 @@ adding users to rooms,
 notifications,  
 file upload,  
 demo feature with user restrictions  
+
