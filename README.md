@@ -1,5 +1,9 @@
 # chat-away
 
+Messenger clone built from scratch.
+Test the app:  
+https://chat-away-ang.herokuapp.com  
+
 To run the application in development mode : npm run start (after ng build).
 
 Stack:
@@ -22,6 +26,3 @@ adding users to rooms,
 notifications,  
 file upload,  
 demo feature with user restrictions  
-
-Test the app:
-https://chat-away-ang.herokuapp.com
