@@ -1,6 +1,6 @@
 # chat-away
 
-Messenger clone built from scratch.
+Messenger clone built from scratch.  
 Test the app:  
 https://chat-away-ang.herokuapp.com  
 
