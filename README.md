@@ -13,7 +13,7 @@ SocketIO for real time communication.
 Design Patterns:
 Factory, observer.
 
-Main Use stories:
+Main User stories:
 
 user status,  
 private messages,   
