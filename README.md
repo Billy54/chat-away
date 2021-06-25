@@ -31,3 +31,7 @@ demo feature with user restrictions
 
 ![alt text](https://github.com/billgewrgoulas/chat-away/blob/main/db.png?raw=true)
 
+## Application Architecture
+
+![alt text](https://github.com/billgewrgoulas/chat-away/blob/main/arch.jpg?raw=true)
+
