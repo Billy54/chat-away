@@ -27,7 +27,7 @@ notifications,
 file upload,  
 demo feature with user restrictions  
 
-# DB Organization
+### DB Organization
 
 ![alt text](https://github.com/billgewrgoulas/chat-away/blob/main/db.png?raw=true)
 
