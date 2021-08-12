@@ -1,10 +1,12 @@
-# chat-away
+# ChatAway
 
 Messenger clone built from scratch, with mobile friendly UI.  
+
+## Getting Started
  
 To run the application in development mode : npm run start (after ng build).
 
-Stack:
+## Built with
 
 Angular11  
 NodeJs/express  
@@ -15,7 +17,7 @@ SocketIO for real time communication.
 Design Patterns:
 Factory, subscriber, observer.
 
-Main User stories:
+## Main User Stories
 
 user status,  
 private messages,   
