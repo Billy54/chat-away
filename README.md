@@ -1,9 +1,7 @@
 # chat-away
 
 Messenger clone built from scratch, with mobile friendly UI.  
-Test the app:  
-https://chat-away-ang.herokuapp.com  
-
+ 
 To run the application in development mode : npm run start (after ng build).
 
 Stack:
