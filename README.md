@@ -4,7 +4,7 @@ Messenger clone built from scratch, with mobile friendly UI.
 
 ## Getting Started
  
-To run the application in development mode : npm run start (after ng build).
+To run the application in development mode : npm run start (after ng build).  
 
 ## Built with
 
