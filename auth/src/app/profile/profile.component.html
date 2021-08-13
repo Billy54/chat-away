@@ -1,44 +1,64 @@
 <div class="dropdown">
-    <div class="profile-wrapper ts-profile" (click)="profileCheck()" [class.active-option]="!prof">
-        <i class="fas fa-user ts-profile"></i>
-    </div>
-    <div class="profile-dropdown js-drop" [style.maxHeight]="expHeight" [class.hidden]="prof">
-        <div class="slide2" [style.transform]="exp">
-            <div class="profile-item js-avatar" (click)="changeAvatar()">
-                <img [src]="url" class="user-avatar">
-                <div class="details">
-                    <h1 style="font-size: 25px;" [class.name]="!isDemo">{{name}}</h1>
-                    <small *ngIf="!isDemo">Change Avatar</small>
-                </div>
-            </div>
-            <div class="divider"></div>
-            <a class="cus-ref" href="https://chat-away-ang.herokuapp.com/logout">
-                <div class="log-out">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <h1 style="font-size: 25px;">Log Out</h1>
-                </div>
-            </a>
+  <div
+    class="profile-wrapper ts-profile"
+    (click)="profileCheck()"
+    [class.active-option]="!prof"
+  >
+    <i class="fas fa-user ts-profile"></i>
+  </div>
+  <div
+    class="profile-dropdown js-drop"
+    [style.maxHeight]="expHeight"
+    [class.hidden]="prof"
+  >
+    <div class="slide2" [style.transform]="exp">
+      <div class="profile-item js-avatar" (click)="changeAvatar()">
+        <img [src]="url" class="user-avatar" />
+        <div class="details">
+          <h1 style="font-size: 25px" [class.name]="!isDemo">{{ name }}</h1>
+          <small *ngIf="!isDemo">Change Avatar</small>
         </div>
-        <div class="slide1" [style.transform]="exp">
-            <i class="fas fa-times ts-close" (click)="slide()"></i>
-            <h1 style="font-size: 20px; margin-bottom:2px; margin-top:8px;">Choose a photo</h1>
-            <div class="container">
-                <div class="avatar-upload">
-                    <form class="avatar-edit">
-                        <input name="file" (change)="previewAvatar()" #input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
-                        <label for="imageUpload"></label>
-                    </form>
-                    <div class="avatar-preview">
-                        <div [class.fadeout]="fadeIn" #imagePreview [style.backgroundImage]="'url('+url+')'">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="divider"></div>
-            <div class="log-out ts-up" (click)="upload()">
-                <i class="fas fa-upload"></i>
-                <h1 style="font-size: 25px;">Upload</h1>
-            </div>
+      </div>
+      <div class="divider"></div>
+      <div class="cus-ref" (click)="logout()">
+        <div class="log-out">
+          <i class="fas fa-sign-out-alt"></i>
+          <h1 style="font-size: 25px">Log Out</h1>
         </div>
+      </div>
     </div>
+    <div class="slide1" [style.transform]="exp">
+      <i class="fas fa-times ts-close" (click)="slide()"></i>
+      <h1 style="font-size: 20px; margin-bottom: 2px; margin-top: 8px">
+        Choose a photo
+      </h1>
+      <div class="container">
+        <div class="avatar-upload">
+          <form class="avatar-edit">
+            <input
+              name="file"
+              (change)="previewAvatar()"
+              #input
+              type="file"
+              id="imageUpload"
+              accept=".png, .jpg, .jpeg"
+            />
+            <label for="imageUpload"></label>
+          </form>
+          <div class="avatar-preview">
+            <div
+              [class.fadeout]="fadeIn"
+              #imagePreview
+              [style.backgroundImage]="'url(' + url + ')'"
+            ></div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="log-out ts-up" (click)="upload()">
+        <i class="fas fa-upload"></i>
+        <h1 style="font-size: 25px">Upload</h1>
+      </div>
+    </div>
+  </div>
 </div>

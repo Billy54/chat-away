@@ -1,5 +1,7 @@
 import { Input, OnDestroy, Output, ViewChild } from '@angular/core';
 import { AfterViewInit, Component, OnInit, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { DataShareService } from '../services/data-share.service';
 import { FileService } from '../services/file.service';
@@ -18,6 +20,7 @@ export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() prof: any;
 
   private el: any;
+  private observers: Subscription[] = [];
   public file: any;
   public exp: string = 'translateX(0px)';
   public expHeight: string = '197px';
@@ -28,7 +31,8 @@ export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private fileService: FileService,
-    private dataShare: DataShareService
+    private dataShare: DataShareService,
+    private router: Router
   ) {}
 
   ngAfterViewInit(): void {
@@ -46,6 +50,9 @@ export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     localStorage.removeItem('url');
+    this.observers.forEach((observer) => {
+      observer.unsubscribe();
+    });
   }
 
   changeAvatar() {
@@ -83,20 +90,31 @@ export class ProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       const fd = new FormData();
       fd.append('image', this.file.files[0]);
       fd.append('uid', this.authService.getUserInfo().id);
-      this.fileService
-        .postAvatar('avatar', fd)
-        .subscribe((response: any = []) => {
-          this.url = response.path;
-          this.slide();
-          localStorage.setItem('url', this.url);
-          this.dataShare.sendUrl(this.url);
-        });
+      this.observers.push(
+        this.fileService
+          .postAvatar('avatar', fd)
+          .subscribe((response: any = []) => {
+            this.url = response.path;
+            this.slide();
+            localStorage.setItem('url', this.url);
+            this.dataShare.sendUrl(this.url);
+          })
+      );
     }
   }
 
   profileCheck() {
     this.notCheck.emit(true);
     this.ovCheck.emit(!this.prof);
+  }
+
+  logout() {
+    this.observers.push(
+      this.authService.logout('logout').subscribe(() => {
+        this.authService.removeUserInfo();
+        this.router.navigateByUrl('logout');
+      })
+    );
   }
 
   get isDemo() {

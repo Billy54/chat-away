@@ -10,12 +10,14 @@ exports.ProfileComponent = void 0;
 var core_1 = require("@angular/core");
 var core_2 = require("@angular/core");
 var ProfileComponent = /** @class */ (function () {
-    function ProfileComponent(authService, fileService, dataShare) {
+    function ProfileComponent(authService, fileService, dataShare, router) {
         this.authService = authService;
         this.fileService = fileService;
         this.dataShare = dataShare;
+        this.router = router;
         this.notCheck = new core_2.EventEmitter();
         this.ovCheck = new core_2.EventEmitter();
+        this.observers = [];
         this.exp = 'translateX(0px)';
         this.expHeight = '197px';
         this.url = this.authService.getUserInfo().avatar;
@@ -35,6 +37,9 @@ var ProfileComponent = /** @class */ (function () {
     };
     ProfileComponent.prototype.ngOnDestroy = function () {
         localStorage.removeItem('url');
+        this.observers.forEach(function (observer) {
+            observer.unsubscribe();
+        });
     };
     ProfileComponent.prototype.changeAvatar = function () {
         if (this.isDemo) {
@@ -71,7 +76,7 @@ var ProfileComponent = /** @class */ (function () {
             var fd = new FormData();
             fd.append('image', this.file.files[0]);
             fd.append('uid', this.authService.getUserInfo().id);
-            this.fileService
+            this.observers.push(this.fileService
                 .postAvatar('avatar', fd)
                 .subscribe(function (response) {
                 if (response === void 0) { response = []; }
@@ -79,12 +84,19 @@ var ProfileComponent = /** @class */ (function () {
                 _this.slide();
                 localStorage.setItem('url', _this.url);
                 _this.dataShare.sendUrl(_this.url);
-            });
+            }));
         }
     };
     ProfileComponent.prototype.profileCheck = function () {
         this.notCheck.emit(true);
         this.ovCheck.emit(!this.prof);
+    };
+    ProfileComponent.prototype.logout = function () {
+        var _this = this;
+        this.observers.push(this.authService.logout('logout').subscribe(function () {
+            _this.authService.removeUserInfo();
+            _this.router.navigateByUrl('logout');
+        }));
     };
     Object.defineProperty(ProfileComponent.prototype, "isDemo", {
         get: function () {

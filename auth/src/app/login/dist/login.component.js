@@ -12,6 +12,7 @@ var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var LoginComponent = /** @class */ (function () {
     function LoginComponent(a, r) {
+        this.observers = [];
         //login validators
         this.loginForm = new forms_1.FormGroup({
             email: new forms_1.FormControl('', [
@@ -27,13 +28,18 @@ var LoginComponent = /** @class */ (function () {
         this.authService = a;
         this.router = r;
     }
+    LoginComponent.prototype.ngOnDestroy = function () {
+        this.observers.forEach(function (obs) {
+            obs.unsubscribe();
+        });
+    };
     LoginComponent.prototype.login = function () {
         var _this = this;
         //check if the form is valid
         if (this.loginForm.invalid) {
             return;
         }
-        this.authService
+        this.observers.push(this.authService
             .validate(this.loginForm.value.email, this.loginForm.value.password, 'login')
             .subscribe(function (response) {
             localStorage.removeItem('pass');
@@ -45,7 +51,9 @@ var LoginComponent = /** @class */ (function () {
             if (error instanceof http_1.HttpErrorResponse) {
                 if (error.error.message[0] == 'Incorrect password') {
                     console.log(error.error.message[0]);
-                    _this.loginForm.controls['password'].setErrors({ invalid: true });
+                    _this.loginForm.controls['password'].setErrors({
+                        invalid: true
+                    });
                 }
                 else if (error.error.message[0] == 'Not Registered') {
                     console.log(error.error.message[0]);
@@ -58,7 +66,7 @@ var LoginComponent = /** @class */ (function () {
             else {
                 throw error;
             }
-        });
+        }));
     };
     Object.defineProperty(LoginComponent.prototype, "name", {
         //login form

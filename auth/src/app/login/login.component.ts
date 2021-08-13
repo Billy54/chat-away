@@ -1,7 +1,15 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -9,13 +17,20 @@ import { AuthService } from '../services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   private authService: AuthService;
   private router: Router;
+  private observers: Subscription[] = [];
 
   constructor(a: AuthService, r: Router) {
     this.authService = a;
     this.router = r;
+  }
+
+  ngOnDestroy(): void {
+    this.observers.forEach((obs) => {
+      obs.unsubscribe();
+    });
   }
 
   //login validators
@@ -37,34 +52,38 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.authService
-      .validate(
-        this.loginForm.value.email,
-        this.loginForm.value.password,
-        'login'
-      )
-      .subscribe(
-        (response) => {
-          localStorage.removeItem('pass');
-          this.router.navigate(['']);
-        },
-        //we handle the error locally so we can display detailed messages to the user
-        (error: any = []) => {
-          if (error instanceof HttpErrorResponse) {
-            if (error.error.message[0] == 'Incorrect password') {
-              console.log(error.error.message[0]);
-              this.loginForm.controls['password'].setErrors({ invalid: true });
-            } else if (error.error.message[0] == 'Not Registered') {
-              console.log(error.error.message[0]);
-              this.loginForm.controls['email'].setErrors({ invalid: true });
+    this.observers.push(
+      this.authService
+        .validate(
+          this.loginForm.value.email,
+          this.loginForm.value.password,
+          'login'
+        )
+        .subscribe(
+          (response) => {
+            localStorage.removeItem('pass');
+            this.router.navigate(['']);
+          },
+          //we handle the error locally so we can display detailed messages to the user
+          (error: any = []) => {
+            if (error instanceof HttpErrorResponse) {
+              if (error.error.message[0] == 'Incorrect password') {
+                console.log(error.error.message[0]);
+                this.loginForm.controls['password'].setErrors({
+                  invalid: true,
+                });
+              } else if (error.error.message[0] == 'Not Registered') {
+                console.log(error.error.message[0]);
+                this.loginForm.controls['email'].setErrors({ invalid: true });
+              } else {
+                console.log(error.error.message[0]);
+              }
             } else {
-              console.log(error.error.message[0]);
+              throw error;
             }
-          } else {
-            throw error;
           }
-        }
-      );
+        )
+    );
   }
 
   //login form

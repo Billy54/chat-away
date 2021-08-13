@@ -80,7 +80,7 @@ app.use(session({
   cookie: {
     secure: true,
     //will change this when i will deploy
-    maxAge: 24 * 60 * 60 * 1000
+    maxAge: 24 * 60 * 60 * 10000
   }
 })); //file upload
 
