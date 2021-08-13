@@ -43,6 +43,13 @@
     }
 }
 
+@media only screen and (max-width: 470px) {
+    .content-wrapper {
+        width: calc(100%);
+        left: 0;
+    }
+}
+
 .fadeout {
     animation: fadein .800s;
 }

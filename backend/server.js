@@ -63,7 +63,7 @@ app.use(session({
         mongoUrl: process.env.DB_CONNECTION
     }),
     cookie: {
-        secure: true, //will change this when i will deploy
+        secure: false, //will change this when i will deploy
         maxAge: 24 * 60 * 60 * 10000
     }
 }));
