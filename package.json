@@ -9,8 +9,13 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@capacitor/android": "^3.1.2",
+        "@capacitor/core": "^3.1.2",
         "connect-mongo": "^4.4.1",
         "connect-mongodb-session": "^2.4.1",
         "express-session": "^1.17.1"
+    },
+    "devDependencies": {
+        "@capacitor/cli": "^3.1.2"
     }
 }

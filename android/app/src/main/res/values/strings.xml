@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">ChatAway</string>
+    <string name="title_activity_main">ChatAway</string>
+    <string name="package_name">com.personal.chataway</string>
+    <string name="custom_url_scheme">com.personal.chataway</string>
+</resources>

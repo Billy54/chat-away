@@ -1,0 +1,9 @@
+{
+    "appId": "com.personal.chataway",
+    "appName": "ChatAway",
+    "webDir": "backend/public",
+    "bundledWebRuntime": false,
+    "server": {
+        "port": "5000"
+    }
+}
