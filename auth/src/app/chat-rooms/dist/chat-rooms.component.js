@@ -9,6 +9,7 @@ exports.__esModule = true;
 exports.ChatRoomsComponent = void 0;
 var core_1 = require("@angular/core");
 var user_1 = require("../Models/user");
+var core_2 = require("@angular/core");
 var ChatRoomsComponent = /** @class */ (function () {
     function ChatRoomsComponent(r, userService, dataShare, authService) {
         this.r = r;
@@ -20,6 +21,7 @@ var ChatRoomsComponent = /** @class */ (function () {
         this.activeRoom = 0;
         this.observers = [];
         this.active = false;
+        this.rooms = false;
     }
     ChatRoomsComponent.prototype.ngOnDestroy = function () {
         this.observers.forEach(function (observer) {
@@ -55,6 +57,12 @@ var ChatRoomsComponent = /** @class */ (function () {
         //invited to new room
         this.observers.push(this.dataShare.newRoom.subscribe(function (room) {
             _this.users.push(new user_1.User(room));
+        }));
+        this.observers.push(this.dataShare.roomList.subscribe(function () {
+            _this.rooms = !_this.rooms;
+            if (_this.rooms && _this.active) {
+                _this.toggle();
+            }
         }));
     };
     ChatRoomsComponent.prototype.addUser = function (id) {
@@ -119,7 +127,15 @@ var ChatRoomsComponent = /** @class */ (function () {
     };
     ChatRoomsComponent.prototype.toggle = function () {
         this.active = !this.active;
+        if (this.rooms) {
+            this.rooms = false;
+        }
         this.dataShare["switch"](this.active);
+    };
+    ChatRoomsComponent.prototype.onResize = function (event) {
+        if (window.innerWidth > 500) {
+            this.rooms = false;
+        }
     };
     Object.defineProperty(ChatRoomsComponent.prototype, "getUsers", {
         get: function () {
@@ -135,6 +151,9 @@ var ChatRoomsComponent = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    __decorate([
+        core_2.HostListener('window:resize', ['$event'])
+    ], ChatRoomsComponent.prototype, "onResize");
     ChatRoomsComponent = __decorate([
         core_1.Component({
             selector: 'chat-rooms',

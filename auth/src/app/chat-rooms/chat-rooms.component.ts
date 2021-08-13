@@ -5,6 +5,7 @@ import { DataShareService } from '../services/data-share.service';
 import { UsersService } from '../services/users.service';
 import { User } from '../Models/user';
 import { AuthService } from '../services/auth.service';
+import { HostListener } from '@angular/core';
 
 @Component({
   selector: 'chat-rooms',
@@ -17,6 +18,7 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
   private activeRoom: number = 0;
   private observers: Array<Subscription> = [];
   public active: boolean = false;
+  public rooms: boolean = false;
 
   constructor(
     private r: Router,
@@ -72,6 +74,15 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
     this.observers.push(
       this.dataShare.newRoom.subscribe((room) => {
         this.users.push(new User(room));
+      })
+    );
+
+    this.observers.push(
+      this.dataShare.roomList.subscribe(() => {
+        this.rooms = !this.rooms;
+        if (this.rooms && this.active) {
+          this.toggle();
+        }
       })
     );
   }
@@ -140,7 +151,17 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
 
   toggle() {
     this.active = !this.active;
+    if (this.rooms) {
+      this.rooms = false;
+    }
     this.dataShare.switch(this.active);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    if (window.innerWidth > 500) {
+      this.rooms = false;
+    }
   }
 
   get getUsers() {

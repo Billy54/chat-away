@@ -1,29 +1,54 @@
-<div class="sidenav ">
-    <div class="side-top ">
-        <div class="chat-header ">
-            <span id="ts-chat">
-                <b>Chats</b>
-            </span>
-            <div *ngIf="!isDemo" class="new-room" [class.active]="active" (click)="toggle()">
-                <i class="fas fa-edit plus"></i>
-            </div>
-        </div>
-        <form class="search-chat search-field ">
-            <i class="fas fa-search "></i>
-            <input name="userName" [(ngModel)]="userName" (keyup)="searchUser() " class="my-input " placeholder="search people or rooms ">
-        </form>
+<div class="sidenav" [class.expanded]="rooms">
+  <div class="side-top">
+    <div class="chat-header">
+      <span id="ts-chat">
+        <b>Chats</b>
+      </span>
+      <div
+        *ngIf="!isDemo"
+        class="new-room"
+        [class.active]="active"
+        (click)="toggle()"
+      >
+        <i class="fas fa-edit plus"></i>
+      </div>
+      <i
+        class="fas ass fa-user-circle new-room plus"
+        (click)="rooms = !rooms"
+      ></i>
     </div>
-    <ul class="user-list">
-        <li class="ts-user " *ngFor="let user of getUsers;let i=index " (click)="changeRoom(i) ">
-            <div class="inner-content" *ngIf="user.isVisible" [class.active]="user.active">
-                <img [src]="user.details.avatar" class="user-avatar ">
-                <div class="last-msg ">
-                    <h1 class="ts-name" style="margin-bottom:0px; font-size: 15px; ">{{user.details.name}}</h1>
-                </div>
-                <div class="status " [class.alive]="user.status ">
-                    <i class="fas fa-circle "></i>
-                </div>
-            </div>
-        </li>
-    </ul>
+    <form class="search-chat search-field">
+      <i class="fas fa-search"></i>
+      <input
+        name="userName"
+        [(ngModel)]="userName"
+        (keyup)="searchUser()"
+        class="my-input"
+        placeholder="search people or rooms "
+      />
+    </form>
+  </div>
+  <ul class="user-list">
+    <li
+      class="ts-user"
+      *ngFor="let user of getUsers; let i = index"
+      (click)="changeRoom(i)"
+    >
+      <div
+        class="inner-content"
+        *ngIf="user.isVisible"
+        [class.active]="user.active"
+      >
+        <img [src]="user.details.avatar" class="user-avatar" />
+        <div class="last-msg">
+          <h1 class="ts-name" style="margin-bottom: 0px; font-size: 15px">
+            {{ user.details.name }}
+          </h1>
+        </div>
+        <div class="status" [class.alive]="user.status">
+          <i class="fas fa-circle"></i>
+        </div>
+      </div>
+    </li>
+  </ul>
 </div>

@@ -14,7 +14,7 @@
     flex-direction: column;
     width: calc(100% - 285px);
     transition-property: width;
-    transition-duration: .1s;
+    transition-duration: .2s;
     margin-right: 5px;
     position: relative;
 }
@@ -43,10 +43,13 @@
     }
 }
 
-@media only screen and (max-width: 470px) {
+@media only screen and (max-width: 500px) {
     .content-wrapper {
         width: calc(100%);
         left: 0;
+    }
+    .shorter {
+        width: calc(100% - 155px) !important;
     }
 }
 

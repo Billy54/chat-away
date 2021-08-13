@@ -124,6 +124,10 @@ export class InfoComponent implements OnInit, OnDestroy {
     }
   }
 
+  rooms() {
+    this.dataShare.openRoomList();
+  }
+
   get usersList() {
     return this.users;
   }

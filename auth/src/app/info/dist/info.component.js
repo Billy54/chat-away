@@ -98,6 +98,9 @@ var InfoComponent = /** @class */ (function () {
             });
         }
     };
+    InfoComponent.prototype.rooms = function () {
+        this.dataShare.openRoomList();
+    };
     Object.defineProperty(InfoComponent.prototype, "usersList", {
         get: function () {
             return this.users;

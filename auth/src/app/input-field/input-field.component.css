@@ -31,7 +31,7 @@
 }
 
 .input-field {
-    min-height: 68px !important;
+    height: 60px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -82,5 +82,8 @@
     }
     .visible {
         display: none;
+    }
+    .input-field {
+        height: 45px;
     }
 }

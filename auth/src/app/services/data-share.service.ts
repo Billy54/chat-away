@@ -91,4 +91,11 @@ export class DataShareService {
   public passToComponent(users: any) {
     this.users.next(users);
   }
+
+  //open room list
+  private list = new Subject<any>();
+  roomList = this.list.asObservable();
+  public openRoomList() {
+    this.list.next();
+  }
 }
