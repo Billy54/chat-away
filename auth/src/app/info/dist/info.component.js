@@ -8,17 +8,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.InfoComponent = void 0;
 var core_1 = require("@angular/core");
-var user_1 = require("../Models/user");
+var core_2 = require("@angular/core");
+var core_3 = require("@angular/core");
+var appState_1 = require("../appState");
 var InfoComponent = /** @class */ (function () {
     function InfoComponent(dataShare, io, auth) {
         this.dataShare = dataShare;
         this.io = io;
         this.auth = auth;
-        this.slide = new core_1.EventEmitter();
+        this.slide = new core_3.EventEmitter();
+        this.slideOpen = false;
         this.infoName = '';
         this.info = '';
         this.name = '';
-        this.users = [];
         this.observers = [];
         this.cid = '';
         this.open = false;
@@ -27,15 +29,6 @@ var InfoComponent = /** @class */ (function () {
         var _this = this;
         this.observers.push(this.dataShare.openList.subscribe(function (v) {
             _this.openList(v);
-        }));
-        //get users
-        this.observers.push(this.dataShare.passUsers.subscribe(function (users) {
-            for (var _i = 0, users_1 = users; _i < users_1.length; _i++) {
-                var user = users_1[_i];
-                if (!user.custom) {
-                    _this.users.push(new user_1.User(user));
-                }
-            }
         }));
         //status check
         this.observers.push(this.dataShare.status.subscribe(function (data) {
@@ -72,14 +65,14 @@ var InfoComponent = /** @class */ (function () {
         }
     };
     InfoComponent.prototype.select = function (index) {
-        this.users[index].active = !this.users[index].active;
+        appState_1.appState.get()[index].tik = !appState_1.appState.get()[index].tik;
     };
     InfoComponent.prototype.submit = function () {
         var members = [];
-        this.users.forEach(function (user) {
-            if (user.active) {
+        appState_1.appState.get().forEach(function (user) {
+            if (user.tik) {
                 members.push(user.details.id);
-                user.active = false;
+                user.tik = false;
             }
         });
         members.push(this.auth.getUserInfo().id);
@@ -93,9 +86,17 @@ var InfoComponent = /** @class */ (function () {
         this.open = v;
         this.name = '';
         if (!this.open) {
-            this.users.forEach(function (user) {
-                user.active = false;
+            appState_1.appState.get().forEach(function (user) {
+                user.tik = false;
             });
+        }
+        else if (this.open) {
+            this.onResize();
+        }
+    };
+    InfoComponent.prototype.onResize = function () {
+        if (this.slideOpen && window.innerWidth < 500) {
+            this.slider();
         }
     };
     InfoComponent.prototype.rooms = function () {
@@ -103,7 +104,7 @@ var InfoComponent = /** @class */ (function () {
     };
     Object.defineProperty(InfoComponent.prototype, "usersList", {
         get: function () {
-            return this.users;
+            return appState_1.appState.get();
         },
         enumerable: false,
         configurable: true
@@ -112,10 +113,16 @@ var InfoComponent = /** @class */ (function () {
         this.slide.emit(true);
     };
     __decorate([
-        core_1.Output()
+        core_3.Output()
     ], InfoComponent.prototype, "slide");
+    __decorate([
+        core_1.Input()
+    ], InfoComponent.prototype, "slideOpen");
+    __decorate([
+        core_2.HostListener('window:resize', ['$event'])
+    ], InfoComponent.prototype, "onResize");
     InfoComponent = __decorate([
-        core_1.Component({
+        core_3.Component({
             selector: 'active-info',
             templateUrl: './info.component.html',
             styleUrls: ['./info.component.css']

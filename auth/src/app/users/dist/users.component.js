@@ -8,26 +8,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.UsersComponent = void 0;
 var core_1 = require("@angular/core");
+var appState_1 = require("../appState");
 var UsersComponent = /** @class */ (function () {
     function UsersComponent(userService) {
         this.userService = userService;
         this.usersList = []; //if we have objects
         this.observers = [];
     }
-    UsersComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.observers.push(this.userService.getAll('usersAll').subscribe(function (res) {
-            _this.usersList = res.users;
-        }));
-    };
-    UsersComponent.prototype.ngOnDestroy = function () {
-        this.observers.forEach(function (observer) {
-            observer.unsubscribe();
-        });
-    };
+    UsersComponent.prototype.ngOnInit = function () { };
+    UsersComponent.prototype.ngOnDestroy = function () { };
     Object.defineProperty(UsersComponent.prototype, "all", {
         get: function () {
-            return this.usersList;
+            return appState_1.appState.get();
         },
         enumerable: false,
         configurable: true

@@ -85,13 +85,6 @@ export class DataShareService {
     this.opener.next(state);
   }
 
-  //in which room we will be saving the comments
-  private users = new Subject<any>();
-  passUsers = this.users.asObservable();
-  public passToComponent(users: any) {
-    this.users.next(users);
-  }
-
   //open room list
   private list = new Subject<any>();
   roomList = this.list.asObservable();

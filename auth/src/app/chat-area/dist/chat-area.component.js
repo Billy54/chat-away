@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.ChatAreaComponent = void 0;
 var core_1 = require("@angular/core");
+var appState_1 = require("../appState");
 var comment_component_1 = require("../comment/comment.component");
 var factory_1 = require("../commentFactory/factory");
 var room_1 = require("../Models/room");
@@ -18,7 +19,6 @@ var ChatAreaComponent = /** @class */ (function () {
         this.fetchData = fetchData;
         this.commentsService = commentsService;
         this.auth = auth;
-        this.rooms = Array();
         this.previousId = '';
         this.observers = [];
         this.factory = new factory_1.CommentFactory(this.auth.getUserInfo().id);
@@ -27,14 +27,15 @@ var ChatAreaComponent = /** @class */ (function () {
         this.observers.forEach(function (observer) {
             observer.unsubscribe();
         });
-        this.rooms = [];
     };
     ChatAreaComponent.prototype.ngOnInit = function () {
         var _this = this;
         //on room change
         this.observers.push(this.fetchData.message.subscribe(function (data) {
-            if (data.id == _this.activeRoom)
+            if (data.id == _this.activeRoom) {
+                _this.fetchData.stopLoading();
                 return;
+            }
             _this.vc = _this.appChat.viewContainerRef;
             _this.vc.clear();
             _this.activeRoom = data.id;
@@ -62,7 +63,7 @@ var ChatAreaComponent = /** @class */ (function () {
         }));
     };
     ChatAreaComponent.prototype.saveLocal = function (id, data) {
-        this.rooms.forEach(function (room) {
+        appState_1.appState.getRooms().forEach(function (room) {
             if (room.getSender() == id) {
                 room.addComment(data);
             }
@@ -79,7 +80,7 @@ var ChatAreaComponent = /** @class */ (function () {
         this.fetchData.sendroomId(rid);
     };
     ChatAreaComponent.prototype.getRoom = function () {
-        for (var _i = 0, _a = this.rooms; _i < _a.length; _i++) {
+        for (var _i = 0, _a = appState_1.appState.getRooms(); _i < _a.length; _i++) {
             var room = _a[_i];
             if (room.getSender() == this.activeRoom) {
                 this.renderer(room.getComments(), room.id);
@@ -97,7 +98,7 @@ var ChatAreaComponent = /** @class */ (function () {
         })
             .subscribe(function (response) {
             var room = new room_1.Room(response.comments, response.room, response.rid);
-            _this.rooms.push(room);
+            appState_1.appState.addRoom(room);
             _this.renderer(response.comments, room.id);
         }));
     };

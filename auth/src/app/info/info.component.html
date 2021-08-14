@@ -15,22 +15,31 @@
     <small *ngIf="!open">{{ info }}</small>
   </form>
   <div *ngIf="open" class="notification-dropdown">
-    <div
-      class="profile-item"
-      *ngFor="let user of usersList; let i = index"
-      (click)="select(i)"
-    >
-      <img [src]="user.details.avatar" class="avatar" style="margin-top: 0px" />
-      <div class="details">
-        <div class="message">{{ user.details.name }}</div>
-      </div>
-      <i class="fas fa-check" *ngIf="user.active"></i>
-    </div>
+    <ng-container *ngFor="let user of usersList; let i = index">
+      <div
+        *ngIf="!user.details.custom"
+        class="profile-item"
+        (click)="select(i)"
+      >
+        <img
+          [src]="user.details.avatar"
+          class="avatar"
+          style="margin-top: 0px"
+        />
+        <div class="details">
+          <div class="message">{{ user.details.name }}</div>
+        </div>
+        <i class="fas fa-check" *ngIf="user.tik"></i></div
+    ></ng-container>
   </div>
 
   <div class="info">
     <i class="fas fa-user-circle rooms" (click)="rooms()"></i>
     <i class="fas fa-plus-circle" (click)="submit()"></i>
-    <i class="fas fa-info-circle" (click)="slider()"></i>
+    <i
+      [class.notVisible]="open"
+      class="fas fa-info-circle"
+      (click)="slider()"
+    ></i>
   </div>
 </div>

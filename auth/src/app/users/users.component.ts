@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
+import { appState } from '../appState';
 import { UsersService } from '../services/users.service';
 
 @Component({
@@ -14,21 +15,11 @@ export class UsersComponent implements OnInit, OnDestroy {
   private usersList: any = []; //if we have objects
   private observers: Subscription[] = [];
 
-  ngOnInit(): void {
-    this.observers.push(
-      this.userService.getAll('usersAll').subscribe((res) => {
-        this.usersList = res.users;
-      })
-    );
-  }
+  ngOnInit(): void {}
 
-  ngOnDestroy() {
-    this.observers.forEach((observer) => {
-      observer.unsubscribe();
-    });
-  }
+  ngOnDestroy() {}
 
   public get all() {
-    return this.usersList;
+    return appState.get();
   }
 }

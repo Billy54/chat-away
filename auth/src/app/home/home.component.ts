@@ -13,7 +13,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   public slide: boolean = false;
   public fade: boolean = false;
   public loader: boolean = false;
-  private cId: any;
   private observers: Subscription[] = [];
 
   @ViewChild('chat') chatArea: any;
@@ -39,11 +38,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     //room switched
     this.observers.push(
       this.dataShare.message.subscribe((message: any = []) => {
-        if (message.id != this.cId) {
-          this.loader = true;
-        }
+        this.loader = true;
         this.smoothScrolling();
-        this.cId = message.id;
         this.fadeOut();
       })
     );

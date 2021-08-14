@@ -6,6 +6,7 @@ var User = /** @class */ (function () {
         this.status = true;
         this.isVisible = true;
         this.active = false;
+        this.tik = false;
         this.details = userData;
         if (userData.alive == true || userData.alive == false) {
             this.status = userData.alive;

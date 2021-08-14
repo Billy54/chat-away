@@ -1,4 +1,5 @@
-import { AfterViewInit } from '@angular/core';
+import { AfterViewInit, Input } from '@angular/core';
+import { HostListener } from '@angular/core';
 import {
   Component,
   OnDestroy,
@@ -8,6 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { appState } from '../appState';
 import { User } from '../Models/user';
 import { AuthService } from '../services/auth.service';
 import { DataShareService } from '../services/data-share.service';
@@ -21,13 +23,13 @@ import { UsersService } from '../services/users.service';
 })
 export class InfoComponent implements OnInit, OnDestroy {
   @Output() slide: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Input() slideOpen: boolean = false;
 
   private custom: any;
   public infoName: string = '';
   public info: string = '';
   public url: any;
   public name: string = '';
-  private users: User[] = [];
   private observers: Subscription[] = [];
   private cid: string = '';
   public open: boolean = false;
@@ -42,17 +44,6 @@ export class InfoComponent implements OnInit, OnDestroy {
     this.observers.push(
       this.dataShare.openList.subscribe((v: any) => {
         this.openList(v);
-      })
-    );
-
-    //get users
-    this.observers.push(
-      this.dataShare.passUsers.subscribe((users: any) => {
-        for (const user of users) {
-          if (!user.custom) {
-            this.users.push(new User(user));
-          }
-        }
       })
     );
 
@@ -95,15 +86,15 @@ export class InfoComponent implements OnInit, OnDestroy {
   }
 
   select(index: number) {
-    this.users[index].active = !this.users[index].active;
+    appState.get()[index].tik = !appState.get()[index].tik;
   }
 
   submit() {
     let members: any[] = [];
-    this.users.forEach((user) => {
-      if (user.active) {
+    appState.get().forEach((user) => {
+      if (user.tik) {
         members.push(user.details.id);
-        user.active = false;
+        user.tik = false;
       }
     });
     members.push(this.auth.getUserInfo().id);
@@ -118,9 +109,18 @@ export class InfoComponent implements OnInit, OnDestroy {
     this.open = v;
     this.name = '';
     if (!this.open) {
-      this.users.forEach((user) => {
-        user.active = false;
+      appState.get().forEach((user) => {
+        user.tik = false;
       });
+    } else if (this.open) {
+      this.onResize();
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    if (this.slideOpen && window.innerWidth < 500) {
+      this.slider();
     }
   }
 
@@ -129,7 +129,7 @@ export class InfoComponent implements OnInit, OnDestroy {
   }
 
   get usersList() {
-    return this.users;
+    return appState.get();
   }
 
   slider() {

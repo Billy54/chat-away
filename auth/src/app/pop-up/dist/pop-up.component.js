@@ -8,46 +8,27 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.PopUpComponent = void 0;
 var core_1 = require("@angular/core");
-var user_1 = require("../Models/user");
+var appState_1 = require("../appState");
 var PopUpComponent = /** @class */ (function () {
     //private usersPipe$!:Observable<any>;
     function PopUpComponent(dataShare, io) {
         this.dataShare = dataShare;
         this.io = io;
         this.selected = new core_1.EventEmitter();
-        this.users = [];
-        this.observers = [];
     }
     PopUpComponent.prototype.ngAfterViewInit = function () {
         this.btn = this.button.nativeElement;
     };
-    PopUpComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        //get users
-        //this.users$ = this.dataShare.passUsers
-        this.observers.push(this.dataShare.passUsers.subscribe(function (users) {
-            for (var _i = 0, users_1 = users; _i < users_1.length; _i++) {
-                var user = users_1[_i];
-                if (!user.custom) {
-                    _this.users.push(new user_1.User(user));
-                }
-            }
-        }));
-    };
-    PopUpComponent.prototype.ngOnDestroy = function () {
-        this.observers.forEach(function (observer) {
-            observer.unsubscribe();
-        });
-    };
     PopUpComponent.prototype.submit = function (index) {
         var _a;
-        this.io.invite(this.users[index].details.id, (_a = this.details) === null || _a === void 0 ? void 0 : _a.rid);
-        this.selected.emit(this.users[index]);
+        var user = appState_1.appState.get()[index];
+        this.io.invite(user.details.id, (_a = this.details) === null || _a === void 0 ? void 0 : _a.rid);
+        this.selected.emit(user);
         this.btn.click();
     };
     Object.defineProperty(PopUpComponent.prototype, "all", {
         get: function () {
-            return this.users;
+            return appState_1.appState.get();
         },
         enumerable: false,
         configurable: true

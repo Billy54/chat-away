@@ -178,6 +178,7 @@
 
 .expanded {
     width: 100% !important;
+    z-index: 30;
 }
 
 @media only screen and (max-width: 500px) {

@@ -10,6 +10,7 @@ exports.LoginComponent = void 0;
 var http_1 = require("@angular/common/http");
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
+var appState_1 = require("../appState");
 var LoginComponent = /** @class */ (function () {
     function LoginComponent(a, r) {
         this.observers = [];
@@ -85,6 +86,7 @@ var LoginComponent = /** @class */ (function () {
     });
     LoginComponent.prototype.ngOnInit = function () {
         this.authService.removeUserInfo();
+        appState_1.appState.clear();
     };
     LoginComponent = __decorate([
         core_1.Component({

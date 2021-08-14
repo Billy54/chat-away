@@ -1,10 +1,10 @@
 <chat-rooms></chat-rooms>
 <div class="content-wrapper" [class.shorter]="slide">
-    <active-info (slide)="slideRight()"></active-info>
-    <div id="ts-chat" class="chat-area" [class.fadeout]="fade" #chat>
-        <div *ngIf="loader" class="loader"></div>
-        <router-outlet name='chatArea'></router-outlet>
-    </div>
-    <input-field></input-field>
+  <active-info [slideOpen]="slide" (slide)="slideRight()"></active-info>
+  <div id="ts-chat" class="chat-area" [class.fadeout]="fade" #chat>
+    <div *ngIf="loader" class="loader"></div>
+    <router-outlet name="chatArea"></router-outlet>
+  </div>
+  <input-field></input-field>
 </div>
 <room-info [class.hidden]="!slide"></room-info>

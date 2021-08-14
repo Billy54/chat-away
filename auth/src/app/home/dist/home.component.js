@@ -34,11 +34,8 @@ var HomeComponent = /** @class */ (function () {
         //room switched
         this.observers.push(this.dataShare.message.subscribe(function (message) {
             if (message === void 0) { message = []; }
-            if (message.id != _this.cId) {
-                _this.loader = true;
-            }
+            _this.loader = true;
             _this.smoothScrolling();
-            _this.cId = message.id;
             _this.fadeOut();
         }));
         //stop the loader

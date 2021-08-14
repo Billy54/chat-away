@@ -8,15 +8,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.ChatRoomsComponent = void 0;
 var core_1 = require("@angular/core");
-var user_1 = require("../Models/user");
 var core_2 = require("@angular/core");
+var appState_1 = require("../appState");
 var ChatRoomsComponent = /** @class */ (function () {
     function ChatRoomsComponent(r, userService, dataShare, authService) {
         this.r = r;
         this.userService = userService;
         this.dataShare = dataShare;
         this.authService = authService;
-        this.users = [];
         this.userName = '';
         this.activeRoom = 0;
         this.observers = [];
@@ -27,13 +26,18 @@ var ChatRoomsComponent = /** @class */ (function () {
         this.observers.forEach(function (observer) {
             observer.unsubscribe();
         });
-        this.users = [];
+        appState_1.appState.index = this.activeRoom;
     };
     ChatRoomsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.observers.push(this.userService.getAll('usersAll').subscribe(function (response) {
-            _this.initUsers(response.users);
-        }));
+        if (appState_1.appState.get().length > 0) {
+            this.changeRoom(appState_1.appState.index);
+        }
+        else {
+            this.observers.push(this.userService.getAll('usersAll').subscribe(function (response) {
+                _this.initUsers(response.users);
+            }));
+        }
         //refresh users
         this.observers.push(this.dataShare.refresh.subscribe(function (id) {
             setTimeout(function () {
@@ -47,7 +51,7 @@ var ChatRoomsComponent = /** @class */ (function () {
         //swap current room from notifications
         this.observers.push(this.dataShare.swapRoom.subscribe(function (id) {
             var i = 0;
-            _this.users.forEach(function (user) {
+            appState_1.appState.get().forEach(function (user) {
                 if (user.details.id == id) {
                     _this.changeRoom(i);
                 }
@@ -56,7 +60,7 @@ var ChatRoomsComponent = /** @class */ (function () {
         }));
         //invited to new room
         this.observers.push(this.dataShare.newRoom.subscribe(function (room) {
-            _this.users.push(new user_1.User(room));
+            appState_1.appState.addUser(room);
         }));
         this.observers.push(this.dataShare.roomList.subscribe(function () {
             _this.rooms = !_this.rooms;
@@ -66,8 +70,7 @@ var ChatRoomsComponent = /** @class */ (function () {
         }));
     };
     ChatRoomsComponent.prototype.addUser = function (id) {
-        var _this = this;
-        for (var _i = 0, _a = this.users; _i < _a.length; _i++) {
+        for (var _i = 0, _a = appState_1.appState.get(); _i < _a.length; _i++) {
             var user = _a[_i];
             if (user.details.id == id)
                 return;
@@ -76,43 +79,50 @@ var ChatRoomsComponent = /** @class */ (function () {
             .getUser('usersAll/' + id)
             .subscribe(function (response) {
             if (response === void 0) { response = []; }
-            _this.users.push(new user_1.User(response.user));
+            appState_1.appState.addUser(response.user);
         }));
     };
     ChatRoomsComponent.prototype.changeRoom = function (index) {
-        if (index < this.users.length) {
+        var users = appState_1.appState.get();
+        if (index < users.length) {
             this.dataShare.notifyChange({
-                name: this.users[index].details.name,
-                id: this.users[index].details.id,
-                status: this.users[index].status,
-                avatar: this.users[index].details.avatar,
-                custom: this.users[index].details.custom
+                index: index,
+                name: users[index].details.name,
+                id: users[index].details.id,
+                status: users[index].status,
+                avatar: users[index].details.avatar,
+                custom: users[index].details.custom
             });
             this.r.navigate([
-                { outlets: { chatArea: ['chat', this.users[index].details.id] } },
+                { outlets: { chatArea: ['chat', users[index].details.id] } },
             ]);
-            this.users[this.activeRoom].active = false;
-            this.users[index].active = true;
+            users[this.activeRoom].active = false;
+            users[index].active = true;
             this.activeRoom = index;
+            if (this.rooms) {
+                this.rooms = false;
+            }
         }
     };
     ChatRoomsComponent.prototype.updateStatus = function (data) {
-        this.users.forEach(function (user) {
+        appState_1.appState.get().forEach(function (user) {
             if (user.details.id == data.id) {
                 user.status = data.alive;
             }
         });
     };
     ChatRoomsComponent.prototype.initUsers = function (users) {
+        if (!users) {
+            return;
+        }
         for (var _i = 0, users_1 = users; _i < users_1.length; _i++) {
             var user = users_1[_i];
-            this.users.push(new user_1.User(user));
+            appState_1.appState.addUser(user);
         }
-        this.dataShare.passToComponent(users);
-        this.changeRoom(0);
+        this.changeRoom(appState_1.appState.index);
     };
     ChatRoomsComponent.prototype.searchUser = function () {
-        for (var _i = 0, _a = this.users; _i < _a.length; _i++) {
+        for (var _i = 0, _a = appState_1.appState.get(); _i < _a.length; _i++) {
             var user = _a[_i];
             if (!user.details.name
                 .trim()
@@ -139,7 +149,7 @@ var ChatRoomsComponent = /** @class */ (function () {
     };
     Object.defineProperty(ChatRoomsComponent.prototype, "getUsers", {
         get: function () {
-            return this.users;
+            return appState_1.appState.get();
         },
         enumerable: false,
         configurable: true

@@ -10,6 +10,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { appState } from '../appState';
 import { CommentComponent } from '../comment/comment.component';
 import { CommentFactory } from '../commentFactory/factory';
 import { Room } from '../Models/room';
@@ -28,7 +29,6 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
   @ViewChild(ChatDirective, { static: true })
   appChat!: ChatDirective;
 
-  private rooms: any = Array<Room>();
   private vc!: ViewContainerRef;
   private activeRoom: any;
   private previousId: string = '';
@@ -48,14 +48,16 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
     this.observers.forEach((observer) => {
       observer.unsubscribe();
     });
-    this.rooms = [];
   }
 
   ngOnInit() {
     //on room change
     this.observers.push(
       this.fetchData.message.subscribe((data: any) => {
-        if (data.id == this.activeRoom) return;
+        if (data.id == this.activeRoom) {
+          this.fetchData.stopLoading();
+          return;
+        }
         this.vc = this.appChat.viewContainerRef;
         this.vc.clear();
         this.activeRoom = data.id;
@@ -90,7 +92,7 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
   }
 
   saveLocal(id: string, data: any) {
-    this.rooms.forEach((room: any) => {
+    appState.getRooms().forEach((room: Room) => {
       if (room.getSender() == id) {
         room.addComment(data);
       }
@@ -108,7 +110,7 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
   }
 
   getRoom() {
-    for (let room of this.rooms) {
+    for (const room of appState.getRooms()) {
       if (room.getSender() == this.activeRoom) {
         this.renderer(room.getComments(), room.id);
         return;
@@ -126,7 +128,7 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
         })
         .subscribe((response) => {
           let room = new Room(response.comments, response.room, response.rid);
-          this.rooms.push(room);
+          appState.addRoom(room);
           this.renderer(response.comments, room.id);
         })
     );
@@ -135,12 +137,10 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
   //create a comment instance for each comment
   commentSectionInit(data: any) {
     this.vc = this.appChat.viewContainerRef;
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
-      CommentComponent
-    );
-    const componentRef = this.vc.createComponent<CommentComponent>(
-      componentFactory
-    );
+    const componentFactory =
+      this.componentFactoryResolver.resolveComponentFactory(CommentComponent);
+    const componentRef =
+      this.vc.createComponent<CommentComponent>(componentFactory);
     const newComment = this.factory.newComment(this.previousId, data);
     (<CommentComponent>componentRef.instance).data = newComment;
     this.previousId = data.sender;

@@ -6,6 +6,7 @@ import { UsersService } from '../services/users.service';
 import { User } from '../Models/user';
 import { AuthService } from '../services/auth.service';
 import { HostListener } from '@angular/core';
+import { appState } from '../appState';
 
 @Component({
   selector: 'chat-rooms',
@@ -13,7 +14,6 @@ import { HostListener } from '@angular/core';
   styleUrls: ['./chat-rooms.component.css'],
 })
 export class ChatRoomsComponent implements OnInit, OnDestroy {
-  private users: Array<User> = [];
   public userName: string = '';
   private activeRoom: number = 0;
   private observers: Array<Subscription> = [];
@@ -31,15 +31,19 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
     this.observers.forEach((observer) => {
       observer.unsubscribe();
     });
-    this.users = [];
+    appState.index = this.activeRoom;
   }
 
   ngOnInit(): void {
-    this.observers.push(
-      this.userService.getAll('usersAll').subscribe((response) => {
-        this.initUsers(response.users);
-      })
-    );
+    if (appState.get().length > 0) {
+      this.changeRoom(appState.index);
+    } else {
+      this.observers.push(
+        this.userService.getAll('usersAll').subscribe((response) => {
+          this.initUsers(response.users);
+        })
+      );
+    }
 
     //refresh users
     this.observers.push(
@@ -61,7 +65,7 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
     this.observers.push(
       this.dataShare.swapRoom.subscribe((id) => {
         let i = 0;
-        this.users.forEach((user) => {
+        appState.get().forEach((user) => {
           if (user.details.id == id) {
             this.changeRoom(i);
           }
@@ -73,7 +77,7 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
     //invited to new room
     this.observers.push(
       this.dataShare.newRoom.subscribe((room) => {
-        this.users.push(new User(room));
+        appState.addUser(room);
       })
     );
 
@@ -88,38 +92,43 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
   }
 
   addUser(id: string) {
-    for (const user of this.users) {
+    for (const user of appState.get()) {
       if (user.details.id == id) return;
     }
     this.observers.push(
       this.userService
         .getUser('usersAll/' + id)
         .subscribe((response: any = []) => {
-          this.users.push(new User(response.user));
+          appState.addUser(response.user);
         })
     );
   }
 
   changeRoom(index: any) {
-    if (index < this.users.length) {
+    const users = appState.get();
+    if (index < users.length) {
       this.dataShare.notifyChange({
-        name: this.users[index].details.name,
-        id: this.users[index].details.id,
-        status: this.users[index].status,
-        avatar: this.users[index].details.avatar,
-        custom: this.users[index].details.custom,
+        index: index,
+        name: users[index].details.name,
+        id: users[index].details.id,
+        status: users[index].status,
+        avatar: users[index].details.avatar,
+        custom: users[index].details.custom,
       });
       this.r.navigate([
-        { outlets: { chatArea: ['chat', this.users[index].details.id] } },
+        { outlets: { chatArea: ['chat', users[index].details.id] } },
       ]);
-      this.users[this.activeRoom].active = false;
-      this.users[index].active = true;
+      users[this.activeRoom].active = false;
+      users[index].active = true;
       this.activeRoom = index;
+      if (this.rooms) {
+        this.rooms = false;
+      }
     }
   }
 
   updateStatus(data: any) {
-    this.users.forEach((user: any) => {
+    appState.get().forEach((user: any) => {
       if (user.details.id == data.id) {
         user.status = data.alive;
       }
@@ -127,15 +136,17 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
   }
 
   initUsers(users: any) {
-    for (const user of users) {
-      this.users.push(new User(user));
+    if (!users) {
+      return;
     }
-    this.dataShare.passToComponent(users);
-    this.changeRoom(0);
+    for (const user of users) {
+      appState.addUser(user);
+    }
+    this.changeRoom(appState.index);
   }
 
   searchUser() {
-    for (const user of this.users) {
+    for (const user of appState.get()) {
       if (
         !(user.details.name as string)
           .trim()
@@ -165,7 +176,7 @@ export class ChatRoomsComponent implements OnInit, OnDestroy {
   }
 
   get getUsers() {
-    return this.users;
+    return appState.get();
   }
 
   get isDemo() {

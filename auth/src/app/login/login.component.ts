@@ -10,6 +10,7 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { appState } from '../appState';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -97,5 +98,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authService.removeUserInfo();
+    appState.clear();
   }
 }

@@ -3,6 +3,7 @@ export class User {
   public details: any;
   public isVisible: boolean = true;
   public active = false;
+  public tik: boolean = false;
 
   constructor(userData: any) {
     this.details = userData;

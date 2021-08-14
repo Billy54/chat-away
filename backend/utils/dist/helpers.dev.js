@@ -22,7 +22,7 @@ module.exports = {
       avatar: data.avatar,
       demo: data.demo
     }, process.env.SESSION_SECRET, {
-      expiresIn: '3600s' //log out the user after an hour
+      expiresIn: '36000s' //log out the user after an hour
 
     });
   },

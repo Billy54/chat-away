@@ -45,9 +45,6 @@ var DataShareService = /** @class */ (function () {
         //open new room list
         this.opener = new rxjs_1.Subject();
         this.openList = this.opener.asObservable();
-        //in which room we will be saving the comments
-        this.users = new rxjs_1.Subject();
-        this.passUsers = this.users.asObservable();
         //open room list
         this.list = new rxjs_1.Subject();
         this.roomList = this.list.asObservable();
@@ -84,9 +81,6 @@ var DataShareService = /** @class */ (function () {
     };
     DataShareService.prototype["switch"] = function (state) {
         this.opener.next(state);
-    };
-    DataShareService.prototype.passToComponent = function (users) {
-        this.users.next(users);
     };
     DataShareService.prototype.openRoomList = function () {
         this.list.next();
