@@ -141,7 +141,7 @@
     align-items: center;
     padding-top: 1px;
     gap: 15px;
-    overflow-y: scroll;
+    overflow-x: scroll;
 }
 
 .info>i {
