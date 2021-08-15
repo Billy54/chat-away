@@ -1,30 +1,38 @@
-# chat-away
+# ChatAway
 
-To run the application in development mode : npm run start (after ng build).
+Messenger clone built from scratch, with mobile friendly UI.  
 
-Stack:
+## Getting Started
+ 
+To run the application in development mode : npm run start (after ng build).  
+Run npm install first to install all the dependencies in package.json files located in the backend and auth(front end) files.
 
-Angular11
-NodeJs/express
-MongoDB for data and session storage,
-Passport and Jwt for user authentication/authorization,
-SocketIO for real time communication.
+## Built with
+
+Angular11  
+NodeJs/express  
+MongoDB for data and session storage,  
+Passport and Jwt for user authentication/authorization,  
+SocketIO for real time communication.  
 
 Design Patterns:
-Factory, observer.
+Factory, subscriber, observer.
 
-Tests:
-Currently in development , will add soon
+## Main User Stories
 
-Main Use cases:
+user status,  
+private messages,   
+custom rooms,  
+adding users to rooms,  
+notifications,  
+file upload,  
+demo feature with user restrictions  
 
-user status,
-private messages, 
-custom rooms,
-adding users to rooms,
-notifications,
-file upload,
-demo feature with user restrictions
+## DB Organization
 
-Test the app:
-https://chat-away-ang.herokuapp.com
+![alt text](https://github.com/billgewrgoulas/chat-away/blob/main/db.png?raw=true)
+
+## Application Architecture
+
+![alt text](https://github.com/billgewrgoulas/chat-away/blob/main/arch.jpg?raw=true)
+
