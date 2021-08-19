@@ -4,20 +4,21 @@
       <span id="ts-chat">
         <b>Chats</b>
       </span>
-      <div
-        *ngIf="!isDemo"
-        class="new-room"
-        [class.active]="active"
-        (click)="toggle()"
-      >
-        <i class="fas fa-edit plus"></i>
+      <div class="inner">
+        <div
+          *ngIf="!isDemo"
+          class="new-room"
+          [class.active]="active"
+          (click)="toggle()"
+        >
+          <i class="fas fa-edit plus"></i>
+        </div>
+        <div class="new-room ass" (click)="rooms = !rooms">
+          <i class="fas size fa-angle-right plus"></i>
+        </div>
       </div>
-      <i
-        class="fas ass fa-user-circle new-room plus"
-        (click)="rooms = !rooms"
-      ></i>
     </div>
-    <form class="search-chat search-field">
+    <form [class.w]="rooms" class="search-chat search-field">
       <i class="fas fa-search"></i>
       <input
         name="userName"
@@ -41,7 +42,11 @@
       >
         <img [src]="user.details.avatar" class="user-avatar" />
         <div class="last-msg">
-          <h1 class="ts-name" style="margin-bottom: 0px; font-size: 15px">
+          <h1
+            class="ts-name"
+            [class.ts]="rooms"
+            style="margin-bottom: 0px; font-size: 15px"
+          >
             {{ user.details.name }}
           </h1>
         </div>

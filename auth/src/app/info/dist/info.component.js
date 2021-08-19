@@ -9,14 +9,13 @@ exports.__esModule = true;
 exports.InfoComponent = void 0;
 var core_1 = require("@angular/core");
 var core_2 = require("@angular/core");
-var core_3 = require("@angular/core");
 var appState_1 = require("../appState");
 var InfoComponent = /** @class */ (function () {
     function InfoComponent(dataShare, io, auth) {
         this.dataShare = dataShare;
         this.io = io;
         this.auth = auth;
-        this.slide = new core_3.EventEmitter();
+        this.slide = new core_2.EventEmitter();
         this.slideOpen = false;
         this.infoName = '';
         this.info = '';
@@ -90,14 +89,6 @@ var InfoComponent = /** @class */ (function () {
                 user.tik = false;
             });
         }
-        else if (this.open) {
-            this.onResize();
-        }
-    };
-    InfoComponent.prototype.onResize = function () {
-        if (this.slideOpen && window.innerWidth < 500) {
-            this.slider();
-        }
     };
     InfoComponent.prototype.rooms = function () {
         this.dataShare.openRoomList();
@@ -113,16 +104,13 @@ var InfoComponent = /** @class */ (function () {
         this.slide.emit(true);
     };
     __decorate([
-        core_3.Output()
+        core_2.Output()
     ], InfoComponent.prototype, "slide");
     __decorate([
         core_1.Input()
     ], InfoComponent.prototype, "slideOpen");
-    __decorate([
-        core_2.HostListener('window:resize', ['$event'])
-    ], InfoComponent.prototype, "onResize");
     InfoComponent = __decorate([
-        core_3.Component({
+        core_2.Component({
             selector: 'active-info',
             templateUrl: './info.component.html',
             styleUrls: ['./info.component.css']

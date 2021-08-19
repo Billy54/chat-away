@@ -22,8 +22,8 @@
 }
 
 .profile-wrapper {
-    height: 45px;
-    width: 45px;
+    height: 40px;
+    width: 40px;
     position: relative;
     z-index: 1;
     border-radius: 100%;

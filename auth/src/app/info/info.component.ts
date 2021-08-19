@@ -112,15 +112,6 @@ export class InfoComponent implements OnInit, OnDestroy {
       appState.get().forEach((user) => {
         user.tik = false;
       });
-    } else if (this.open) {
-      this.onResize();
-    }
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    if (this.slideOpen && window.innerWidth < 500) {
-      this.slider();
     }
   }
 

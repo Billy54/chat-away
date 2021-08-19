@@ -20,7 +20,6 @@ const fileUpload = require('express-fileupload');
 const router = require('./routes/index');
 const socketIO = require('./socketIO/socket');
 
-
 require('dotenv/config');
 //make our public folder static
 app.use(express.static(path.join(__dirname, 'public')));

@@ -7,4 +7,4 @@
   </div>
   <input-field></input-field>
 </div>
-<room-info [class.hidden]="!slide"></room-info>
+<room-info [visible]="slide" (slide)="slideRight()"></room-info>

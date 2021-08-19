@@ -1,22 +1,30 @@
-<div class="sidenav">
-    <div class="container">
-        <div class="avatar-upload">
-            <img [src]="currentRoom?.avatar" class="avatar-preview">
-        </div>
+<div class="sidenav" [class.hidden]="!visible" [class.size]="visible">
+  <div class="angle" (click)="close()">
+    <i class="fas fa-angle-left"></i>
+  </div>
+  <div class="container">
+    <div class="avatar-upload">
+      <img [src]="currentRoom?.avatar" class="avatar-preview" />
     </div>
-    <div class="names">
-        <h1 class="header">Chat members</h1>
-        <h1 class="header user" *ngFor="let name of currentRoom?.unames">{{name}}</h1>
+  </div>
+  <div class="names">
+    <h1 class="header">Chat members</h1>
+    <h1 class="header user" *ngFor="let name of currentRoom?.unames">
+      {{ name }}
+    </h1>
+  </div>
+  <ng-container *ngIf="currentRoom?.custom && !isDemo">
+    <div
+      class="profile-item"
+      data-toggle="modal"
+      data-target="#exampleModalCenter"
+    >
+      <i class="fas fa-user-plus"></i>
+      <div class="details">
+        <h1 style="margin: 0" class="header">Add Users</h1>
+      </div>
     </div>
-    <ng-container *ngIf="currentRoom?.custom && !isDemo">
-        <div class="profile-item" data-toggle="modal" data-target="#exampleModalCenter">
-            <i class="fas fa-user-plus"></i>
-            <div class="details ">
-                <h1 style="margin: 0;" class="header">Add Users
-                </h1>
-            </div>
-        </div>
-    </ng-container>
+  </ng-container>
 </div>
 <!--bound child to current and event emmiter to a method in parent-->
-<pop-up (selected)="updateDetails($event)" [details]=currentRoom></pop-up>
+<pop-up (selected)="updateDetails($event)" [details]="currentRoom"></pop-up>

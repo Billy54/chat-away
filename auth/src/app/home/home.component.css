@@ -3,13 +3,13 @@
 }
 
 .hidden {
-    display: none !important;
+    width: 0px !important;
 }
 
 .content-wrapper {
     left: 285px;
-    top: 50px;
-    height: calc(100vh - 50px);
+    top: 39px;
+    height: calc(100vh - 40px);
     display: flex;
     flex-direction: column;
     width: calc(100% - 285px);

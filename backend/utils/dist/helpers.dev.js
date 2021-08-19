@@ -222,7 +222,7 @@ module.exports = {
                     case 0:
                       _context9.next = 2;
                       return regeneratorRuntime.awrap(Room.deleteMany({
-                        //delete all private room
+                        //delete all private rooms
                         $and: [{
                           members: {
                             $all: [String(id)]

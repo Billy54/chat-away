@@ -106,7 +106,7 @@ module.exports = {
         await User.findOneAndDelete({
             _id: id
         }).then(async() => {
-            await Room.deleteMany({ //delete all private room
+            await Room.deleteMany({ //delete all private rooms
                 $and: [{
                     members: {
                         $all: [String(id)]

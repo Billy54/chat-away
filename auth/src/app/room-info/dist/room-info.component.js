@@ -50,6 +50,8 @@ var RoomInfoComponent = /** @class */ (function () {
         this.dataShare = dataShare;
         this.userService = userService;
         this.auth = auth;
+        this.slide = new core_1.EventEmitter();
+        this.visible = false;
         this.info = [];
         this.observers = [];
     }
@@ -115,6 +117,9 @@ var RoomInfoComponent = /** @class */ (function () {
             }
         });
     };
+    RoomInfoComponent.prototype.close = function () {
+        this.slide.emit(true);
+    };
     Object.defineProperty(RoomInfoComponent.prototype, "currentRoom", {
         get: function () {
             return this.current;
@@ -129,6 +134,12 @@ var RoomInfoComponent = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    __decorate([
+        core_1.Output()
+    ], RoomInfoComponent.prototype, "slide");
+    __decorate([
+        core_1.Input()
+    ], RoomInfoComponent.prototype, "visible");
     RoomInfoComponent = __decorate([
         core_1.Component({
             selector: 'room-info',

@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Details } from '../Models/details';
 import { DataShareService } from '../services/data-share.service';
@@ -12,6 +19,9 @@ import { User } from '../Models/user';
   styleUrls: ['./room-info.component.css'],
 })
 export class RoomInfoComponent implements OnInit, OnDestroy {
+  @Output() slide: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Input() visible: boolean = false;
+
   private info: Details[] = [];
   private observers: Subscription[] = [];
   private current!: Details;
@@ -92,6 +102,10 @@ export class RoomInfoComponent implements OnInit, OnDestroy {
         this.current = el;
       }
     });
+  }
+
+  close() {
+    this.slide.emit(true);
   }
 
   get currentRoom() {
